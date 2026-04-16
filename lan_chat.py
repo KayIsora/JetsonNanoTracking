@@ -82,5 +82,5 @@ def main():
         print("  python lan_chat.py --connect 192.168.1.50 --port 5000")
         sys.exit(1)
 
-if __name__ == "__main__":
+if __name__ == "__main__":###################
     main()
