@@ -1,0 +1,3 @@
+/home/jetson/.local/lib/python3.6/site-packages/torchvision/io/image.py:11: UserWarning: Failed to load image Python extension: 
+  warn(f"Failed to load image Python extension: {e}")
+Exported ONNX to pytracking/pretrained_network/resnet18_vggmconv1/resnet18_vggmconv1_otb_dyn.onnx

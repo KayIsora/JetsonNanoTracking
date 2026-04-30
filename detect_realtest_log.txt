@@ -1,0 +1,10621 @@
+Shared memory and semaphores initialized. Size of SharedData: 32 bytes
+[0 NVIDIA Tegra X1 (nvgpu)]  queueC=0[16]  queueG=0[16]  queueT=0[16]
+[0 NVIDIA Tegra X1 (nvgpu)]  bugsbn1=0  bugbilz=0  bugcopc=0  bugihfa=0
+[0 NVIDIA Tegra X1 (nvgpu)]  fp16-p/s/a=1/1/1  int8-p/s/a=1/1/1
+[0 NVIDIA Tegra X1 (nvgpu)]  subgroup=32  basic=1  vote=1  ballot=1  shuffle=1
+Rect 26.229721 0.000000 264.723389 299.000000 Sorce: 1.000000
+[ WARN:0] global /tmp/build_opencv/opencv/modules/videoio/src/cap_gstreamer.cpp (1761) handleMessage OpenCV | GStreamer warning: Embedded video playback halted; module typefind reported: Could not determine type of stream.
+[ WARN:0] global /tmp/build_opencv/opencv/modules/videoio/src/cap_gstreamer.cpp (888) open OpenCV | GStreamer warning: unable to start pipeline
+[ WARN:0] global /tmp/build_opencv/opencv/modules/videoio/src/cap_gstreamer.cpp (480) isPipelinePlaying OpenCV | GStreamer warning: GStreamer: pipeline have not been created
+Tracker service connected
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Rect 187.235519 0.000000 299.000000 84.226433 Sorce: 0.847656
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Rect 182.964325 0.000000 299.000000 87.645515 Sorce: 0.869629
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Rect 155.615005 0.000000 257.541260 72.222885 Sorce: 0.955078
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Rect 157.586365 0.000000 260.319885 82.056137 Sorce: 0.959473
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Rect 161.038269 0.000000 261.852356 84.281464 Sorce: 0.952148
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Rect 158.584412 0.000000 258.853088 81.733932 Sorce: 0.956543
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Rect 161.471771 0.000000 261.075104 84.413116 Sorce: 0.949707
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Rect 159.084244 0.000000 258.970459 82.356789 Sorce: 0.956055
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Rect 159.368515 0.000000 258.873657 81.998886 Sorce: 0.937500
+Left Speed: 1
+Right Speed: 1
+clear fall signal
+Rect 159.496002 0.000000 257.769623 79.927094 Sorce: 0.950684
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Tracker service init failed
+person
+146
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Tracker service update failed; will re-detect target
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Tracker service init failed
+person
+Empty in RUNFACE_DETECTION
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Tracker service init failed
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Empty in RUNFACE_DETECTION
+person
+144
+Left Speed: 220
+Right Speed: 0
+Qua phai
+144
+Left Speed: 220
+Right Speed: 0
+Qua phai
+144
+Left Speed: 220
+Right Speed: 0
+Qua phai
+144
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+144
+Left Speed: 220
+Right Speed: 0
+Qua phai
+144
+Left Speed: 220
+Right Speed: 0
+Qua phai
+144
+Left Speed: 220
+Right Speed: 0
+Qua phai
+144
+Left Speed: 220
+Right Speed: 0
+Qua phai
+144
+Left Speed: 220
+Right Speed: 0
+Qua phai
+144
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+144
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Tracker service update failed; will re-detect target
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Tracker service init failed
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Tracker service init failed
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+Empty in RUNFACE_DETECTION
+person
+145
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Tracker service update failed; will re-detect target
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+Tracker service init failed
+person
+213
+Left Speed: 0
+Right Speed: 0
+Dung
+213
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+206
+Left Speed: 0
+Right Speed: 0
+Dung
+206
+Left Speed: 0
+Right Speed: 0
+Dung
+206
+Left Speed: 0
+Right Speed: 0
+Dung
+206
+Left Speed: 0
+Right Speed: 0
+Dung
+206
+Left Speed: 0
+Right Speed: 0
+Dung
+206
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+208
+Left Speed: 0
+Right Speed: 0
+Dung
+208
+Left Speed: 0
+Right Speed: 0
+Dung
+208
+Left Speed: 0
+Right Speed: 0
+Dung
+208
+Left Speed: 0
+Right Speed: 0
+Dung
+208
+Left Speed: 0
+Right Speed: 0
+Dung
+208
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+205
+Left Speed: 0
+Right Speed: 0
+Dung
+205
+Left Speed: 0
+Right Speed: 0
+Dung
+205
+Left Speed: 0
+Right Speed: 0
+Dung
+205
+Left Speed: 0
+Right Speed: 0
+Dung
+205
+Left Speed: 0
+Right Speed: 0
+Dung
+205
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+Empty in RUN PERSON DETECTION
+205
+Left Speed: 0
+Right Speed: 0
+Dung
+205
+Left Speed: 0
+Right Speed: 0
+Dung
+205
+Left Speed: 0
+Right Speed: 0
+Dung
+205
+Left Speed: 0
+Right Speed: 0
+Dung
+205
+Left Speed: 0
+Right Speed: 0
+Dung
+205
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+217
+Left Speed: 0
+Right Speed: 0
+Dung
+217
+Left Speed: 0
+Right Speed: 0
+Dung
+217
+Left Speed: 0
+Right Speed: 0
+Dung
+217
+Left Speed: 0
+Right Speed: 0
+Dung
+217
+Left Speed: 0
+Right Speed: 0
+Dung
+217
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+207
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+192
+Left Speed: 0
+Right Speed: 0
+Dung
+192
+Left Speed: 0
+Right Speed: 0
+Dung
+192
+Left Speed: 0
+Right Speed: 0
+Dung
+192
+Left Speed: 0
+Right Speed: 0
+Dung
+192
+Left Speed: 0
+Right Speed: 0
+Dung
+192
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+192
+Left Speed: 0
+Right Speed: 0
+Dung
+192
+Left Speed: 0
+Right Speed: 0
+Dung
+192
+Left Speed: 0
+Right Speed: 0
+Dung
+192
+Left Speed: 0
+Right Speed: 0
+Dung
+192
+Left Speed: 0
+Right Speed: 0
+Dung
+192
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+192
+Left Speed: 0
+Right Speed: 0
+Dung
+192
+Left Speed: 0
+Right Speed: 0
+Dung
+192
+Left Speed: 0
+Right Speed: 0
+Dung
+192
+Left Speed: 0
+Right Speed: 0
+Dung
+192
+Left Speed: 0
+Right Speed: 0
+Dung
+192
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+192
+Left Speed: 0
+Right Speed: 0
+Dung
+192
+Left Speed: 0
+Right Speed: 0
+Dung
+192
+Left Speed: 0
+Right Speed: 0
+Dung
+192
+Left Speed: 0
+Right Speed: 0
+Dung
+192
+Left Speed: 0
+Right Speed: 0
+Dung
+192
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+Empty in RUN PERSON DETECTION
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+Empty in RUN PERSON DETECTION
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+Empty in RUN PERSON DETECTION
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+Empty in RUN PERSON DETECTION
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+Empty in RUN PERSON DETECTION
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+Empty in RUN PERSON DETECTION
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+Empty in RUN PERSON DETECTION
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+Empty in RUN PERSON DETECTION
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+Empty in RUN PERSON DETECTION
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+Empty in RUN PERSON DETECTION
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+Empty in RUN PERSON DETECTION
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+Empty in RUN PERSON DETECTION
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+Empty in RUN PERSON DETECTION
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+Empty in RUN PERSON DETECTION
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+Empty in RUN PERSON DETECTION
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+Empty in RUN PERSON DETECTION
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+Empty in RUN PERSON DETECTION
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+Empty in RUN PERSON DETECTION
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+Empty in RUN PERSON DETECTION
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+Empty in RUN PERSON DETECTION
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+Empty in RUN PERSON DETECTION
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+Empty in RUN PERSON DETECTION
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+Empty in RUN PERSON DETECTION
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+Empty in RUN PERSON DETECTION
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+Empty in RUN PERSON DETECTION
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+Empty in RUN PERSON DETECTION
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+Empty in RUN PERSON DETECTION
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+Empty in RUN PERSON DETECTION
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+Empty in RUN PERSON DETECTION
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+176
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+213
+Left Speed: 220
+Right Speed: 0
+Qua phai
+Running person detection
+192
+Left Speed: 0
+Right Speed: 0
+Dung
+192
+Left Speed: 0
+Right Speed: 0
+Dung
+192
+Left Speed: 0
+Right Speed: 0
+Dung
+192
+Left Speed: 0
+Right Speed: 0
+Dung
+192
+Left Speed: 0
+Right Speed: 0
+Dung
+192
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+177
+Left Speed: 174
+Right Speed: 174
+Lui
+177
+Left Speed: 174
+Right Speed: 174
+Lui
+177
+Left Speed: 174
+Right Speed: 174
+Lui
+177
+Left Speed: 174
+Right Speed: 174
+Lui
+177
+Left Speed: 174
+Right Speed: 174
+Lui
+177
+Left Speed: 174
+Right Speed: 174
+Lui
+Running person detection
+181
+Left Speed: 0
+Right Speed: 0
+Dung
+181
+Left Speed: 0
+Right Speed: 0
+Dung
+181
+Left Speed: 0
+Right Speed: 0
+Dung
+181
+Left Speed: 0
+Right Speed: 0
+Dung
+181
+Left Speed: 0
+Right Speed: 0
+Dung
+181
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+182
+Left Speed: 0
+Right Speed: 0
+Dung
+Running person detection

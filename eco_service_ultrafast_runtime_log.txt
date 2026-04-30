@@ -1,0 +1,55 @@
+ECO service listening on /tmp/eco_tracker.sock
+Client connected.
+Request type received: 0x01
+[eco_service] 0.000s request type INIT received
+[eco_service] 0.000s before parse INIT metadata
+[eco_service] 0.000s after metadata parsed frame=171x158 bbox=[5, 5, 30, 30]
+[eco_service] 0.000s before read frame bytes
+[eco_service] 0.001s after frame bytes read
+[eco_service] 0.001s before BGR to RGB
+[eco_service] 0.001s after BGR to RGB done
+[eco_service] 0.001s before bbox validation
+[eco_service] 0.001s after bbox validation done
+[eco_service] 26.685s before Tracker(eco, verified_otb936_run_update)
+[eco_service] 26.728s after Tracker(...)
+[eco_service] 26.728s before wrapper.get_parameters()
+[eco_service] 29.675s after wrapper.get_parameters()
+[eco_service] override debug=0
+[eco_service] override visualization=False
+[eco_service] override preload_features_on_create=False
+[eco_service] override warmup_on_create=False
+[eco_service] override warmup_image_sz=96
+[eco_service] override max_image_sample_size=6400
+[eco_service] override min_image_sample_size=4096
+[eco_service] override init_CG_iter=1
+[eco_service] override CG_iter=1
+[eco_service] override sample_memory_size=2
+[eco_service] override train_skipping=100
+[eco_service] 29.676s after overriding params
+[eco_service] 29.676s before wrapper.create_tracker(params)
+[eco_service] 29.676s after wrapper.create_tracker(params)
+[eco_service] 29.676s skipping explicit tracker.initialize_features(); lazy init in tracker.initialize
+[eco_service] 29.676s before tracker.initialize(frame_rgb, {'init_bbox': ...})
+/home/jetson/Desktop/JetsonNanoTracking/pytracking/pytracking/features/featurebase.py:78: UserWarning: __floordiv__ is deprecated, and its behavior will change in a future version of pytorch. It currently rounds toward 0 (like the 'trunc' function NOT 'floor'). This results in incorrect rounding for negative values. To keep the current behavior, use torch.div(a, b, rounding_mode='trunc'), or for actual floor division, use torch.div(a, b, rounding_mode='floor').
+  return TensorList([im_sz // s for s in self.stride()])
+/home/jetson/Desktop/JetsonNanoTracking/.venv/lib/python3.6/site-packages/torch/nn/functional.py:3635: UserWarning: Default upsampling behavior when mode=bilinear is changed to align_corners=False since 0.4.0. Please specify align_corners=True if the old behavior is desired. See the documentation of nn.Upsample for details.
+  "See the documentation of nn.Upsample for details.".format(mode)
+Request error: batch1 dim 2 must match batch2 dim 1
+Traceback (most recent call last):
+  File "jetson/eco_service.py", line 374, in handle_client
+    keep_open = self.handle_init(conn)
+  File "jetson/eco_service.py", line 282, in handle_init
+    out = self.tracker.initialize(frame_rgb, {"init_bbox": init_bbox})
+  File "/home/jetson/Desktop/JetsonNanoTracking/pytracking/pytracking/tracker/eco/eco.py", line 213, in initialize
+    self.filter_optimizer.run(self.params.init_CG_iter)
+  File "/home/jetson/Desktop/JetsonNanoTracking/pytracking/pytracking/tracker/eco/optim.py", line 154, in run
+    self.b = complex.mtimes(self.sample_weights.view(1,1,1,-1), self.training_samples).permute(2,3,0,1,4)
+  File "/home/jetson/Desktop/JetsonNanoTracking/pytracking/pytracking/libs/tensorlist.py", line 203, in oplist
+    return TensorList([op(a, b, *args[2:], **kwargs) for a, b in zip(*args[:2])])
+  File "/home/jetson/Desktop/JetsonNanoTracking/pytracking/pytracking/libs/tensorlist.py", line 203, in <listcomp>
+    return TensorList([op(a, b, *args[2:], **kwargs) for a, b in zip(*args[:2])])
+  File "/home/jetson/Desktop/JetsonNanoTracking/pytracking/pytracking/libs/complex.py", line 168, in mtimes
+    return complex(torch.matmul(a[..., 0], b[..., 0]) - torch.matmul(a[..., 1], b[..., 1]),
+RuntimeError: batch1 dim 2 must match batch2 dim 1
+
+Client disconnected.

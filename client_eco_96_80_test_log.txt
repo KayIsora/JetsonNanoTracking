@@ -1,0 +1,4 @@
+INIT valid=1 bbox=(5, 5, 30, 30) score=1
+UPDATE 1 valid=1 bbox=(6, 6, 30, 30) score=0.437216
+UPDATE 2 valid=1 bbox=(4, 4, 30, 30) score=0.433342
+UPDATE 3 valid=1 bbox=(4, 4, 30, 30) score=0.437216
