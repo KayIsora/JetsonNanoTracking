@@ -87,4 +87,4 @@ if __name__ == "__main__":################### python lan_chat.py --connect 192.1
     ###hi can I push
     # Open Server on Jetson: python3 lan_chat.py --listen --port 5000
     # Connect from Windows: python lan_chat.py --connect 192.168.1.50 --port 5000
-    # OKE DONE, check jetson robot xem ok chua
+    # OKE DONE

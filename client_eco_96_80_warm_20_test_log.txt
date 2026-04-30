@@ -1,0 +1,21 @@
+INIT valid=1 bbox=(5, 5, 30, 30) score=1
+UPDATE 1 valid=1 bbox=(6, 6, 30, 30) score=0.437216
+UPDATE 2 valid=1 bbox=(4, 4, 30, 30) score=0.433342
+UPDATE 3 valid=1 bbox=(4, 4, 30, 30) score=0.437216
+UPDATE 4 valid=1 bbox=(4, 4, 30, 30) score=0.437216
+UPDATE 5 valid=1 bbox=(4, 4, 30, 30) score=0.437216
+UPDATE 6 valid=1 bbox=(4, 4, 30, 30) score=0.437216
+UPDATE 7 valid=1 bbox=(4, 4, 30, 30) score=0.437216
+UPDATE 8 valid=1 bbox=(4, 4, 30, 30) score=0.437216
+UPDATE 9 valid=1 bbox=(4, 4, 30, 30) score=0.437216
+UPDATE 10 valid=1 bbox=(4, 4, 30, 30) score=0.437216
+UPDATE 11 valid=1 bbox=(4, 4, 30, 30) score=0.437216
+UPDATE 12 valid=1 bbox=(4, 4, 30, 30) score=0.437216
+UPDATE 13 valid=1 bbox=(4, 4, 30, 30) score=0.437216
+UPDATE 14 valid=1 bbox=(4, 4, 30, 30) score=0.437216
+UPDATE 15 valid=1 bbox=(4, 4, 30, 30) score=0.437216
+UPDATE 16 valid=1 bbox=(4, 4, 30, 30) score=0.437216
+UPDATE 17 valid=1 bbox=(4, 4, 30, 30) score=0.437216
+UPDATE 18 valid=1 bbox=(4, 4, 30, 30) score=0.437216
+UPDATE 19 valid=1 bbox=(4, 4, 30, 30) score=0.437216
+UPDATE 20 valid=1 bbox=(4, 4, 30, 30) score=0.437216
