@@ -1,0 +1,2195 @@
+ECO service listening on /tmp/eco_tracker.sock
+Client connected.
+Request type received: 0x01
+[eco_service] 0.000s request type INIT received
+[eco_service] 0.000s before parse INIT metadata
+[eco_service] 0.000s after metadata parsed frame=171x158 bbox=[5, 5, 30, 30]
+[eco_service] 0.000s before read frame bytes
+[eco_service] 0.000s after frame bytes read
+[eco_service] 0.000s before BGR to RGB
+[eco_service] 0.001s after BGR to RGB done
+[eco_service] 0.001s before bbox validation
+[eco_service] 0.001s after bbox validation done
+[eco_service] 13.495s before Tracker(eco, verified_otb936_run_update)
+[eco_service] 13.510s after Tracker(...)
+[eco_service] 13.511s before wrapper.get_parameters()
+[eco_service] 16.930s after wrapper.get_parameters()
+[eco_service] override debug=0
+[eco_service] override visualization=False
+[eco_service] override preload_features_on_create=False
+[eco_service] override warmup_on_create=False
+[eco_service] override warmup_image_sz=96
+[eco_service] override max_image_sample_size=9216
+[eco_service] override min_image_sample_size=6400
+[eco_service] override init_CG_iter=1
+[eco_service] override CG_iter=1
+[eco_service] override sample_memory_size=4
+[eco_service] override train_skipping=80
+[eco_service] 16.930s after overriding params
+[eco_service] 16.930s before wrapper.create_tracker(params)
+[eco_service] 16.930s after wrapper.create_tracker(params)
+[eco_service] 16.930s skipping explicit tracker.initialize_features(); lazy init in tracker.initialize
+[eco_service] 16.930s before tracker.initialize(frame_rgb, {'init_bbox': ...})
+/home/jetson/Desktop/JetsonNanoTracking/pytracking/pytracking/features/featurebase.py:78: UserWarning: __floordiv__ is deprecated, and its behavior will change in a future version of pytorch. It currently rounds toward 0 (like the 'trunc' function NOT 'floor'). This results in incorrect rounding for negative values. To keep the current behavior, use torch.div(a, b, rounding_mode='trunc'), or for actual floor division, use torch.div(a, b, rounding_mode='floor').
+  return TensorList([im_sz // s for s in self.stride()])
+[eco_service] 558.204s after tracker.initialize(...)
+INIT bbox=[5, 5, 30, 30] score=1.0
+[eco_service] 558.323s before send response
+[eco_service] 558.324s after send response
+Request type received: 0x02
+[eco_service] 558.766s received UPDATE metadata frame=171x158
+[eco_service] 558.981s read UPDATE frame bytes complete
+[eco_service] 559.843s converted UPDATE frame
+[eco_service] 559.843s before tracker.track(...)
+[eco_service] 580.175s after tracker.track(...)
+UPDATE bbox=[5.5, 5.5, 30.0, 30.0] score=0.43721580505371094
+[eco_service] 580.222s before sending response
+[eco_service] 580.222s after sending response
+Request type received: 0x02
+[eco_service] 580.320s received UPDATE metadata frame=171x158
+[eco_service] 580.364s read UPDATE frame bytes complete
+[eco_service] 581.095s converted UPDATE frame
+[eco_service] 581.095s before tracker.track(...)
+[eco_service] 581.295s after tracker.track(...)
+UPDATE bbox=[4.5, 4.5, 30.0, 30.0] score=0.43334245681762695
+[eco_service] 581.295s before sending response
+[eco_service] 581.295s after sending response
+Request type received: 0x02
+[eco_service] 581.295s received UPDATE metadata frame=171x158
+[eco_service] 581.296s read UPDATE frame bytes complete
+[eco_service] 581.296s converted UPDATE frame
+[eco_service] 581.296s before tracker.track(...)
+[eco_service] 581.370s after tracker.track(...)
+UPDATE bbox=[4.5, 4.5, 30.0, 30.0] score=0.43721580505371094
+[eco_service] 581.370s before sending response
+[eco_service] 581.370s after sending response
+Client disconnected before request.
+Client disconnected.
+Client connected.
+Request type received: 0x01
+[eco_service] 0.389s request type INIT received
+[eco_service] 0.389s before parse INIT metadata
+[eco_service] 0.563s after metadata parsed frame=171x158 bbox=[5, 5, 30, 30]
+[eco_service] 0.565s before read frame bytes
+[eco_service] 0.749s after frame bytes read
+[eco_service] 0.749s before BGR to RGB
+[eco_service] 1.781s after BGR to RGB done
+[eco_service] 1.782s before bbox validation
+[eco_service] 1.782s after bbox validation done
+[eco_service] 1.816s before Tracker(eco, verified_otb936_run_update)
+[eco_service] 1.875s after Tracker(...)
+[eco_service] 1.875s before wrapper.get_parameters()
+[eco_service] 2.327s after wrapper.get_parameters()
+[eco_service] override debug=0
+[eco_service] override visualization=False
+[eco_service] override preload_features_on_create=False
+[eco_service] override warmup_on_create=False
+[eco_service] override warmup_image_sz=96
+[eco_service] override max_image_sample_size=9216
+[eco_service] override min_image_sample_size=6400
+[eco_service] override init_CG_iter=1
+[eco_service] override CG_iter=1
+[eco_service] override sample_memory_size=4
+[eco_service] override train_skipping=80
+[eco_service] 2.338s after overriding params
+[eco_service] 2.338s before wrapper.create_tracker(params)
+[eco_service] 2.338s after wrapper.create_tracker(params)
+[eco_service] 2.338s skipping explicit tracker.initialize_features(); lazy init in tracker.initialize
+[eco_service] 2.338s before tracker.initialize(frame_rgb, {'init_bbox': ...})
+[eco_service] 11.188s after tracker.initialize(...)
+INIT bbox=[5, 5, 30, 30] score=1.0
+[eco_service] 11.310s before send response
+[eco_service] 11.310s after send response
+Request type received: 0x02
+[eco_service] 11.509s received UPDATE metadata frame=171x158
+[eco_service] 11.509s read UPDATE frame bytes complete
+[eco_service] 11.510s converted UPDATE frame
+[eco_service] 11.510s before tracker.track(...)
+[eco_service] 11.595s after tracker.track(...)
+UPDATE bbox=[5.5, 5.5, 30.0, 30.0] score=0.43721580505371094
+[eco_service] 11.596s before sending response
+[eco_service] 11.596s after sending response
+Request type received: 0x02
+[eco_service] 11.596s received UPDATE metadata frame=171x158
+[eco_service] 11.596s read UPDATE frame bytes complete
+[eco_service] 11.596s converted UPDATE frame
+[eco_service] 11.597s before tracker.track(...)
+[eco_service] 11.643s after tracker.track(...)
+UPDATE bbox=[4.5, 4.5, 30.0, 30.0] score=0.43334245681762695
+[eco_service] 11.644s before sending response
+[eco_service] 11.644s after sending response
+Request type received: 0x02
+[eco_service] 11.644s received UPDATE metadata frame=171x158
+[eco_service] 11.644s read UPDATE frame bytes complete
+[eco_service] 11.644s converted UPDATE frame
+[eco_service] 11.644s before tracker.track(...)
+[eco_service] 11.692s after tracker.track(...)
+UPDATE bbox=[4.5, 4.5, 30.0, 30.0] score=0.43721580505371094
+[eco_service] 11.693s before sending response
+[eco_service] 11.695s after sending response
+Client disconnected before request.
+Client disconnected.
+Client connected.
+Request type received: 0x01
+[eco_service] 0.044s request type INIT received
+[eco_service] 0.044s before parse INIT metadata
+[eco_service] 0.044s after metadata parsed frame=171x158 bbox=[5, 5, 30, 30]
+[eco_service] 0.044s before read frame bytes
+[eco_service] 0.062s after frame bytes read
+[eco_service] 0.062s before BGR to RGB
+[eco_service] 0.063s after BGR to RGB done
+[eco_service] 0.063s before bbox validation
+[eco_service] 0.063s after bbox validation done
+[eco_service] 0.064s before Tracker(eco, verified_otb936_run_update)
+[eco_service] 0.068s after Tracker(...)
+[eco_service] 0.068s before wrapper.get_parameters()
+[eco_service] 0.435s after wrapper.get_parameters()
+[eco_service] override debug=0
+[eco_service] override visualization=False
+[eco_service] override preload_features_on_create=False
+[eco_service] override warmup_on_create=False
+[eco_service] override warmup_image_sz=96
+[eco_service] override max_image_sample_size=9216
+[eco_service] override min_image_sample_size=6400
+[eco_service] override init_CG_iter=1
+[eco_service] override CG_iter=1
+[eco_service] override sample_memory_size=4
+[eco_service] override train_skipping=80
+[eco_service] 0.435s after overriding params
+[eco_service] 0.435s before wrapper.create_tracker(params)
+[eco_service] 0.435s after wrapper.create_tracker(params)
+[eco_service] 0.435s skipping explicit tracker.initialize_features(); lazy init in tracker.initialize
+[eco_service] 0.435s before tracker.initialize(frame_rgb, {'init_bbox': ...})
+[eco_service] 9.565s after tracker.initialize(...)
+INIT bbox=[5, 5, 30, 30] score=1.0
+[eco_service] 9.565s before send response
+[eco_service] 9.566s after send response
+Request type received: 0x02
+[eco_service] 9.673s received UPDATE metadata frame=171x158
+[eco_service] 9.722s read UPDATE frame bytes complete
+[eco_service] 10.499s converted UPDATE frame
+[eco_service] 10.499s before tracker.track(...)
+[eco_service] 10.643s after tracker.track(...)
+UPDATE bbox=[5.5, 5.5, 30.0, 30.0] score=0.43721580505371094
+[eco_service] 10.644s before sending response
+[eco_service] 10.644s after sending response
+Request type received: 0x02
+[eco_service] 10.644s received UPDATE metadata frame=171x158
+[eco_service] 10.644s read UPDATE frame bytes complete
+[eco_service] 10.645s converted UPDATE frame
+[eco_service] 10.645s before tracker.track(...)
+[eco_service] 10.708s after tracker.track(...)
+UPDATE bbox=[4.5, 4.5, 30.0, 30.0] score=0.43334245681762695
+[eco_service] 10.708s before sending response
+[eco_service] 10.708s after sending response
+Request type received: 0x02
+[eco_service] 10.708s received UPDATE metadata frame=171x158
+[eco_service] 10.708s read UPDATE frame bytes complete
+[eco_service] 10.708s converted UPDATE frame
+[eco_service] 10.709s before tracker.track(...)
+[eco_service] 10.754s after tracker.track(...)
+UPDATE bbox=[4.5, 4.5, 30.0, 30.0] score=0.43721580505371094
+[eco_service] 10.755s before sending response
+[eco_service] 10.755s after sending response
+Request type received: 0x02
+[eco_service] 10.755s received UPDATE metadata frame=171x158
+[eco_service] 10.755s read UPDATE frame bytes complete
+[eco_service] 10.755s converted UPDATE frame
+[eco_service] 10.755s before tracker.track(...)
+[eco_service] 10.807s after tracker.track(...)
+UPDATE bbox=[4.5, 4.5, 30.0, 30.0] score=0.43721580505371094
+[eco_service] 10.807s before sending response
+[eco_service] 10.807s after sending response
+Request type received: 0x02
+[eco_service] 10.808s received UPDATE metadata frame=171x158
+[eco_service] 10.808s read UPDATE frame bytes complete
+[eco_service] 10.808s converted UPDATE frame
+[eco_service] 10.808s before tracker.track(...)
+[eco_service] 10.856s after tracker.track(...)
+UPDATE bbox=[4.5, 4.5, 30.0, 30.0] score=0.43721580505371094
+[eco_service] 10.856s before sending response
+[eco_service] 10.856s after sending response
+Request type received: 0x02
+[eco_service] 10.857s received UPDATE metadata frame=171x158
+[eco_service] 10.857s read UPDATE frame bytes complete
+[eco_service] 10.857s converted UPDATE frame
+[eco_service] 10.857s before tracker.track(...)
+[eco_service] 10.913s after tracker.track(...)
+UPDATE bbox=[4.5, 4.5, 30.0, 30.0] score=0.43721580505371094
+[eco_service] 10.913s before sending response
+[eco_service] 10.913s after sending response
+Request type received: 0x02
+[eco_service] 10.914s received UPDATE metadata frame=171x158
+[eco_service] 10.914s read UPDATE frame bytes complete
+[eco_service] 10.914s converted UPDATE frame
+[eco_service] 10.914s before tracker.track(...)
+[eco_service] 10.958s after tracker.track(...)
+UPDATE bbox=[4.5, 4.5, 30.0, 30.0] score=0.43721580505371094
+[eco_service] 10.958s before sending response
+[eco_service] 10.958s after sending response
+Request type received: 0x02
+[eco_service] 10.958s received UPDATE metadata frame=171x158
+[eco_service] 10.959s read UPDATE frame bytes complete
+[eco_service] 10.959s converted UPDATE frame
+[eco_service] 10.959s before tracker.track(...)
+[eco_service] 11.001s after tracker.track(...)
+UPDATE bbox=[4.5, 4.5, 30.0, 30.0] score=0.43721580505371094
+[eco_service] 11.001s before sending response
+[eco_service] 11.002s after sending response
+Request type received: 0x02
+[eco_service] 11.002s received UPDATE metadata frame=171x158
+[eco_service] 11.002s read UPDATE frame bytes complete
+[eco_service] 11.002s converted UPDATE frame
+[eco_service] 11.002s before tracker.track(...)
+[eco_service] 11.045s after tracker.track(...)
+UPDATE bbox=[4.5, 4.5, 30.0, 30.0] score=0.43721580505371094
+[eco_service] 11.046s before sending response
+[eco_service] 11.046s after sending response
+Request type received: 0x02
+[eco_service] 11.046s received UPDATE metadata frame=171x158
+[eco_service] 11.046s read UPDATE frame bytes complete
+[eco_service] 11.046s converted UPDATE frame
+[eco_service] 11.046s before tracker.track(...)
+[eco_service] 11.113s after tracker.track(...)
+UPDATE bbox=[4.5, 4.5, 30.0, 30.0] score=0.43721580505371094
+[eco_service] 11.113s before sending response
+[eco_service] 11.114s after sending response
+Request type received: 0x02
+[eco_service] 11.121s received UPDATE metadata frame=171x158
+[eco_service] 11.122s read UPDATE frame bytes complete
+[eco_service] 11.122s converted UPDATE frame
+[eco_service] 11.122s before tracker.track(...)
+[eco_service] 11.163s after tracker.track(...)
+UPDATE bbox=[4.5, 4.5, 30.0, 30.0] score=0.43721580505371094
+[eco_service] 11.163s before sending response
+[eco_service] 11.164s after sending response
+Request type received: 0x02
+[eco_service] 11.164s received UPDATE metadata frame=171x158
+[eco_service] 11.164s read UPDATE frame bytes complete
+[eco_service] 11.164s converted UPDATE frame
+[eco_service] 11.164s before tracker.track(...)
+[eco_service] 11.201s after tracker.track(...)
+UPDATE bbox=[4.5, 4.5, 30.0, 30.0] score=0.43721580505371094
+[eco_service] 11.201s before sending response
+[eco_service] 11.202s after sending response
+Request type received: 0x02
+[eco_service] 11.202s received UPDATE metadata frame=171x158
+[eco_service] 11.202s read UPDATE frame bytes complete
+[eco_service] 11.202s converted UPDATE frame
+[eco_service] 11.202s before tracker.track(...)
+[eco_service] 11.242s after tracker.track(...)
+UPDATE bbox=[4.5, 4.5, 30.0, 30.0] score=0.43721580505371094
+[eco_service] 11.242s before sending response
+[eco_service] 11.242s after sending response
+Request type received: 0x02
+[eco_service] 11.243s received UPDATE metadata frame=171x158
+[eco_service] 11.243s read UPDATE frame bytes complete
+[eco_service] 11.243s converted UPDATE frame
+[eco_service] 11.243s before tracker.track(...)
+[eco_service] 11.287s after tracker.track(...)
+UPDATE bbox=[4.5, 4.5, 30.0, 30.0] score=0.43721580505371094
+[eco_service] 11.288s before sending response
+[eco_service] 11.288s after sending response
+Request type received: 0x02
+[eco_service] 11.288s received UPDATE metadata frame=171x158
+[eco_service] 11.288s read UPDATE frame bytes complete
+[eco_service] 11.288s converted UPDATE frame
+[eco_service] 11.288s before tracker.track(...)
+[eco_service] 11.328s after tracker.track(...)
+UPDATE bbox=[4.5, 4.5, 30.0, 30.0] score=0.43721580505371094
+[eco_service] 11.328s before sending response
+[eco_service] 11.328s after sending response
+Request type received: 0x02
+[eco_service] 11.329s received UPDATE metadata frame=171x158
+[eco_service] 11.329s read UPDATE frame bytes complete
+[eco_service] 11.329s converted UPDATE frame
+[eco_service] 11.329s before tracker.track(...)
+[eco_service] 11.381s after tracker.track(...)
+UPDATE bbox=[4.5, 4.5, 30.0, 30.0] score=0.43721580505371094
+[eco_service] 11.381s before sending response
+[eco_service] 11.381s after sending response
+Request type received: 0x02
+[eco_service] 11.382s received UPDATE metadata frame=171x158
+[eco_service] 11.382s read UPDATE frame bytes complete
+[eco_service] 11.382s converted UPDATE frame
+[eco_service] 11.382s before tracker.track(...)
+[eco_service] 11.431s after tracker.track(...)
+UPDATE bbox=[4.5, 4.5, 30.0, 30.0] score=0.43721580505371094
+[eco_service] 11.431s before sending response
+[eco_service] 11.431s after sending response
+Request type received: 0x02
+[eco_service] 11.431s received UPDATE metadata frame=171x158
+[eco_service] 11.431s read UPDATE frame bytes complete
+[eco_service] 11.432s converted UPDATE frame
+[eco_service] 11.432s before tracker.track(...)
+[eco_service] 11.478s after tracker.track(...)
+UPDATE bbox=[4.5, 4.5, 30.0, 30.0] score=0.43721580505371094
+[eco_service] 11.478s before sending response
+[eco_service] 11.478s after sending response
+Request type received: 0x02
+[eco_service] 11.479s received UPDATE metadata frame=171x158
+[eco_service] 11.479s read UPDATE frame bytes complete
+[eco_service] 11.479s converted UPDATE frame
+[eco_service] 11.479s before tracker.track(...)
+[eco_service] 11.521s after tracker.track(...)
+UPDATE bbox=[4.5, 4.5, 30.0, 30.0] score=0.43721580505371094
+[eco_service] 11.521s before sending response
+[eco_service] 11.521s after sending response
+Request type received: 0x02
+[eco_service] 11.521s received UPDATE metadata frame=171x158
+[eco_service] 11.521s read UPDATE frame bytes complete
+[eco_service] 11.522s converted UPDATE frame
+[eco_service] 11.522s before tracker.track(...)
+[eco_service] 11.569s after tracker.track(...)
+UPDATE bbox=[4.5, 4.5, 30.0, 30.0] score=0.43721580505371094
+[eco_service] 11.569s before sending response
+[eco_service] 11.570s after sending response
+Client disconnected before request.
+Client disconnected.
+Client connected.
+Request type received: 0x01
+[eco_service] 53.236s request type INIT received
+[eco_service] 53.237s before parse INIT metadata
+[eco_service] 53.238s after metadata parsed frame=640x480 bbox=[115, 14, 499, 463]
+[eco_service] 53.238s before read frame bytes
+[eco_service] 53.313s after frame bytes read
+[eco_service] 53.313s before BGR to RGB
+[eco_service] 57.580s after BGR to RGB done
+[eco_service] 57.580s before bbox validation
+[eco_service] 57.651s after bbox validation done
+[eco_service] 57.708s before Tracker(eco, verified_otb936_run_update)
+[eco_service] 57.834s after Tracker(...)
+[eco_service] 57.834s before wrapper.get_parameters()
+[eco_service] 58.647s after wrapper.get_parameters()
+[eco_service] override debug=0
+[eco_service] override visualization=False
+[eco_service] override preload_features_on_create=False
+[eco_service] override warmup_on_create=False
+[eco_service] override warmup_image_sz=96
+[eco_service] override max_image_sample_size=9216
+[eco_service] override min_image_sample_size=6400
+[eco_service] override init_CG_iter=1
+[eco_service] override CG_iter=1
+[eco_service] override sample_memory_size=4
+[eco_service] override train_skipping=80
+[eco_service] 58.648s after overriding params
+[eco_service] 58.648s before wrapper.create_tracker(params)
+[eco_service] 58.648s after wrapper.create_tracker(params)
+[eco_service] 58.648s skipping explicit tracker.initialize_features(); lazy init in tracker.initialize
+[eco_service] 58.648s before tracker.initialize(frame_rgb, {'init_bbox': ...})
+/home/jetson/Desktop/JetsonNanoTracking/.venv/lib/python3.6/site-packages/torch/nn/functional.py:3635: UserWarning: Default upsampling behavior when mode=bilinear is changed to align_corners=False since 0.4.0. Please specify align_corners=True if the old behavior is desired. See the documentation of nn.Upsample for details.
+  "See the documentation of nn.Upsample for details.".format(mode)
+[eco_service] 94.746s after tracker.initialize(...)
+INIT bbox=[115, 14, 499, 463] score=1.0
+[eco_service] 94.886s before send response
+[eco_service] 94.886s after send response
+Request type received: 0x02
+[eco_service] 95.000s received UPDATE metadata frame=640x480
+[eco_service] 95.044s read UPDATE frame bytes complete
+[eco_service] 95.732s converted UPDATE frame
+[eco_service] 95.732s before tracker.track(...)
+[eco_service] 97.397s after tracker.track(...)
+UPDATE bbox=[115.0, 14.0, 499.0, 463.0] score=0.5674525499343872
+[eco_service] 97.397s before sending response
+[eco_service] 97.397s after sending response
+Request type received: 0x02
+[eco_service] 100.171s received UPDATE metadata frame=640x480
+[eco_service] 100.177s read UPDATE frame bytes complete
+[eco_service] 100.178s converted UPDATE frame
+[eco_service] 100.178s before tracker.track(...)
+[eco_service] 100.413s after tracker.track(...)
+UPDATE bbox=[82.955810546875, -34.066314697265625, 499.0, 463.0] score=0.15307681262493134
+[eco_service] 100.413s before sending response
+[eco_service] 100.414s after sending response
+Request type received: 0x01
+[eco_service] 107.348s request type INIT received
+[eco_service] 107.350s before parse INIT metadata
+[eco_service] 107.350s after metadata parsed frame=640x480 bbox=[76, 0, 546, 480]
+[eco_service] 107.350s before read frame bytes
+[eco_service] 107.353s after frame bytes read
+[eco_service] 107.353s before BGR to RGB
+[eco_service] 107.354s after BGR to RGB done
+[eco_service] 107.354s before bbox validation
+[eco_service] 107.354s after bbox validation done
+[eco_service] 107.528s before Tracker(eco, verified_otb936_run_update)
+[eco_service] 107.662s after Tracker(...)
+[eco_service] 107.662s before wrapper.get_parameters()
+[eco_service] 107.817s after wrapper.get_parameters()
+[eco_service] override debug=0
+[eco_service] override visualization=False
+[eco_service] override preload_features_on_create=False
+[eco_service] override warmup_on_create=False
+[eco_service] override warmup_image_sz=96
+[eco_service] override max_image_sample_size=9216
+[eco_service] override min_image_sample_size=6400
+[eco_service] override init_CG_iter=1
+[eco_service] override CG_iter=1
+[eco_service] override sample_memory_size=4
+[eco_service] override train_skipping=80
+[eco_service] 107.818s after overriding params
+[eco_service] 107.818s before wrapper.create_tracker(params)
+[eco_service] 107.818s after wrapper.create_tracker(params)
+[eco_service] 107.818s skipping explicit tracker.initialize_features(); lazy init in tracker.initialize
+[eco_service] 107.818s before tracker.initialize(frame_rgb, {'init_bbox': ...})
+[eco_service] 129.129s after tracker.initialize(...)
+INIT bbox=[76, 0, 546, 480] score=1.0
+[eco_service] 129.136s before send response
+[eco_service] 129.136s after send response
+Request type received: 0x02
+[eco_service] 129.201s received UPDATE metadata frame=640x480
+[eco_service] 129.240s read UPDATE frame bytes complete
+[eco_service] 129.911s converted UPDATE frame
+[eco_service] 129.911s before tracker.track(...)
+[eco_service] 132.450s after tracker.track(...)
+UPDATE bbox=[75.5, 0.5, 546.0, 480.0] score=0.5124154686927795
+[eco_service] 132.450s before sending response
+[eco_service] 132.475s after sending response
+Request type received: 0x02
+[eco_service] 133.524s received UPDATE metadata frame=640x480
+[eco_service] 133.526s read UPDATE frame bytes complete
+[eco_service] 133.527s converted UPDATE frame
+[eco_service] 133.527s before tracker.track(...)
+[eco_service] 133.883s after tracker.track(...)
+UPDATE bbox=[92.5645751953125, 17.5645751953125, 546.0, 480.0] score=0.24375618994235992
+[eco_service] 133.883s before sending response
+[eco_service] 133.883s after sending response
+Request type received: 0x01
+[eco_service] 136.285s request type INIT received
+[eco_service] 136.286s before parse INIT metadata
+[eco_service] 136.286s after metadata parsed frame=640x480 bbox=[101, 62, 338, 418]
+[eco_service] 136.286s before read frame bytes
+[eco_service] 136.288s after frame bytes read
+[eco_service] 136.288s before BGR to RGB
+[eco_service] 136.289s after BGR to RGB done
+[eco_service] 136.289s before bbox validation
+[eco_service] 136.289s after bbox validation done
+[eco_service] 136.434s before Tracker(eco, verified_otb936_run_update)
+[eco_service] 136.541s after Tracker(...)
+[eco_service] 136.541s before wrapper.get_parameters()
+[eco_service] 136.596s after wrapper.get_parameters()
+[eco_service] override debug=0
+[eco_service] override visualization=False
+[eco_service] override preload_features_on_create=False
+[eco_service] override warmup_on_create=False
+[eco_service] override warmup_image_sz=96
+[eco_service] override max_image_sample_size=9216
+[eco_service] override min_image_sample_size=6400
+[eco_service] override init_CG_iter=1
+[eco_service] override CG_iter=1
+[eco_service] override sample_memory_size=4
+[eco_service] override train_skipping=80
+[eco_service] 136.600s after overriding params
+[eco_service] 136.600s before wrapper.create_tracker(params)
+[eco_service] 136.600s after wrapper.create_tracker(params)
+[eco_service] 136.600s skipping explicit tracker.initialize_features(); lazy init in tracker.initialize
+[eco_service] 136.601s before tracker.initialize(frame_rgb, {'init_bbox': ...})
+[eco_service] 165.879s after tracker.initialize(...)
+INIT bbox=[101, 62, 338, 418] score=1.0
+[eco_service] 165.893s before send response
+[eco_service] 165.894s after send response
+Request type received: 0x02
+[eco_service] 166.067s received UPDATE metadata frame=640x480
+[eco_service] 166.111s read UPDATE frame bytes complete
+[eco_service] 166.973s converted UPDATE frame
+[eco_service] 166.973s before tracker.track(...)
+[eco_service] 178.261s after tracker.track(...)
+UPDATE bbox=[101.5, 61.5, 338.0, 418.0] score=0.48959434032440186
+[eco_service] 178.343s before sending response
+[eco_service] 178.344s after sending response
+Request type received: 0x02
+[eco_service] 179.415s received UPDATE metadata frame=640x480
+[eco_service] 179.439s read UPDATE frame bytes complete
+[eco_service] 180.425s converted UPDATE frame
+[eco_service] 180.425s before tracker.track(...)
+[eco_service] 183.165s after tracker.track(...)
+UPDATE bbox=[63.9122314453125, 74.02926635742188, 338.0, 418.0] score=0.15213711559772491
+[eco_service] 183.165s before sending response
+[eco_service] 183.166s after sending response
+Request type received: 0x01
+[eco_service] 189.922s request type INIT received
+[eco_service] 189.922s before parse INIT metadata
+[eco_service] 189.923s after metadata parsed frame=640x480 bbox=[120, 69, 329, 410]
+[eco_service] 189.923s before read frame bytes
+[eco_service] 189.926s after frame bytes read
+[eco_service] 189.927s before BGR to RGB
+[eco_service] 189.927s after BGR to RGB done
+[eco_service] 189.927s before bbox validation
+[eco_service] 189.927s after bbox validation done
+[eco_service] 189.993s before Tracker(eco, verified_otb936_run_update)
+[eco_service] 190.008s after Tracker(...)
+[eco_service] 190.008s before wrapper.get_parameters()
+[eco_service] 190.037s after wrapper.get_parameters()
+[eco_service] override debug=0
+[eco_service] override visualization=False
+[eco_service] override preload_features_on_create=False
+[eco_service] override warmup_on_create=False
+[eco_service] override warmup_image_sz=96
+[eco_service] override max_image_sample_size=9216
+[eco_service] override min_image_sample_size=6400
+[eco_service] override init_CG_iter=1
+[eco_service] override CG_iter=1
+[eco_service] override sample_memory_size=4
+[eco_service] override train_skipping=80
+[eco_service] 190.037s after overriding params
+[eco_service] 190.037s before wrapper.create_tracker(params)
+[eco_service] 190.037s after wrapper.create_tracker(params)
+[eco_service] 190.037s skipping explicit tracker.initialize_features(); lazy init in tracker.initialize
+[eco_service] 190.038s before tracker.initialize(frame_rgb, {'init_bbox': ...})
+[eco_service] 196.571s after tracker.initialize(...)
+INIT bbox=[120, 69, 329, 410] score=1.0
+[eco_service] 196.827s before send response
+[eco_service] 196.827s after send response
+Request type received: 0x01
+[eco_service] 197.442s request type INIT received
+[eco_service] 197.448s before parse INIT metadata
+[eco_service] 197.449s after metadata parsed frame=640x480 bbox=[120, 69, 329, 410]
+[eco_service] 197.449s before read frame bytes
+[eco_service] 197.451s after frame bytes read
+[eco_service] 197.451s before BGR to RGB
+[eco_service] 197.871s after BGR to RGB done
+[eco_service] 197.871s before bbox validation
+[eco_service] 197.872s after bbox validation done
+[eco_service] 197.893s before Tracker(eco, verified_otb936_run_update)
+[eco_service] 197.921s after Tracker(...)
+[eco_service] 197.922s before wrapper.get_parameters()
+[eco_service] 197.940s after wrapper.get_parameters()
+[eco_service] override debug=0
+[eco_service] override visualization=False
+[eco_service] override preload_features_on_create=False
+[eco_service] override warmup_on_create=False
+[eco_service] override warmup_image_sz=96
+[eco_service] override max_image_sample_size=9216
+[eco_service] override min_image_sample_size=6400
+[eco_service] override init_CG_iter=1
+[eco_service] override CG_iter=1
+[eco_service] override sample_memory_size=4
+[eco_service] override train_skipping=80
+[eco_service] 197.942s after overriding params
+[eco_service] 197.943s before wrapper.create_tracker(params)
+[eco_service] 197.943s after wrapper.create_tracker(params)
+[eco_service] 197.944s skipping explicit tracker.initialize_features(); lazy init in tracker.initialize
+[eco_service] 197.944s before tracker.initialize(frame_rgb, {'init_bbox': ...})
+[eco_service] 229.229s after tracker.initialize(...)
+INIT bbox=[120, 69, 329, 410] score=1.0
+[eco_service] 230.876s before send response
+[eco_service] 230.877s after send response
+Request type received: 0x02
+[eco_service] 231.336s received UPDATE metadata frame=640x480
+[eco_service] 231.368s read UPDATE frame bytes complete
+[eco_service] 232.048s converted UPDATE frame
+[eco_service] 232.048s before tracker.track(...)
+[eco_service] 239.040s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4399627447128296
+[eco_service] 239.146s before sending response
+[eco_service] 239.147s after sending response
+Request type received: 0x02
+[eco_service] 239.700s received UPDATE metadata frame=640x480
+[eco_service] 239.842s read UPDATE frame bytes complete
+[eco_service] 240.847s converted UPDATE frame
+[eco_service] 240.847s before tracker.track(...)
+[eco_service] 250.476s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4343887269496918
+[eco_service] 250.556s before sending response
+[eco_service] 250.564s after sending response
+Request type received: 0x02
+[eco_service] 252.060s received UPDATE metadata frame=640x480
+[eco_service] 252.120s read UPDATE frame bytes complete
+[eco_service] 253.541s converted UPDATE frame
+[eco_service] 253.541s before tracker.track(...)
+[eco_service] 254.251s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.42992404103279114
+[eco_service] 254.264s before sending response
+[eco_service] 254.264s after sending response
+Request type received: 0x02
+[eco_service] 254.284s received UPDATE metadata frame=640x480
+[eco_service] 254.285s read UPDATE frame bytes complete
+[eco_service] 254.287s converted UPDATE frame
+[eco_service] 254.287s before tracker.track(...)
+[eco_service] 254.356s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4297938942909241
+[eco_service] 254.357s before sending response
+[eco_service] 254.357s after sending response
+Request type received: 0x02
+[eco_service] 254.389s received UPDATE metadata frame=640x480
+[eco_service] 254.392s read UPDATE frame bytes complete
+[eco_service] 254.393s converted UPDATE frame
+[eco_service] 254.393s before tracker.track(...)
+[eco_service] 254.473s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4287961423397064
+[eco_service] 254.473s before sending response
+[eco_service] 254.473s after sending response
+Request type received: 0x02
+[eco_service] 254.501s received UPDATE metadata frame=640x480
+[eco_service] 254.503s read UPDATE frame bytes complete
+[eco_service] 254.504s converted UPDATE frame
+[eco_service] 254.504s before tracker.track(...)
+[eco_service] 254.572s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.42806971073150635
+[eco_service] 254.573s before sending response
+[eco_service] 254.573s after sending response
+Request type received: 0x02
+[eco_service] 255.140s received UPDATE metadata frame=640x480
+[eco_service] 255.142s read UPDATE frame bytes complete
+[eco_service] 255.142s converted UPDATE frame
+[eco_service] 255.142s before tracker.track(...)
+[eco_service] 255.181s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4250246584415436
+[eco_service] 255.181s before sending response
+[eco_service] 255.181s after sending response
+Request type received: 0x02
+[eco_service] 255.188s received UPDATE metadata frame=640x480
+[eco_service] 255.190s read UPDATE frame bytes complete
+[eco_service] 255.190s converted UPDATE frame
+[eco_service] 255.190s before tracker.track(...)
+[eco_service] 255.234s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4288303554058075
+[eco_service] 255.234s before sending response
+[eco_service] 255.235s after sending response
+Request type received: 0x02
+[eco_service] 255.245s received UPDATE metadata frame=640x480
+[eco_service] 255.249s read UPDATE frame bytes complete
+[eco_service] 255.250s converted UPDATE frame
+[eco_service] 255.250s before tracker.track(...)
+[eco_service] 255.285s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.427409291267395
+[eco_service] 255.396s before sending response
+[eco_service] 255.397s after sending response
+Request type received: 0x02
+[eco_service] 255.414s received UPDATE metadata frame=640x480
+[eco_service] 255.415s read UPDATE frame bytes complete
+[eco_service] 255.416s converted UPDATE frame
+[eco_service] 255.416s before tracker.track(...)
+[eco_service] 255.505s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4293900728225708
+[eco_service] 255.521s before sending response
+[eco_service] 255.523s after sending response
+Request type received: 0x02
+[eco_service] 255.537s received UPDATE metadata frame=640x480
+[eco_service] 255.540s read UPDATE frame bytes complete
+[eco_service] 255.543s converted UPDATE frame
+[eco_service] 255.543s before tracker.track(...)
+[eco_service] 255.597s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4282393455505371
+[eco_service] 255.598s before sending response
+[eco_service] 255.598s after sending response
+Request type received: 0x02
+[eco_service] 255.605s received UPDATE metadata frame=640x480
+[eco_service] 255.608s read UPDATE frame bytes complete
+[eco_service] 255.610s converted UPDATE frame
+[eco_service] 255.610s before tracker.track(...)
+[eco_service] 255.677s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4267173707485199
+[eco_service] 255.678s before sending response
+[eco_service] 255.678s after sending response
+Request type received: 0x02
+[eco_service] 255.699s received UPDATE metadata frame=640x480
+[eco_service] 255.701s read UPDATE frame bytes complete
+[eco_service] 255.702s converted UPDATE frame
+[eco_service] 255.702s before tracker.track(...)
+[eco_service] 255.752s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4241650402545929
+[eco_service] 255.752s before sending response
+[eco_service] 255.752s after sending response
+Request type received: 0x02
+[eco_service] 255.851s received UPDATE metadata frame=640x480
+[eco_service] 255.853s read UPDATE frame bytes complete
+[eco_service] 255.854s converted UPDATE frame
+[eco_service] 255.854s before tracker.track(...)
+[eco_service] 255.912s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4240495562553406
+[eco_service] 255.912s before sending response
+[eco_service] 255.916s after sending response
+Request type received: 0x02
+[eco_service] 255.917s received UPDATE metadata frame=640x480
+[eco_service] 255.918s read UPDATE frame bytes complete
+[eco_service] 255.920s converted UPDATE frame
+[eco_service] 255.920s before tracker.track(...)
+[eco_service] 255.979s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4274323284626007
+[eco_service] 255.979s before sending response
+[eco_service] 255.979s after sending response
+Request type received: 0x02
+[eco_service] 255.993s received UPDATE metadata frame=640x480
+[eco_service] 255.995s read UPDATE frame bytes complete
+[eco_service] 255.995s converted UPDATE frame
+[eco_service] 255.995s before tracker.track(...)
+[eco_service] 256.043s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4261658787727356
+[eco_service] 256.045s before sending response
+[eco_service] 256.045s after sending response
+Request type received: 0x02
+[eco_service] 256.052s received UPDATE metadata frame=640x480
+[eco_service] 256.054s read UPDATE frame bytes complete
+[eco_service] 256.055s converted UPDATE frame
+[eco_service] 256.055s before tracker.track(...)
+[eco_service] 256.095s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4268524944782257
+[eco_service] 256.095s before sending response
+[eco_service] 256.095s after sending response
+Request type received: 0x02
+[eco_service] 256.103s received UPDATE metadata frame=640x480
+[eco_service] 256.105s read UPDATE frame bytes complete
+[eco_service] 256.105s converted UPDATE frame
+[eco_service] 256.105s before tracker.track(...)
+[eco_service] 256.139s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.42599138617515564
+[eco_service] 256.139s before sending response
+[eco_service] 256.139s after sending response
+Request type received: 0x02
+[eco_service] 256.150s received UPDATE metadata frame=640x480
+[eco_service] 256.151s read UPDATE frame bytes complete
+[eco_service] 256.152s converted UPDATE frame
+[eco_service] 256.153s before tracker.track(...)
+[eco_service] 256.184s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.42679664492607117
+[eco_service] 256.184s before sending response
+[eco_service] 256.184s after sending response
+Request type received: 0x02
+[eco_service] 256.195s received UPDATE metadata frame=640x480
+[eco_service] 256.197s read UPDATE frame bytes complete
+[eco_service] 256.198s converted UPDATE frame
+[eco_service] 256.198s before tracker.track(...)
+[eco_service] 256.229s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4242188334465027
+[eco_service] 256.229s before sending response
+[eco_service] 256.229s after sending response
+Request type received: 0x02
+[eco_service] 256.283s received UPDATE metadata frame=640x480
+[eco_service] 256.286s read UPDATE frame bytes complete
+[eco_service] 256.286s converted UPDATE frame
+[eco_service] 256.286s before tracker.track(...)
+[eco_service] 256.335s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4241974353790283
+[eco_service] 256.335s before sending response
+[eco_service] 256.335s after sending response
+Request type received: 0x02
+[eco_service] 256.374s received UPDATE metadata frame=640x480
+[eco_service] 256.377s read UPDATE frame bytes complete
+[eco_service] 256.377s converted UPDATE frame
+[eco_service] 256.378s before tracker.track(...)
+[eco_service] 256.428s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.42787647247314453
+[eco_service] 256.428s before sending response
+[eco_service] 256.428s after sending response
+Request type received: 0x02
+[eco_service] 256.450s received UPDATE metadata frame=640x480
+[eco_service] 256.483s read UPDATE frame bytes complete
+[eco_service] 256.484s converted UPDATE frame
+[eco_service] 256.484s before tracker.track(...)
+[eco_service] 256.514s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.420853853225708
+[eco_service] 256.514s before sending response
+[eco_service] 256.514s after sending response
+Request type received: 0x02
+[eco_service] 256.524s received UPDATE metadata frame=640x480
+[eco_service] 256.525s read UPDATE frame bytes complete
+[eco_service] 256.526s converted UPDATE frame
+[eco_service] 256.526s before tracker.track(...)
+[eco_service] 256.566s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4212225079536438
+[eco_service] 256.566s before sending response
+[eco_service] 256.566s after sending response
+Request type received: 0x02
+[eco_service] 256.577s received UPDATE metadata frame=640x480
+[eco_service] 256.579s read UPDATE frame bytes complete
+[eco_service] 256.582s converted UPDATE frame
+[eco_service] 256.582s before tracker.track(...)
+[eco_service] 256.623s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.42622995376586914
+[eco_service] 256.623s before sending response
+[eco_service] 256.624s after sending response
+Request type received: 0x02
+[eco_service] 256.629s received UPDATE metadata frame=640x480
+[eco_service] 256.630s read UPDATE frame bytes complete
+[eco_service] 256.631s converted UPDATE frame
+[eco_service] 256.631s before tracker.track(...)
+[eco_service] 256.668s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.42469096183776855
+[eco_service] 256.668s before sending response
+[eco_service] 256.668s after sending response
+Request type received: 0x02
+[eco_service] 256.682s received UPDATE metadata frame=640x480
+[eco_service] 256.683s read UPDATE frame bytes complete
+[eco_service] 256.684s converted UPDATE frame
+[eco_service] 256.684s before tracker.track(...)
+[eco_service] 256.713s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.42668068408966064
+[eco_service] 256.713s before sending response
+[eco_service] 256.713s after sending response
+Request type received: 0x02
+[eco_service] 256.769s received UPDATE metadata frame=640x480
+[eco_service] 256.770s read UPDATE frame bytes complete
+[eco_service] 256.770s converted UPDATE frame
+[eco_service] 256.770s before tracker.track(...)
+[eco_service] 256.806s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4263380765914917
+[eco_service] 256.806s before sending response
+[eco_service] 256.806s after sending response
+Request type received: 0x02
+[eco_service] 256.811s received UPDATE metadata frame=640x480
+[eco_service] 256.812s read UPDATE frame bytes complete
+[eco_service] 256.812s converted UPDATE frame
+[eco_service] 256.812s before tracker.track(...)
+[eco_service] 256.866s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4316120743751526
+[eco_service] 256.866s before sending response
+[eco_service] 256.866s after sending response
+Request type received: 0x02
+[eco_service] 256.874s received UPDATE metadata frame=640x480
+[eco_service] 256.875s read UPDATE frame bytes complete
+[eco_service] 256.877s converted UPDATE frame
+[eco_service] 256.877s before tracker.track(...)
+[eco_service] 256.931s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4310285449028015
+[eco_service] 256.931s before sending response
+[eco_service] 256.931s after sending response
+Request type received: 0x02
+[eco_service] 256.944s received UPDATE metadata frame=640x480
+[eco_service] 256.946s read UPDATE frame bytes complete
+[eco_service] 256.947s converted UPDATE frame
+[eco_service] 256.947s before tracker.track(...)
+[eco_service] 256.992s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4208257794380188
+[eco_service] 256.992s before sending response
+[eco_service] 256.993s after sending response
+Request type received: 0x02
+[eco_service] 256.999s received UPDATE metadata frame=640x480
+[eco_service] 257.001s read UPDATE frame bytes complete
+[eco_service] 257.002s converted UPDATE frame
+[eco_service] 257.002s before tracker.track(...)
+[eco_service] 257.042s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.42546483874320984
+[eco_service] 257.042s before sending response
+[eco_service] 257.042s after sending response
+Request type received: 0x02
+[eco_service] 257.057s received UPDATE metadata frame=640x480
+[eco_service] 257.059s read UPDATE frame bytes complete
+[eco_service] 257.060s converted UPDATE frame
+[eco_service] 257.060s before tracker.track(...)
+[eco_service] 257.110s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4230269491672516
+[eco_service] 257.110s before sending response
+[eco_service] 257.110s after sending response
+Request type received: 0x02
+[eco_service] 257.125s received UPDATE metadata frame=640x480
+[eco_service] 257.127s read UPDATE frame bytes complete
+[eco_service] 257.128s converted UPDATE frame
+[eco_service] 257.128s before tracker.track(...)
+[eco_service] 257.162s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4231284260749817
+[eco_service] 257.163s before sending response
+[eco_service] 257.163s after sending response
+Request type received: 0x02
+[eco_service] 257.222s received UPDATE metadata frame=640x480
+[eco_service] 257.224s read UPDATE frame bytes complete
+[eco_service] 257.225s converted UPDATE frame
+[eco_service] 257.225s before tracker.track(...)
+[eco_service] 257.261s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4209677577018738
+[eco_service] 257.261s before sending response
+[eco_service] 257.261s after sending response
+Request type received: 0x02
+[eco_service] 257.269s received UPDATE metadata frame=640x480
+[eco_service] 257.270s read UPDATE frame bytes complete
+[eco_service] 257.271s converted UPDATE frame
+[eco_service] 257.271s before tracker.track(...)
+[eco_service] 257.305s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.41786879301071167
+[eco_service] 257.305s before sending response
+[eco_service] 257.305s after sending response
+Request type received: 0x02
+[eco_service] 257.311s received UPDATE metadata frame=640x480
+[eco_service] 257.313s read UPDATE frame bytes complete
+[eco_service] 257.313s converted UPDATE frame
+[eco_service] 257.313s before tracker.track(...)
+[eco_service] 257.349s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4179953336715698
+[eco_service] 257.349s before sending response
+[eco_service] 257.349s after sending response
+Request type received: 0x02
+[eco_service] 257.361s received UPDATE metadata frame=640x480
+[eco_service] 257.362s read UPDATE frame bytes complete
+[eco_service] 257.363s converted UPDATE frame
+[eco_service] 257.363s before tracker.track(...)
+[eco_service] 257.404s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.41836726665496826
+[eco_service] 257.404s before sending response
+[eco_service] 257.404s after sending response
+Request type received: 0x02
+[eco_service] 257.436s received UPDATE metadata frame=640x480
+[eco_service] 257.437s read UPDATE frame bytes complete
+[eco_service] 257.438s converted UPDATE frame
+[eco_service] 257.438s before tracker.track(...)
+[eco_service] 257.497s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.41920560598373413
+[eco_service] 257.497s before sending response
+[eco_service] 257.498s after sending response
+Request type received: 0x02
+[eco_service] 257.508s received UPDATE metadata frame=640x480
+[eco_service] 257.509s read UPDATE frame bytes complete
+[eco_service] 257.511s converted UPDATE frame
+[eco_service] 257.511s before tracker.track(...)
+[eco_service] 257.573s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4178486168384552
+[eco_service] 257.573s before sending response
+[eco_service] 257.573s after sending response
+Request type received: 0x02
+[eco_service] 257.640s received UPDATE metadata frame=640x480
+[eco_service] 257.642s read UPDATE frame bytes complete
+[eco_service] 257.643s converted UPDATE frame
+[eco_service] 257.643s before tracker.track(...)
+[eco_service] 257.707s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.41651371121406555
+[eco_service] 257.708s before sending response
+[eco_service] 257.708s after sending response
+Request type received: 0x02
+[eco_service] 257.717s received UPDATE metadata frame=640x480
+[eco_service] 257.719s read UPDATE frame bytes complete
+[eco_service] 257.722s converted UPDATE frame
+[eco_service] 257.722s before tracker.track(...)
+[eco_service] 257.770s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.41887614130973816
+[eco_service] 257.771s before sending response
+[eco_service] 257.772s after sending response
+Request type received: 0x02
+[eco_service] 257.787s received UPDATE metadata frame=640x480
+[eco_service] 257.789s read UPDATE frame bytes complete
+[eco_service] 257.790s converted UPDATE frame
+[eco_service] 257.790s before tracker.track(...)
+[eco_service] 257.875s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.41928401589393616
+[eco_service] 257.875s before sending response
+[eco_service] 257.875s after sending response
+Request type received: 0x02
+[eco_service] 257.886s received UPDATE metadata frame=640x480
+[eco_service] 257.888s read UPDATE frame bytes complete
+[eco_service] 257.890s converted UPDATE frame
+[eco_service] 257.890s before tracker.track(...)
+[eco_service] 257.953s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.41808021068573
+[eco_service] 257.956s before sending response
+[eco_service] 257.956s after sending response
+Request type received: 0x02
+[eco_service] 257.963s received UPDATE metadata frame=640x480
+[eco_service] 257.964s read UPDATE frame bytes complete
+[eco_service] 257.966s converted UPDATE frame
+[eco_service] 257.966s before tracker.track(...)
+[eco_service] 258.023s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4174789786338806
+[eco_service] 258.024s before sending response
+[eco_service] 258.025s after sending response
+Request type received: 0x02
+[eco_service] 258.041s received UPDATE metadata frame=640x480
+[eco_service] 258.042s read UPDATE frame bytes complete
+[eco_service] 258.043s converted UPDATE frame
+[eco_service] 258.043s before tracker.track(...)
+[eco_service] 258.094s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.41932088136672974
+[eco_service] 258.094s before sending response
+[eco_service] 258.095s after sending response
+Request type received: 0x02
+[eco_service] 258.183s received UPDATE metadata frame=640x480
+[eco_service] 258.184s read UPDATE frame bytes complete
+[eco_service] 258.185s converted UPDATE frame
+[eco_service] 258.185s before tracker.track(...)
+[eco_service] 258.241s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.41854149103164673
+[eco_service] 258.241s before sending response
+[eco_service] 258.242s after sending response
+Request type received: 0x02
+[eco_service] 258.260s received UPDATE metadata frame=640x480
+[eco_service] 258.261s read UPDATE frame bytes complete
+[eco_service] 258.262s converted UPDATE frame
+[eco_service] 258.263s before tracker.track(...)
+[eco_service] 258.318s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.41662418842315674
+[eco_service] 258.318s before sending response
+[eco_service] 258.319s after sending response
+Request type received: 0x02
+[eco_service] 258.331s received UPDATE metadata frame=640x480
+[eco_service] 258.333s read UPDATE frame bytes complete
+[eco_service] 258.334s converted UPDATE frame
+[eco_service] 258.334s before tracker.track(...)
+[eco_service] 258.384s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4191494286060333
+[eco_service] 258.385s before sending response
+[eco_service] 258.385s after sending response
+Request type received: 0x02
+[eco_service] 258.406s received UPDATE metadata frame=640x480
+[eco_service] 258.410s read UPDATE frame bytes complete
+[eco_service] 258.411s converted UPDATE frame
+[eco_service] 258.411s before tracker.track(...)
+[eco_service] 258.463s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.42158040404319763
+[eco_service] 258.463s before sending response
+[eco_service] 258.464s after sending response
+Request type received: 0x02
+[eco_service] 258.474s received UPDATE metadata frame=640x480
+[eco_service] 258.475s read UPDATE frame bytes complete
+[eco_service] 258.475s converted UPDATE frame
+[eco_service] 258.475s before tracker.track(...)
+[eco_service] 258.514s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.41926828026771545
+[eco_service] 258.514s before sending response
+[eco_service] 258.514s after sending response
+Request type received: 0x02
+[eco_service] 258.525s received UPDATE metadata frame=640x480
+[eco_service] 258.527s read UPDATE frame bytes complete
+[eco_service] 258.527s converted UPDATE frame
+[eco_service] 258.528s before tracker.track(...)
+[eco_service] 258.569s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.42119669914245605
+[eco_service] 258.569s before sending response
+[eco_service] 258.569s after sending response
+Request type received: 0x02
+[eco_service] 258.650s received UPDATE metadata frame=640x480
+[eco_service] 258.652s read UPDATE frame bytes complete
+[eco_service] 258.652s converted UPDATE frame
+[eco_service] 258.653s before tracker.track(...)
+[eco_service] 258.709s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.42037689685821533
+[eco_service] 258.709s before sending response
+[eco_service] 258.709s after sending response
+Request type received: 0x02
+[eco_service] 258.717s received UPDATE metadata frame=640x480
+[eco_service] 258.719s read UPDATE frame bytes complete
+[eco_service] 258.721s converted UPDATE frame
+[eco_service] 258.721s before tracker.track(...)
+[eco_service] 258.771s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4217967987060547
+[eco_service] 258.771s before sending response
+[eco_service] 258.771s after sending response
+Request type received: 0x02
+[eco_service] 258.777s received UPDATE metadata frame=640x480
+[eco_service] 258.779s read UPDATE frame bytes complete
+[eco_service] 258.779s converted UPDATE frame
+[eco_service] 258.779s before tracker.track(...)
+[eco_service] 258.835s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4220101833343506
+[eco_service] 258.836s before sending response
+[eco_service] 258.836s after sending response
+Request type received: 0x02
+[eco_service] 258.853s received UPDATE metadata frame=640x480
+[eco_service] 258.855s read UPDATE frame bytes complete
+[eco_service] 258.863s converted UPDATE frame
+[eco_service] 258.863s before tracker.track(...)
+[eco_service] 258.910s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4235987365245819
+[eco_service] 258.910s before sending response
+[eco_service] 258.911s after sending response
+Request type received: 0x02
+[eco_service] 258.918s received UPDATE metadata frame=640x480
+[eco_service] 258.920s read UPDATE frame bytes complete
+[eco_service] 258.921s converted UPDATE frame
+[eco_service] 258.922s before tracker.track(...)
+[eco_service] 258.974s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.42023536562919617
+[eco_service] 258.975s before sending response
+[eco_service] 258.975s after sending response
+Request type received: 0x02
+[eco_service] 258.983s received UPDATE metadata frame=640x480
+[eco_service] 258.992s read UPDATE frame bytes complete
+[eco_service] 258.993s converted UPDATE frame
+[eco_service] 258.993s before tracker.track(...)
+[eco_service] 259.037s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.41789814829826355
+[eco_service] 259.037s before sending response
+[eco_service] 259.038s after sending response
+Request type received: 0x02
+[eco_service] 259.116s received UPDATE metadata frame=640x480
+[eco_service] 259.119s read UPDATE frame bytes complete
+[eco_service] 259.119s converted UPDATE frame
+[eco_service] 259.120s before tracker.track(...)
+[eco_service] 259.182s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4153132438659668
+[eco_service] 259.182s before sending response
+[eco_service] 259.183s after sending response
+Request type received: 0x02
+[eco_service] 259.193s received UPDATE metadata frame=640x480
+[eco_service] 259.195s read UPDATE frame bytes complete
+[eco_service] 259.195s converted UPDATE frame
+[eco_service] 259.195s before tracker.track(...)
+[eco_service] 259.256s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4182831048965454
+[eco_service] 259.257s before sending response
+[eco_service] 259.257s after sending response
+Request type received: 0x02
+[eco_service] 259.273s received UPDATE metadata frame=640x480
+[eco_service] 259.276s read UPDATE frame bytes complete
+[eco_service] 259.277s converted UPDATE frame
+[eco_service] 259.277s before tracker.track(...)
+[eco_service] 259.352s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4173962473869324
+[eco_service] 259.353s before sending response
+[eco_service] 259.353s after sending response
+Request type received: 0x02
+[eco_service] 259.386s received UPDATE metadata frame=640x480
+[eco_service] 259.388s read UPDATE frame bytes complete
+[eco_service] 259.389s converted UPDATE frame
+[eco_service] 259.389s before tracker.track(...)
+[eco_service] 259.468s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4234902858734131
+[eco_service] 259.468s before sending response
+[eco_service] 259.468s after sending response
+Request type received: 0x02
+[eco_service] 259.480s received UPDATE metadata frame=640x480
+[eco_service] 259.482s read UPDATE frame bytes complete
+[eco_service] 259.483s converted UPDATE frame
+[eco_service] 259.483s before tracker.track(...)
+[eco_service] 259.535s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.417656272649765
+[eco_service] 259.535s before sending response
+[eco_service] 259.535s after sending response
+Request type received: 0x02
+[eco_service] 259.543s received UPDATE metadata frame=640x480
+[eco_service] 259.544s read UPDATE frame bytes complete
+[eco_service] 259.545s converted UPDATE frame
+[eco_service] 259.545s before tracker.track(...)
+[eco_service] 259.594s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4149961769580841
+[eco_service] 259.595s before sending response
+[eco_service] 259.595s after sending response
+Request type received: 0x02
+[eco_service] 259.676s received UPDATE metadata frame=640x480
+[eco_service] 259.679s read UPDATE frame bytes complete
+[eco_service] 259.679s converted UPDATE frame
+[eco_service] 259.679s before tracker.track(...)
+[eco_service] 259.730s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4209800362586975
+[eco_service] 259.730s before sending response
+[eco_service] 259.731s after sending response
+Request type received: 0x02
+[eco_service] 259.740s received UPDATE metadata frame=640x480
+[eco_service] 259.741s read UPDATE frame bytes complete
+[eco_service] 259.742s converted UPDATE frame
+[eco_service] 259.742s before tracker.track(...)
+[eco_service] 259.804s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4188891351222992
+[eco_service] 259.805s before sending response
+[eco_service] 259.805s after sending response
+Request type received: 0x02
+[eco_service] 259.814s received UPDATE metadata frame=640x480
+[eco_service] 259.815s read UPDATE frame bytes complete
+[eco_service] 259.816s converted UPDATE frame
+[eco_service] 259.816s before tracker.track(...)
+[eco_service] 259.875s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.41973406076431274
+[eco_service] 259.876s before sending response
+[eco_service] 259.876s after sending response
+Request type received: 0x02
+[eco_service] 259.887s received UPDATE metadata frame=640x480
+[eco_service] 259.889s read UPDATE frame bytes complete
+[eco_service] 259.890s converted UPDATE frame
+[eco_service] 259.890s before tracker.track(...)
+[eco_service] 259.944s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.42159906029701233
+[eco_service] 259.944s before sending response
+[eco_service] 259.944s after sending response
+Request type received: 0x02
+[eco_service] 259.969s received UPDATE metadata frame=640x480
+[eco_service] 259.970s read UPDATE frame bytes complete
+[eco_service] 259.971s converted UPDATE frame
+[eco_service] 259.971s before tracker.track(...)
+[eco_service] 260.026s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.42140325903892517
+[eco_service] 260.026s before sending response
+[eco_service] 260.026s after sending response
+Request type received: 0x02
+[eco_service] 260.039s received UPDATE metadata frame=640x480
+[eco_service] 260.040s read UPDATE frame bytes complete
+[eco_service] 260.041s converted UPDATE frame
+[eco_service] 260.041s before tracker.track(...)
+[eco_service] 260.102s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4220043122768402
+[eco_service] 260.102s before sending response
+[eco_service] 260.102s after sending response
+Request type received: 0x02
+[eco_service] 260.177s received UPDATE metadata frame=640x480
+[eco_service] 260.179s read UPDATE frame bytes complete
+[eco_service] 260.180s converted UPDATE frame
+[eco_service] 260.180s before tracker.track(...)
+[eco_service] 260.236s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4197411835193634
+[eco_service] 260.236s before sending response
+[eco_service] 260.236s after sending response
+Request type received: 0x02
+[eco_service] 260.246s received UPDATE metadata frame=640x480
+[eco_service] 260.249s read UPDATE frame bytes complete
+[eco_service] 260.250s converted UPDATE frame
+[eco_service] 260.250s before tracker.track(...)
+[eco_service] 260.306s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4173133671283722
+[eco_service] 260.306s before sending response
+[eco_service] 260.306s after sending response
+Request type received: 0x02
+[eco_service] 260.320s received UPDATE metadata frame=640x480
+[eco_service] 260.322s read UPDATE frame bytes complete
+[eco_service] 260.323s converted UPDATE frame
+[eco_service] 260.323s before tracker.track(...)
+[eco_service] 260.380s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.41756805777549744
+[eco_service] 260.381s before sending response
+[eco_service] 260.381s after sending response
+Request type received: 0x02
+[eco_service] 260.399s received UPDATE metadata frame=640x480
+[eco_service] 260.401s read UPDATE frame bytes complete
+[eco_service] 260.402s converted UPDATE frame
+[eco_service] 260.402s before tracker.track(...)
+[eco_service] 260.463s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4208170175552368
+[eco_service] 260.463s before sending response
+[eco_service] 260.464s after sending response
+Request type received: 0x02
+[eco_service] 260.471s received UPDATE metadata frame=640x480
+[eco_service] 260.472s read UPDATE frame bytes complete
+[eco_service] 260.473s converted UPDATE frame
+[eco_service] 260.473s before tracker.track(...)
+[eco_service] 260.521s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4205877184867859
+[eco_service] 260.540s before sending response
+[eco_service] 260.540s after sending response
+Request type received: 0x02
+[eco_service] 260.549s received UPDATE metadata frame=640x480
+[eco_service] 260.550s read UPDATE frame bytes complete
+[eco_service] 260.551s converted UPDATE frame
+[eco_service] 260.551s before tracker.track(...)
+[eco_service] 260.602s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.41970330476760864
+[eco_service] 260.602s before sending response
+[eco_service] 260.602s after sending response
+Request type received: 0x02
+[eco_service] 260.688s received UPDATE metadata frame=640x480
+[eco_service] 260.691s read UPDATE frame bytes complete
+[eco_service] 260.692s converted UPDATE frame
+[eco_service] 260.692s before tracker.track(...)
+[eco_service] 260.762s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4194011092185974
+[eco_service] 260.762s before sending response
+[eco_service] 260.762s after sending response
+Request type received: 0x02
+[eco_service] 260.788s received UPDATE metadata frame=640x480
+[eco_service] 260.789s read UPDATE frame bytes complete
+[eco_service] 260.790s converted UPDATE frame
+[eco_service] 260.790s before tracker.track(...)
+[eco_service] 260.838s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4190351665019989
+[eco_service] 260.838s before sending response
+[eco_service] 260.838s after sending response
+Request type received: 0x02
+[eco_service] 260.855s received UPDATE metadata frame=640x480
+[eco_service] 260.859s read UPDATE frame bytes complete
+[eco_service] 260.859s converted UPDATE frame
+[eco_service] 260.859s before tracker.track(...)
+[eco_service] 260.923s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4194108843803406
+[eco_service] 260.923s before sending response
+[eco_service] 260.924s after sending response
+Request type received: 0x02
+[eco_service] 260.943s received UPDATE metadata frame=640x480
+[eco_service] 260.952s read UPDATE frame bytes complete
+[eco_service] 260.953s converted UPDATE frame
+[eco_service] 260.953s before tracker.track(...)
+[eco_service] 265.145s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.420187771320343
+[eco_service] 265.145s before sending response
+[eco_service] 265.146s after sending response
+Request type received: 0x02
+[eco_service] 265.156s received UPDATE metadata frame=640x480
+[eco_service] 265.160s read UPDATE frame bytes complete
+[eco_service] 265.161s converted UPDATE frame
+[eco_service] 265.161s before tracker.track(...)
+[eco_service] 265.214s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.48439210653305054
+[eco_service] 265.215s before sending response
+[eco_service] 265.215s after sending response
+Request type received: 0x02
+[eco_service] 265.222s received UPDATE metadata frame=640x480
+[eco_service] 265.224s read UPDATE frame bytes complete
+[eco_service] 265.228s converted UPDATE frame
+[eco_service] 265.228s before tracker.track(...)
+[eco_service] 265.266s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4769807457923889
+[eco_service] 265.266s before sending response
+[eco_service] 265.266s after sending response
+Request type received: 0x02
+[eco_service] 265.327s received UPDATE metadata frame=640x480
+[eco_service] 265.329s read UPDATE frame bytes complete
+[eco_service] 265.329s converted UPDATE frame
+[eco_service] 265.329s before tracker.track(...)
+[eco_service] 265.369s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4757278859615326
+[eco_service] 265.369s before sending response
+[eco_service] 265.369s after sending response
+Request type received: 0x02
+[eco_service] 265.374s received UPDATE metadata frame=640x480
+[eco_service] 265.375s read UPDATE frame bytes complete
+[eco_service] 265.376s converted UPDATE frame
+[eco_service] 265.376s before tracker.track(...)
+[eco_service] 265.425s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.48505914211273193
+[eco_service] 265.425s before sending response
+[eco_service] 265.425s after sending response
+Request type received: 0x02
+[eco_service] 265.438s received UPDATE metadata frame=640x480
+[eco_service] 265.440s read UPDATE frame bytes complete
+[eco_service] 265.441s converted UPDATE frame
+[eco_service] 265.441s before tracker.track(...)
+[eco_service] 265.497s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4822285771369934
+[eco_service] 265.497s before sending response
+[eco_service] 265.497s after sending response
+Request type received: 0x02
+[eco_service] 265.507s received UPDATE metadata frame=640x480
+[eco_service] 265.508s read UPDATE frame bytes complete
+[eco_service] 265.511s converted UPDATE frame
+[eco_service] 265.511s before tracker.track(...)
+[eco_service] 265.552s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.48906269669532776
+[eco_service] 265.611s before sending response
+[eco_service] 265.611s after sending response
+Request type received: 0x02
+[eco_service] 265.625s received UPDATE metadata frame=640x480
+[eco_service] 265.626s read UPDATE frame bytes complete
+[eco_service] 265.626s converted UPDATE frame
+[eco_service] 265.626s before tracker.track(...)
+[eco_service] 265.666s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.49563542008399963
+[eco_service] 265.666s before sending response
+[eco_service] 265.666s after sending response
+Request type received: 0x02
+[eco_service] 265.684s received UPDATE metadata frame=640x480
+[eco_service] 265.685s read UPDATE frame bytes complete
+[eco_service] 265.686s converted UPDATE frame
+[eco_service] 265.686s before tracker.track(...)
+[eco_service] 265.725s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.49521154165267944
+[eco_service] 265.726s before sending response
+[eco_service] 265.726s after sending response
+Request type received: 0x02
+[eco_service] 265.750s received UPDATE metadata frame=640x480
+[eco_service] 265.754s read UPDATE frame bytes complete
+[eco_service] 265.755s converted UPDATE frame
+[eco_service] 265.756s before tracker.track(...)
+[eco_service] 265.794s after tracker.track(...)
+UPDATE bbox=[120.0, 69.5, 329.0, 410.0] score=0.4952942728996277
+[eco_service] 265.795s before sending response
+[eco_service] 265.795s after sending response
+Request type received: 0x01
+[eco_service] 265.848s request type INIT received
+[eco_service] 265.849s before parse INIT metadata
+[eco_service] 265.849s after metadata parsed frame=640x480 bbox=[128, 74, 297, 401]
+[eco_service] 265.849s before read frame bytes
+[eco_service] 265.850s after frame bytes read
+[eco_service] 265.850s before BGR to RGB
+[eco_service] 265.852s after BGR to RGB done
+[eco_service] 265.852s before bbox validation
+[eco_service] 265.852s after bbox validation done
+[eco_service] 265.970s before Tracker(eco, verified_otb936_run_update)
+[eco_service] 265.990s after Tracker(...)
+[eco_service] 265.990s before wrapper.get_parameters()
+[eco_service] 266.111s after wrapper.get_parameters()
+[eco_service] override debug=0
+[eco_service] override visualization=False
+[eco_service] override preload_features_on_create=False
+[eco_service] override warmup_on_create=False
+[eco_service] override warmup_image_sz=96
+[eco_service] override max_image_sample_size=9216
+[eco_service] override min_image_sample_size=6400
+[eco_service] override init_CG_iter=1
+[eco_service] override CG_iter=1
+[eco_service] override sample_memory_size=4
+[eco_service] override train_skipping=80
+[eco_service] 266.112s after overriding params
+[eco_service] 266.112s before wrapper.create_tracker(params)
+[eco_service] 266.112s after wrapper.create_tracker(params)
+[eco_service] 266.113s skipping explicit tracker.initialize_features(); lazy init in tracker.initialize
+[eco_service] 266.113s before tracker.initialize(frame_rgb, {'init_bbox': ...})
+[eco_service] 272.306s after tracker.initialize(...)
+INIT bbox=[128, 74, 297, 401] score=1.0
+[eco_service] 272.357s before send response
+[eco_service] 272.357s after send response
+Request type received: 0x02
+[eco_service] 272.869s received UPDATE metadata frame=640x480
+[eco_service] 272.871s read UPDATE frame bytes complete
+[eco_service] 272.992s converted UPDATE frame
+[eco_service] 272.992s before tracker.track(...)
+[eco_service] 273.057s after tracker.track(...)
+UPDATE bbox=[128.0, 73.99998474121094, 297.0, 401.0000305175781] score=0.4436539113521576
+[eco_service] 273.057s before sending response
+[eco_service] 273.057s after sending response
+Request type received: 0x02
+[eco_service] 273.211s received UPDATE metadata frame=640x480
+[eco_service] 273.212s read UPDATE frame bytes complete
+[eco_service] 273.213s converted UPDATE frame
+[eco_service] 273.213s before tracker.track(...)
+[eco_service] 273.268s after tracker.track(...)
+UPDATE bbox=[128.0, 73.99998474121094, 297.0, 401.0000305175781] score=0.44409871101379395
+[eco_service] 273.268s before sending response
+[eco_service] 273.268s after sending response
+Request type received: 0x02
+[eco_service] 273.278s received UPDATE metadata frame=640x480
+[eco_service] 273.280s read UPDATE frame bytes complete
+[eco_service] 273.283s converted UPDATE frame
+[eco_service] 273.283s before tracker.track(...)
+[eco_service] 273.320s after tracker.track(...)
+UPDATE bbox=[128.0, 73.99998474121094, 297.0, 401.0000305175781] score=0.44351354241371155
+[eco_service] 273.320s before sending response
+[eco_service] 273.321s after sending response
+Request type received: 0x02
+[eco_service] 273.329s received UPDATE metadata frame=640x480
+[eco_service] 273.330s read UPDATE frame bytes complete
+[eco_service] 273.332s converted UPDATE frame
+[eco_service] 273.332s before tracker.track(...)
+[eco_service] 273.373s after tracker.track(...)
+UPDATE bbox=[128.0, 73.99998474121094, 297.0, 401.0000305175781] score=0.44413161277770996
+[eco_service] 273.374s before sending response
+[eco_service] 273.374s after sending response
+Request type received: 0x02
+[eco_service] 273.379s received UPDATE metadata frame=640x480
+[eco_service] 273.381s read UPDATE frame bytes complete
+[eco_service] 273.382s converted UPDATE frame
+[eco_service] 273.382s before tracker.track(...)
+[eco_service] 273.438s after tracker.track(...)
+UPDATE bbox=[128.0, 73.99998474121094, 297.0, 401.0000305175781] score=0.44642016291618347
+[eco_service] 273.438s before sending response
+[eco_service] 273.438s after sending response
+Request type received: 0x02
+[eco_service] 273.447s received UPDATE metadata frame=640x480
+[eco_service] 273.449s read UPDATE frame bytes complete
+[eco_service] 273.449s converted UPDATE frame
+[eco_service] 273.449s before tracker.track(...)
+[eco_service] 273.500s after tracker.track(...)
+UPDATE bbox=[128.0, 73.99998474121094, 297.0, 401.0000305175781] score=0.4436541795730591
+[eco_service] 273.501s before sending response
+[eco_service] 273.501s after sending response
+Request type received: 0x02
+[eco_service] 273.556s received UPDATE metadata frame=640x480
+[eco_service] 273.558s read UPDATE frame bytes complete
+[eco_service] 273.566s converted UPDATE frame
+[eco_service] 273.566s before tracker.track(...)
+[eco_service] 273.618s after tracker.track(...)
+UPDATE bbox=[128.0, 73.99998474121094, 297.0, 401.0000305175781] score=0.44258514046669006
+[eco_service] 273.618s before sending response
+[eco_service] 273.624s after sending response
+Request type received: 0x02
+[eco_service] 273.639s received UPDATE metadata frame=640x480
+[eco_service] 273.640s read UPDATE frame bytes complete
+[eco_service] 273.641s converted UPDATE frame
+[eco_service] 273.641s before tracker.track(...)
+[eco_service] 273.686s after tracker.track(...)
+UPDATE bbox=[128.0, 73.99998474121094, 297.0, 401.0000305175781] score=0.44212159514427185
+[eco_service] 273.686s before sending response
+[eco_service] 273.686s after sending response
+Request type received: 0x02
+[eco_service] 273.710s received UPDATE metadata frame=640x480
+[eco_service] 273.712s read UPDATE frame bytes complete
+[eco_service] 273.714s converted UPDATE frame
+[eco_service] 273.714s before tracker.track(...)
+[eco_service] 273.769s after tracker.track(...)
+UPDATE bbox=[128.0, 73.99998474121094, 297.0, 401.0000305175781] score=0.43901634216308594
+[eco_service] 273.769s before sending response
+[eco_service] 273.770s after sending response
+Request type received: 0x02
+[eco_service] 273.780s received UPDATE metadata frame=640x480
+[eco_service] 273.786s read UPDATE frame bytes complete
+[eco_service] 273.786s converted UPDATE frame
+[eco_service] 273.787s before tracker.track(...)
+[eco_service] 273.840s after tracker.track(...)
+UPDATE bbox=[128.0, 73.99998474121094, 297.0, 401.0000305175781] score=0.4397394061088562
+[eco_service] 273.840s before sending response
+[eco_service] 273.841s after sending response
+Request type received: 0x02
+[eco_service] 273.857s received UPDATE metadata frame=640x480
+[eco_service] 273.858s read UPDATE frame bytes complete
+[eco_service] 273.859s converted UPDATE frame
+[eco_service] 273.859s before tracker.track(...)
+[eco_service] 273.907s after tracker.track(...)
+UPDATE bbox=[128.0, 73.99998474121094, 297.0, 401.0000305175781] score=0.44624167680740356
+[eco_service] 273.908s before sending response
+[eco_service] 273.908s after sending response
+Request type received: 0x02
+[eco_service] 273.927s received UPDATE metadata frame=640x480
+[eco_service] 273.930s read UPDATE frame bytes complete
+[eco_service] 273.931s converted UPDATE frame
+[eco_service] 273.931s before tracker.track(...)
+[eco_service] 273.986s after tracker.track(...)
+UPDATE bbox=[128.0, 73.99998474121094, 297.0, 401.0000305175781] score=0.4459119439125061
+[eco_service] 273.987s before sending response
+[eco_service] 273.987s after sending response
+Request type received: 0x02
+[eco_service] 273.995s received UPDATE metadata frame=640x480
+[eco_service] 273.996s read UPDATE frame bytes complete
+[eco_service] 273.999s converted UPDATE frame
+[eco_service] 273.999s before tracker.track(...)
+[eco_service] 274.053s after tracker.track(...)
+UPDATE bbox=[128.0, 73.99998474121094, 297.0, 401.0000305175781] score=0.4562188684940338
+[eco_service] 274.053s before sending response
+[eco_service] 274.053s after sending response
+Request type received: 0x02
+[eco_service] 274.104s received UPDATE metadata frame=640x480
+[eco_service] 274.105s read UPDATE frame bytes complete
+[eco_service] 274.106s converted UPDATE frame
+[eco_service] 274.106s before tracker.track(...)
+[eco_service] 274.165s after tracker.track(...)
+UPDATE bbox=[128.0, 73.99998474121094, 297.0, 401.0000305175781] score=0.4526132643222809
+[eco_service] 274.165s before sending response
+[eco_service] 274.166s after sending response
+Request type received: 0x02
+[eco_service] 274.183s received UPDATE metadata frame=640x480
+[eco_service] 274.185s read UPDATE frame bytes complete
+[eco_service] 274.186s converted UPDATE frame
+[eco_service] 274.186s before tracker.track(...)
+[eco_service] 274.232s after tracker.track(...)
+UPDATE bbox=[128.0, 73.99998474121094, 297.0, 401.0000305175781] score=0.45323705673217773
+[eco_service] 274.232s before sending response
+[eco_service] 274.232s after sending response
+Request type received: 0x02
+[eco_service] 274.241s received UPDATE metadata frame=640x480
+[eco_service] 274.243s read UPDATE frame bytes complete
+[eco_service] 274.244s converted UPDATE frame
+[eco_service] 274.244s before tracker.track(...)
+[eco_service] 274.310s after tracker.track(...)
+UPDATE bbox=[128.0, 73.99998474121094, 297.0, 401.0000305175781] score=0.4501952528953552
+[eco_service] 274.310s before sending response
+[eco_service] 274.310s after sending response
+Request type received: 0x02
+[eco_service] 274.329s received UPDATE metadata frame=640x480
+[eco_service] 274.330s read UPDATE frame bytes complete
+[eco_service] 274.332s converted UPDATE frame
+[eco_service] 274.332s before tracker.track(...)
+[eco_service] 274.382s after tracker.track(...)
+UPDATE bbox=[128.0, 73.99998474121094, 297.0, 401.0000305175781] score=0.45589181780815125
+[eco_service] 274.383s before sending response
+[eco_service] 274.383s after sending response
+Request type received: 0x02
+[eco_service] 274.390s received UPDATE metadata frame=640x480
+[eco_service] 274.391s read UPDATE frame bytes complete
+[eco_service] 274.392s converted UPDATE frame
+[eco_service] 274.392s before tracker.track(...)
+[eco_service] 274.457s after tracker.track(...)
+UPDATE bbox=[128.0, 73.99998474121094, 297.0, 401.0000305175781] score=0.4545513689517975
+[eco_service] 274.457s before sending response
+[eco_service] 274.457s after sending response
+Request type received: 0x02
+[eco_service] 274.487s received UPDATE metadata frame=640x480
+[eco_service] 274.492s read UPDATE frame bytes complete
+[eco_service] 274.493s converted UPDATE frame
+[eco_service] 274.493s before tracker.track(...)
+[eco_service] 274.541s after tracker.track(...)
+UPDATE bbox=[128.0, 73.99998474121094, 297.0, 401.0000305175781] score=0.44286900758743286
+[eco_service] 274.541s before sending response
+[eco_service] 274.541s after sending response
+Request type received: 0x02
+[eco_service] 274.559s received UPDATE metadata frame=640x480
+[eco_service] 274.560s read UPDATE frame bytes complete
+[eco_service] 274.563s converted UPDATE frame
+[eco_service] 274.563s before tracker.track(...)
+[eco_service] 274.610s after tracker.track(...)
+UPDATE bbox=[128.0, 73.99998474121094, 297.0, 401.0000305175781] score=0.4494481682777405
+[eco_service] 274.610s before sending response
+[eco_service] 274.610s after sending response
+Request type received: 0x01
+[eco_service] 274.682s request type INIT received
+[eco_service] 274.682s before parse INIT metadata
+[eco_service] 274.682s after metadata parsed frame=640x480 bbox=[109, 79, 330, 400]
+[eco_service] 274.682s before read frame bytes
+[eco_service] 274.683s after frame bytes read
+[eco_service] 274.683s before BGR to RGB
+[eco_service] 274.684s after BGR to RGB done
+[eco_service] 274.685s before bbox validation
+[eco_service] 274.685s after bbox validation done
+[eco_service] 274.685s before Tracker(eco, verified_otb936_run_update)
+[eco_service] 274.799s after Tracker(...)
+[eco_service] 274.799s before wrapper.get_parameters()
+[eco_service] 274.800s after wrapper.get_parameters()
+[eco_service] override debug=0
+[eco_service] override visualization=False
+[eco_service] override preload_features_on_create=False
+[eco_service] override warmup_on_create=False
+[eco_service] override warmup_image_sz=96
+[eco_service] override max_image_sample_size=9216
+[eco_service] override min_image_sample_size=6400
+[eco_service] override init_CG_iter=1
+[eco_service] override CG_iter=1
+[eco_service] override sample_memory_size=4
+[eco_service] override train_skipping=80
+[eco_service] 274.800s after overriding params
+[eco_service] 274.800s before wrapper.create_tracker(params)
+[eco_service] 274.800s after wrapper.create_tracker(params)
+[eco_service] 274.800s skipping explicit tracker.initialize_features(); lazy init in tracker.initialize
+[eco_service] 274.801s before tracker.initialize(frame_rgb, {'init_bbox': ...})
+[eco_service] 275.895s after tracker.initialize(...)
+INIT bbox=[109, 79, 330, 400] score=1.0
+[eco_service] 275.895s before send response
+[eco_service] 275.895s after send response
+Request type received: 0x02
+[eco_service] 275.911s received UPDATE metadata frame=640x480
+[eco_service] 275.912s read UPDATE frame bytes complete
+[eco_service] 275.912s converted UPDATE frame
+[eco_service] 275.912s before tracker.track(...)
+[eco_service] 275.965s after tracker.track(...)
+UPDATE bbox=[133.72119140625, 66.38941955566406, 330.0, 399.9999694824219] score=0.3227914571762085
+[eco_service] 276.057s before sending response
+[eco_service] 276.057s after sending response
+Request type received: 0x02
+[eco_service] 276.142s received UPDATE metadata frame=640x480
+[eco_service] 276.144s read UPDATE frame bytes complete
+[eco_service] 276.145s converted UPDATE frame
+[eco_service] 276.145s before tracker.track(...)
+[eco_service] 276.229s after tracker.track(...)
+UPDATE bbox=[181.94241333007812, 66.50001525878906, 330.0, 399.9999694824219] score=0.2845478653907776
+[eco_service] 276.230s before sending response
+[eco_service] 276.230s after sending response
+Request type received: 0x02
+[eco_service] 276.239s received UPDATE metadata frame=640x480
+[eco_service] 276.240s read UPDATE frame bytes complete
+[eco_service] 276.241s converted UPDATE frame
+[eco_service] 276.242s before tracker.track(...)
+[eco_service] 276.308s after tracker.track(...)
+UPDATE bbox=[217.831787109375, 66.50001525878906, 330.0, 399.9999694824219] score=0.2852502763271332
+[eco_service] 276.309s before sending response
+[eco_service] 276.309s after sending response
+Request type received: 0x02
+[eco_service] 276.315s received UPDATE metadata frame=640x480
+[eco_service] 276.316s read UPDATE frame bytes complete
+[eco_service] 276.318s converted UPDATE frame
+[eco_service] 276.318s before tracker.track(...)
+[eco_service] 276.365s after tracker.track(...)
+UPDATE bbox=[217.5, 66.50001525878906, 330.0, 399.9999694824219] score=0.28408265113830566
+[eco_service] 276.365s before sending response
+[eco_service] 276.366s after sending response
+Request type received: 0x02
+[eco_service] 276.376s received UPDATE metadata frame=640x480
+[eco_service] 276.377s read UPDATE frame bytes complete
+[eco_service] 276.380s converted UPDATE frame
+[eco_service] 276.380s before tracker.track(...)
+[eco_service] 276.429s after tracker.track(...)
+UPDATE bbox=[217.5, 66.50001525878906, 330.0, 399.9999694824219] score=0.28421783447265625
+[eco_service] 276.429s before sending response
+[eco_service] 276.430s after sending response
+Request type received: 0x02
+[eco_service] 276.444s received UPDATE metadata frame=640x480
+[eco_service] 276.445s read UPDATE frame bytes complete
+[eco_service] 276.449s converted UPDATE frame
+[eco_service] 276.449s before tracker.track(...)
+[eco_service] 276.499s after tracker.track(...)
+UPDATE bbox=[217.5, 66.50001525878906, 330.0, 399.9999694824219] score=0.28246626257896423
+[eco_service] 276.503s before sending response
+[eco_service] 276.504s after sending response
+Request type received: 0x02
+[eco_service] 276.585s received UPDATE metadata frame=640x480
+[eco_service] 276.586s read UPDATE frame bytes complete
+[eco_service] 276.586s converted UPDATE frame
+[eco_service] 276.586s before tracker.track(...)
+[eco_service] 276.652s after tracker.track(...)
+UPDATE bbox=[217.5, 66.50001525878906, 330.0, 399.9999694824219] score=0.30246400833129883
+[eco_service] 276.653s before sending response
+[eco_service] 276.653s after sending response
+Request type received: 0x02
+[eco_service] 276.663s received UPDATE metadata frame=640x480
+[eco_service] 276.664s read UPDATE frame bytes complete
+[eco_service] 276.665s converted UPDATE frame
+[eco_service] 276.665s before tracker.track(...)
+[eco_service] 276.718s after tracker.track(...)
+UPDATE bbox=[205.389404296875, 66.50001525878906, 330.0, 399.9999694824219] score=0.29581180214881897
+[eco_service] 276.718s before sending response
+[eco_service] 276.718s after sending response
+Request type received: 0x02
+[eco_service] 276.739s received UPDATE metadata frame=640x480
+[eco_service] 276.740s read UPDATE frame bytes complete
+[eco_service] 276.740s converted UPDATE frame
+[eco_service] 276.741s before tracker.track(...)
+[eco_service] 276.782s after tracker.track(...)
+UPDATE bbox=[205.5, 66.50001525878906, 330.0, 399.9999694824219] score=0.3083868622779846
+[eco_service] 276.782s before sending response
+[eco_service] 276.782s after sending response
+Request type received: 0x02
+[eco_service] 276.791s received UPDATE metadata frame=640x480
+[eco_service] 276.793s read UPDATE frame bytes complete
+[eco_service] 276.794s converted UPDATE frame
+[eco_service] 276.794s before tracker.track(...)
+[eco_service] 276.844s after tracker.track(...)
+UPDATE bbox=[193.389404296875, 66.50001525878906, 330.0, 399.9999694824219] score=0.3071095049381256
+[eco_service] 276.844s before sending response
+[eco_service] 276.845s after sending response
+Request type received: 0x02
+[eco_service] 276.856s received UPDATE metadata frame=640x480
+[eco_service] 276.857s read UPDATE frame bytes complete
+[eco_service] 276.858s converted UPDATE frame
+[eco_service] 276.858s before tracker.track(...)
+[eco_service] 276.916s after tracker.track(...)
+UPDATE bbox=[193.5, 66.50001525878906, 330.0, 399.9999694824219] score=0.315649151802063
+[eco_service] 276.916s before sending response
+[eco_service] 276.917s after sending response
+Request type received: 0x02
+[eco_service] 276.940s received UPDATE metadata frame=640x480
+[eco_service] 276.942s read UPDATE frame bytes complete
+[eco_service] 276.943s converted UPDATE frame
+[eco_service] 276.943s before tracker.track(...)
+[eco_service] 277.002s after tracker.track(...)
+UPDATE bbox=[181.389404296875, 66.50001525878906, 330.0, 399.9999694824219] score=0.30327752232551575
+[eco_service] 277.002s before sending response
+[eco_service] 277.003s after sending response
+Request type received: 0x02
+[eco_service] 277.064s received UPDATE metadata frame=640x480
+[eco_service] 277.067s read UPDATE frame bytes complete
+[eco_service] 277.068s converted UPDATE frame
+[eco_service] 277.068s before tracker.track(...)
+[eco_service] 277.182s after tracker.track(...)
+UPDATE bbox=[169.389404296875, 66.50001525878906, 330.0, 399.9999694824219] score=0.3120405673980713
+[eco_service] 277.182s before sending response
+[eco_service] 277.182s after sending response
+Request type received: 0x02
+[eco_service] 277.195s received UPDATE metadata frame=640x480
+[eco_service] 277.197s read UPDATE frame bytes complete
+[eco_service] 277.197s converted UPDATE frame
+[eco_service] 277.197s before tracker.track(...)
+[eco_service] 277.258s after tracker.track(...)
+UPDATE bbox=[169.5, 78.61061096191406, 330.0, 399.9999694824219] score=0.3082575500011444
+[eco_service] 277.258s before sending response
+[eco_service] 277.258s after sending response
+Request type received: 0x02
+[eco_service] 277.265s received UPDATE metadata frame=640x480
+[eco_service] 277.266s read UPDATE frame bytes complete
+[eco_service] 277.270s converted UPDATE frame
+[eco_service] 277.271s before tracker.track(...)
+[eco_service] 277.342s after tracker.track(...)
+UPDATE bbox=[157.389404296875, 78.50001525878906, 330.0, 399.9999694824219] score=0.30750572681427
+[eco_service] 277.342s before sending response
+[eco_service] 277.343s after sending response
+Request type received: 0x02
+[eco_service] 277.501s received UPDATE metadata frame=640x480
+[eco_service] 277.503s read UPDATE frame bytes complete
+[eco_service] 277.503s converted UPDATE frame
+[eco_service] 277.503s before tracker.track(...)
+[eco_service] 277.546s after tracker.track(...)
+UPDATE bbox=[157.5, 78.50001525878906, 330.0, 399.9999694824219] score=0.3265640437602997
+[eco_service] 277.547s before sending response
+[eco_service] 277.547s after sending response
+Request type received: 0x02
+[eco_service] 277.564s received UPDATE metadata frame=640x480
+[eco_service] 277.565s read UPDATE frame bytes complete
+[eco_service] 277.567s converted UPDATE frame
+[eco_service] 277.567s before tracker.track(...)
+[eco_service] 277.636s after tracker.track(...)
+UPDATE bbox=[145.389404296875, 78.50001525878906, 330.0, 399.9999694824219] score=0.3337133824825287
+[eco_service] 277.636s before sending response
+[eco_service] 277.636s after sending response
+Request type received: 0x02
+[eco_service] 277.660s received UPDATE metadata frame=640x480
+[eco_service] 277.671s read UPDATE frame bytes complete
+[eco_service] 277.672s converted UPDATE frame
+[eco_service] 277.672s before tracker.track(...)
+[eco_service] 277.721s after tracker.track(...)
+UPDATE bbox=[145.5, 78.50001525878906, 330.0, 399.9999694824219] score=0.3319779634475708
+[eco_service] 277.722s before sending response
+[eco_service] 277.722s after sending response
+Request type received: 0x02
+[eco_service] 277.734s received UPDATE metadata frame=640x480
+[eco_service] 277.736s read UPDATE frame bytes complete
+[eco_service] 277.738s converted UPDATE frame
+[eco_service] 277.738s before tracker.track(...)
+[eco_service] 277.786s after tracker.track(...)
+UPDATE bbox=[145.5, 78.50001525878906, 330.0, 399.9999694824219] score=0.3276389539241791
+[eco_service] 277.787s before sending response
+[eco_service] 277.787s after sending response
+Request type received: 0x01
+[eco_service] 277.841s request type INIT received
+[eco_service] 277.841s before parse INIT metadata
+[eco_service] 277.842s after metadata parsed frame=640x480 bbox=[179, 88, 258, 385]
+[eco_service] 277.842s before read frame bytes
+[eco_service] 277.844s after frame bytes read
+[eco_service] 277.844s before BGR to RGB
+[eco_service] 277.844s after BGR to RGB done
+[eco_service] 277.845s before bbox validation
+[eco_service] 277.845s after bbox validation done
+[eco_service] 277.845s before Tracker(eco, verified_otb936_run_update)
+[eco_service] 277.987s after Tracker(...)
+[eco_service] 277.987s before wrapper.get_parameters()
+[eco_service] 278.539s after wrapper.get_parameters()
+[eco_service] override debug=0
+[eco_service] override visualization=False
+[eco_service] override preload_features_on_create=False
+[eco_service] override warmup_on_create=False
+[eco_service] override warmup_image_sz=96
+[eco_service] override max_image_sample_size=9216
+[eco_service] override min_image_sample_size=6400
+[eco_service] override init_CG_iter=1
+[eco_service] override CG_iter=1
+[eco_service] override sample_memory_size=4
+[eco_service] override train_skipping=80
+[eco_service] 278.540s after overriding params
+[eco_service] 278.540s before wrapper.create_tracker(params)
+[eco_service] 278.540s after wrapper.create_tracker(params)
+[eco_service] 278.540s skipping explicit tracker.initialize_features(); lazy init in tracker.initialize
+[eco_service] 278.540s before tracker.initialize(frame_rgb, {'init_bbox': ...})
+[eco_service] 313.407s after tracker.initialize(...)
+INIT bbox=[179, 88, 258, 385] score=1.0
+[eco_service] 313.477s before send response
+[eco_service] 313.478s after send response
+Request type received: 0x02
+[eco_service] 314.476s received UPDATE metadata frame=640x480
+[eco_service] 314.566s read UPDATE frame bytes complete
+[eco_service] 315.586s converted UPDATE frame
+[eco_service] 315.587s before tracker.track(...)
+[eco_service] 327.428s after tracker.track(...)
+UPDATE bbox=[200.5111083984375, 98.50555419921875, 258.0, 385.0] score=0.3465132415294647
+[eco_service] 327.453s before sending response
+[eco_service] 327.454s after sending response
+Request type received: 0x01
+[eco_service] 332.747s request type INIT received
+[eco_service] 332.759s before parse INIT metadata
+[eco_service] 332.759s after metadata parsed frame=640x480 bbox=[281, 4, 202, 475]
+[eco_service] 332.759s before read frame bytes
+[eco_service] 332.844s after frame bytes read
+[eco_service] 332.844s before BGR to RGB
+[eco_service] 333.266s after BGR to RGB done
+[eco_service] 333.266s before bbox validation
+[eco_service] 333.266s after bbox validation done
+[eco_service] 333.321s before Tracker(eco, verified_otb936_run_update)
+[eco_service] 333.366s after Tracker(...)
+[eco_service] 333.366s before wrapper.get_parameters()
+[eco_service] 333.758s after wrapper.get_parameters()
+[eco_service] override debug=0
+[eco_service] override visualization=False
+[eco_service] override preload_features_on_create=False
+[eco_service] override warmup_on_create=False
+[eco_service] override warmup_image_sz=96
+[eco_service] override max_image_sample_size=9216
+[eco_service] override min_image_sample_size=6400
+[eco_service] override init_CG_iter=1
+[eco_service] override CG_iter=1
+[eco_service] override sample_memory_size=4
+[eco_service] override train_skipping=80
+[eco_service] 333.759s after overriding params
+[eco_service] 333.759s before wrapper.create_tracker(params)
+[eco_service] 333.759s after wrapper.create_tracker(params)
+[eco_service] 333.759s skipping explicit tracker.initialize_features(); lazy init in tracker.initialize
+[eco_service] 333.922s before tracker.initialize(frame_rgb, {'init_bbox': ...})
+[eco_service] 357.126s after tracker.initialize(...)
+INIT bbox=[281, 4, 202, 475] score=1.0
+[eco_service] 357.147s before send response
+[eco_service] 357.147s after send response
+Request type received: 0x02
+[eco_service] 357.241s received UPDATE metadata frame=640x480
+[eco_service] 357.272s read UPDATE frame bytes complete
+[eco_service] 357.943s converted UPDATE frame
+[eco_service] 357.943s before tracker.track(...)
+[eco_service] 359.768s after tracker.track(...)
+UPDATE bbox=[281.5, 4.0, 202.0, 475.0] score=0.4599546194076538
+[eco_service] 359.802s before sending response
+[eco_service] 359.803s after sending response
+Request type received: 0x02
+[eco_service] 360.288s received UPDATE metadata frame=640x480
+[eco_service] 360.290s read UPDATE frame bytes complete
+[eco_service] 360.290s converted UPDATE frame
+[eco_service] 360.291s before tracker.track(...)
+[eco_service] 360.346s after tracker.track(...)
+UPDATE bbox=[271.17474365234375, 4.0, 202.0, 475.0] score=0.34676381945610046
+[eco_service] 360.346s before sending response
+[eco_service] 360.346s after sending response
+Request type received: 0x02
+[eco_service] 360.613s received UPDATE metadata frame=640x480
+[eco_service] 360.614s read UPDATE frame bytes complete
+[eco_service] 360.615s converted UPDATE frame
+[eco_service] 360.615s before tracker.track(...)
+[eco_service] 360.659s after tracker.track(...)
+UPDATE bbox=[271.5, 4.0, 202.0, 475.0] score=0.3424778878688812
+[eco_service] 360.659s before sending response
+[eco_service] 360.659s after sending response
+Request type received: 0x02
+[eco_service] 360.666s received UPDATE metadata frame=640x480
+[eco_service] 360.667s read UPDATE frame bytes complete
+[eco_service] 360.668s converted UPDATE frame
+[eco_service] 360.668s before tracker.track(...)
+[eco_service] 360.709s after tracker.track(...)
+UPDATE bbox=[271.5, 4.0, 202.0, 475.0] score=0.3362959623336792
+[eco_service] 360.709s before sending response
+[eco_service] 360.709s after sending response
+Request type received: 0x02
+[eco_service] 360.715s received UPDATE metadata frame=640x480
+[eco_service] 360.717s read UPDATE frame bytes complete
+[eco_service] 360.717s converted UPDATE frame
+[eco_service] 360.717s before tracker.track(...)
+[eco_service] 360.763s after tracker.track(...)
+UPDATE bbox=[271.5, 4.0, 202.0, 475.0] score=0.3343701958656311
+[eco_service] 360.764s before sending response
+[eco_service] 360.764s after sending response
+Request type received: 0x02
+[eco_service] 361.484s received UPDATE metadata frame=640x480
+[eco_service] 361.487s read UPDATE frame bytes complete
+[eco_service] 361.489s converted UPDATE frame
+[eco_service] 361.489s before tracker.track(...)
+[eco_service] 361.536s after tracker.track(...)
+UPDATE bbox=[271.5, 4.0, 202.0, 475.0] score=0.3367420434951782
+[eco_service] 361.537s before sending response
+[eco_service] 361.537s after sending response
+Request type received: 0x02
+[eco_service] 361.551s received UPDATE metadata frame=640x480
+[eco_service] 361.553s read UPDATE frame bytes complete
+[eco_service] 361.556s converted UPDATE frame
+[eco_service] 361.557s before tracker.track(...)
+[eco_service] 361.609s after tracker.track(...)
+UPDATE bbox=[271.5, 4.0, 202.0, 475.0] score=0.33882826566696167
+[eco_service] 361.610s before sending response
+[eco_service] 361.612s after sending response
+Request type received: 0x02
+[eco_service] 361.620s received UPDATE metadata frame=640x480
+[eco_service] 361.621s read UPDATE frame bytes complete
+[eco_service] 361.623s converted UPDATE frame
+[eco_service] 361.623s before tracker.track(...)
+[eco_service] 361.670s after tracker.track(...)
+UPDATE bbox=[271.5, 4.0, 202.0, 475.0] score=0.33992862701416016
+[eco_service] 361.671s before sending response
+[eco_service] 361.671s after sending response
+Request type received: 0x02
+[eco_service] 361.693s received UPDATE metadata frame=640x480
+[eco_service] 361.695s read UPDATE frame bytes complete
+[eco_service] 361.696s converted UPDATE frame
+[eco_service] 361.696s before tracker.track(...)
+[eco_service] 361.746s after tracker.track(...)
+UPDATE bbox=[271.5, 4.0, 202.0, 475.0] score=0.3375389277935028
+[eco_service] 361.746s before sending response
+[eco_service] 361.746s after sending response
+Request type received: 0x02
+[eco_service] 361.762s received UPDATE metadata frame=640x480
+[eco_service] 361.763s read UPDATE frame bytes complete
+[eco_service] 361.764s converted UPDATE frame
+[eco_service] 361.764s before tracker.track(...)
+[eco_service] 361.821s after tracker.track(...)
+UPDATE bbox=[271.5, 4.0, 202.0, 475.0] score=0.3390369117259979
+[eco_service] 361.821s before sending response
+[eco_service] 361.821s after sending response
+Request type received: 0x02
+[eco_service] 361.829s received UPDATE metadata frame=640x480
+[eco_service] 361.830s read UPDATE frame bytes complete
+[eco_service] 361.831s converted UPDATE frame
+[eco_service] 361.832s before tracker.track(...)
+[eco_service] 361.878s after tracker.track(...)
+UPDATE bbox=[271.5, 4.0, 202.0, 475.0] score=0.33944129943847656
+[eco_service] 361.878s before sending response
+[eco_service] 361.879s after sending response
+Request type received: 0x02
+[eco_service] 361.887s received UPDATE metadata frame=640x480
+[eco_service] 361.889s read UPDATE frame bytes complete
+[eco_service] 361.889s converted UPDATE frame
+[eco_service] 361.889s before tracker.track(...)
+[eco_service] 361.933s after tracker.track(...)
+UPDATE bbox=[271.5, 4.0, 202.0, 475.0] score=0.338254451751709
+[eco_service] 361.933s before sending response
+[eco_service] 361.933s after sending response
+Request type received: 0x02
+[eco_service] 362.029s received UPDATE metadata frame=640x480
+[eco_service] 362.030s read UPDATE frame bytes complete
+[eco_service] 362.032s converted UPDATE frame
+[eco_service] 362.032s before tracker.track(...)
+[eco_service] 362.080s after tracker.track(...)
+UPDATE bbox=[271.5, 4.0, 202.0, 475.0] score=0.33801496028900146
+[eco_service] 362.080s before sending response
+[eco_service] 362.091s after sending response
+Request type received: 0x02
+[eco_service] 362.092s received UPDATE metadata frame=640x480
+[eco_service] 362.096s read UPDATE frame bytes complete
+[eco_service] 362.098s converted UPDATE frame
+[eco_service] 362.098s before tracker.track(...)
+[eco_service] 362.140s after tracker.track(...)
+UPDATE bbox=[271.5, 4.0, 202.0, 475.0] score=0.33594071865081787
+[eco_service] 362.148s before sending response
+[eco_service] 362.149s after sending response
+Request type received: 0x02
+[eco_service] 362.171s received UPDATE metadata frame=640x480
+[eco_service] 362.173s read UPDATE frame bytes complete
+[eco_service] 362.174s converted UPDATE frame
+[eco_service] 362.174s before tracker.track(...)
+[eco_service] 362.225s after tracker.track(...)
+UPDATE bbox=[271.5, 4.0, 202.0, 475.0] score=0.3380587697029114
+[eco_service] 362.225s before sending response
+[eco_service] 362.225s after sending response
+Request type received: 0x02
+[eco_service] 362.235s received UPDATE metadata frame=640x480
+[eco_service] 362.239s read UPDATE frame bytes complete
+[eco_service] 362.240s converted UPDATE frame
+[eco_service] 362.240s before tracker.track(...)
+[eco_service] 362.287s after tracker.track(...)
+UPDATE bbox=[271.5, 4.0, 202.0, 475.0] score=0.3374524712562561
+[eco_service] 362.288s before sending response
+[eco_service] 362.288s after sending response
+Request type received: 0x02
+[eco_service] 362.295s received UPDATE metadata frame=640x480
+[eco_service] 362.296s read UPDATE frame bytes complete
+[eco_service] 362.298s converted UPDATE frame
+[eco_service] 362.298s before tracker.track(...)
+[eco_service] 362.357s after tracker.track(...)
+UPDATE bbox=[271.5, 4.0, 202.0, 475.0] score=0.3375488519668579
+[eco_service] 362.357s before sending response
+[eco_service] 362.358s after sending response
+Request type received: 0x02
+[eco_service] 362.402s received UPDATE metadata frame=640x480
+[eco_service] 362.404s read UPDATE frame bytes complete
+[eco_service] 362.404s converted UPDATE frame
+[eco_service] 362.405s before tracker.track(...)
+[eco_service] 362.481s after tracker.track(...)
+UPDATE bbox=[271.5, 4.0, 202.0, 475.0] score=0.33660608530044556
+[eco_service] 362.481s before sending response
+[eco_service] 362.481s after sending response
+Request type received: 0x02
+[eco_service] 362.495s received UPDATE metadata frame=640x480
+[eco_service] 362.497s read UPDATE frame bytes complete
+[eco_service] 362.498s converted UPDATE frame
+[eco_service] 362.498s before tracker.track(...)
+[eco_service] 362.564s after tracker.track(...)
+UPDATE bbox=[271.5, 4.0, 202.0, 475.0] score=0.33460262417793274
+[eco_service] 362.565s before sending response
+[eco_service] 362.565s after sending response
+Request type received: 0x02
+[eco_service] 362.629s received UPDATE metadata frame=640x480
+[eco_service] 362.631s read UPDATE frame bytes complete
+[eco_service] 362.632s converted UPDATE frame
+[eco_service] 362.632s before tracker.track(...)
+[eco_service] 362.682s after tracker.track(...)
+UPDATE bbox=[271.5, 4.0, 202.0, 475.0] score=0.3376462161540985
+[eco_service] 362.682s before sending response
+[eco_service] 362.682s after sending response
+Request type received: 0x02
+[eco_service] 362.695s received UPDATE metadata frame=640x480
+[eco_service] 362.696s read UPDATE frame bytes complete
+[eco_service] 362.702s converted UPDATE frame
+[eco_service] 362.702s before tracker.track(...)
+[eco_service] 362.759s after tracker.track(...)
+UPDATE bbox=[271.5, 4.0, 202.0, 475.0] score=0.3417315185070038
+[eco_service] 362.759s before sending response
+[eco_service] 362.759s after sending response
+Request type received: 0x02
+[eco_service] 362.766s received UPDATE metadata frame=640x480
+[eco_service] 362.770s read UPDATE frame bytes complete
+[eco_service] 362.771s converted UPDATE frame
+[eco_service] 362.771s before tracker.track(...)
+[eco_service] 362.842s after tracker.track(...)
+UPDATE bbox=[271.5, 4.0, 202.0, 475.0] score=0.3426204025745392
+[eco_service] 362.842s before sending response
+[eco_service] 362.842s after sending response
+Request type received: 0x02
+[eco_service] 362.867s received UPDATE metadata frame=640x480
+[eco_service] 362.868s read UPDATE frame bytes complete
+[eco_service] 362.871s converted UPDATE frame
+[eco_service] 362.873s before tracker.track(...)
+[eco_service] 362.934s after tracker.track(...)
+UPDATE bbox=[271.5, 4.0, 202.0, 475.0] score=0.3420935273170471
+[eco_service] 362.934s before sending response
+[eco_service] 362.934s after sending response
+Request type received: 0x02
+[eco_service] 362.957s received UPDATE metadata frame=640x480
+[eco_service] 362.959s read UPDATE frame bytes complete
+[eco_service] 362.959s converted UPDATE frame
+[eco_service] 362.959s before tracker.track(...)
+[eco_service] 363.006s after tracker.track(...)
+UPDATE bbox=[271.5, 4.0, 202.0, 475.0] score=0.3432792127132416
+[eco_service] 363.006s before sending response
+[eco_service] 363.006s after sending response
+Request type received: 0x02
+[eco_service] 363.031s received UPDATE metadata frame=640x480
+[eco_service] 363.032s read UPDATE frame bytes complete
+[eco_service] 363.043s converted UPDATE frame
+[eco_service] 363.043s before tracker.track(...)
+[eco_service] 363.093s after tracker.track(...)
+UPDATE bbox=[271.5, 4.0, 202.0, 475.0] score=0.34337151050567627
+[eco_service] 363.093s before sending response
+[eco_service] 363.093s after sending response
+Request type received: 0x02
+[eco_service] 363.103s received UPDATE metadata frame=640x480
+[eco_service] 363.104s read UPDATE frame bytes complete
+[eco_service] 363.105s converted UPDATE frame
+[eco_service] 363.105s before tracker.track(...)
+[eco_service] 363.157s after tracker.track(...)
+UPDATE bbox=[271.5, 4.0, 202.0, 475.0] score=0.3436821699142456
+[eco_service] 363.157s before sending response
+[eco_service] 363.157s after sending response
+Request type received: 0x02
+[eco_service] 363.248s received UPDATE metadata frame=640x480
+[eco_service] 363.249s read UPDATE frame bytes complete
+[eco_service] 363.250s converted UPDATE frame
+[eco_service] 363.250s before tracker.track(...)
+[eco_service] 363.298s after tracker.track(...)
+UPDATE bbox=[271.5, 4.0, 202.0, 475.0] score=0.3435784876346588
+[eco_service] 363.298s before sending response
+[eco_service] 363.298s after sending response
+Request type received: 0x02
+[eco_service] 363.312s received UPDATE metadata frame=640x480
+[eco_service] 363.313s read UPDATE frame bytes complete
+[eco_service] 363.314s converted UPDATE frame
+[eco_service] 363.314s before tracker.track(...)
+[eco_service] 363.361s after tracker.track(...)
+UPDATE bbox=[271.5, 4.0, 202.0, 475.0] score=0.33858031034469604
+[eco_service] 363.361s before sending response
+[eco_service] 363.361s after sending response
+Request type received: 0x02
+[eco_service] 363.368s received UPDATE metadata frame=640x480
+[eco_service] 363.369s read UPDATE frame bytes complete
+[eco_service] 363.370s converted UPDATE frame
+[eco_service] 363.370s before tracker.track(...)
+[eco_service] 363.424s after tracker.track(...)
+UPDATE bbox=[271.5, 4.0, 202.0, 475.0] score=0.33520495891571045
+[eco_service] 363.424s before sending response
+[eco_service] 363.425s after sending response
+Request type received: 0x02
+[eco_service] 363.432s received UPDATE metadata frame=640x480
+[eco_service] 363.433s read UPDATE frame bytes complete
+[eco_service] 363.435s converted UPDATE frame
+[eco_service] 363.435s before tracker.track(...)
+[eco_service] 363.478s after tracker.track(...)
+UPDATE bbox=[271.5, 4.0, 202.0, 475.0] score=0.344432532787323
+[eco_service] 363.478s before sending response
+[eco_service] 363.479s after sending response
+Request type received: 0x02
+[eco_service] 363.486s received UPDATE metadata frame=640x480
+[eco_service] 363.488s read UPDATE frame bytes complete
+[eco_service] 363.489s converted UPDATE frame
+[eco_service] 363.489s before tracker.track(...)
+[eco_service] 363.546s after tracker.track(...)
+UPDATE bbox=[271.5, 4.0, 202.0, 475.0] score=0.34370240569114685
+[eco_service] 363.547s before sending response
+[eco_service] 363.547s after sending response
+Request type received: 0x02
+[eco_service] 363.555s received UPDATE metadata frame=640x480
+[eco_service] 363.556s read UPDATE frame bytes complete
+[eco_service] 363.557s converted UPDATE frame
+[eco_service] 363.557s before tracker.track(...)
+[eco_service] 363.610s after tracker.track(...)
+UPDATE bbox=[271.5, -6.3252716064453125, 202.0, 475.0] score=0.3392321765422821
+[eco_service] 363.611s before sending response
+[eco_service] 363.623s after sending response
+Request type received: 0x01
+[eco_service] 374.736s request type INIT received
+[eco_service] 374.737s before parse INIT metadata
+[eco_service] 374.737s after metadata parsed frame=640x480 bbox=[308, 0, 213, 475]
+[eco_service] 374.737s before read frame bytes
+[eco_service] 374.738s after frame bytes read
+[eco_service] 374.739s before BGR to RGB
+[eco_service] 374.740s after BGR to RGB done
+[eco_service] 374.741s before bbox validation
+[eco_service] 374.741s after bbox validation done
+[eco_service] 375.049s before Tracker(eco, verified_otb936_run_update)
+[eco_service] 375.075s after Tracker(...)
+[eco_service] 375.075s before wrapper.get_parameters()
+[eco_service] 375.367s after wrapper.get_parameters()
+[eco_service] override debug=0
+[eco_service] override visualization=False
+[eco_service] override preload_features_on_create=False
+[eco_service] override warmup_on_create=False
+[eco_service] override warmup_image_sz=96
+[eco_service] override max_image_sample_size=9216
+[eco_service] override min_image_sample_size=6400
+[eco_service] override init_CG_iter=1
+[eco_service] override CG_iter=1
+[eco_service] override sample_memory_size=4
+[eco_service] override train_skipping=80
+[eco_service] 375.368s after overriding params
+[eco_service] 375.368s before wrapper.create_tracker(params)
+[eco_service] 375.368s after wrapper.create_tracker(params)
+[eco_service] 375.368s skipping explicit tracker.initialize_features(); lazy init in tracker.initialize
+[eco_service] 375.369s before tracker.initialize(frame_rgb, {'init_bbox': ...})
+[eco_service] 399.289s after tracker.initialize(...)
+INIT bbox=[308, 0, 213, 475] score=1.0
+[eco_service] 399.762s before send response
+Client disconnected during request: [Errno 32] Broken pipe
+Client disconnected.
