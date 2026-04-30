@@ -1,0 +1,9 @@
+torch cuda: True
+before construct ResNet18m1TensorRT 0.01416635513305664
+after construct 0.027402639389038086
+before features.initialize() 0.027486562728881836
+after features.initialize() 30.16569972038269
+before features.extract() 30.501377820968628
+after features.extract() 38.13849902153015
+out 0 (1, 96, 80, 80) torch.float32 cuda:0
+out 1 (1, 256, 10, 10) torch.float32 cuda:0

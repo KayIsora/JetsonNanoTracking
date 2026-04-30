@@ -1,0 +1,85 @@
+&&&& RUNNING TensorRT.trtexec # /usr/src/tensorrt/bin/trtexec --loadEngine=/home/jetson/Desktop/JetsonNanoTracking/pytracking/pretrained_network/resnet18_vggmconv1/resnet18_vggmconv1_otb_dual_large_fp16.engine --shapes=input:1x3x160x160 --iterations=1 --duration=1
+[04/28/2026-03:00:47] [I] === Model Options ===
+[04/28/2026-03:00:47] [I] Format: *
+[04/28/2026-03:00:47] [I] Model: 
+[04/28/2026-03:00:47] [I] Output:
+[04/28/2026-03:00:47] [I] === Build Options ===
+[04/28/2026-03:00:47] [I] Max batch: explicit
+[04/28/2026-03:00:47] [I] Workspace: 16 MB
+[04/28/2026-03:00:47] [I] minTiming: 1
+[04/28/2026-03:00:47] [I] avgTiming: 8
+[04/28/2026-03:00:47] [I] Precision: FP32
+[04/28/2026-03:00:47] [I] Calibration: 
+[04/28/2026-03:00:47] [I] Safe mode: Disabled
+[04/28/2026-03:00:47] [I] Save engine: 
+[04/28/2026-03:00:47] [I] Load engine: /home/jetson/Desktop/JetsonNanoTracking/pytracking/pretrained_network/resnet18_vggmconv1/resnet18_vggmconv1_otb_dual_large_fp16.engine
+[04/28/2026-03:00:47] [I] Builder Cache: Enabled
+[04/28/2026-03:00:47] [I] NVTX verbosity: 0
+[04/28/2026-03:00:47] [I] Inputs format: fp32:CHW
+[04/28/2026-03:00:47] [I] Outputs format: fp32:CHW
+[04/28/2026-03:00:47] [I] Input build shape: input=1x3x160x160+1x3x160x160+1x3x160x160
+[04/28/2026-03:00:47] [I] Input calibration shapes: model
+[04/28/2026-03:00:47] [I] === System Options ===
+[04/28/2026-03:00:47] [I] Device: 0
+[04/28/2026-03:00:47] [I] DLACore: 
+[04/28/2026-03:00:47] [I] Plugins:
+[04/28/2026-03:00:47] [I] === Inference Options ===
+[04/28/2026-03:00:47] [I] Batch: Explicit
+[04/28/2026-03:00:47] [I] Input inference shape: input=1x3x160x160
+[04/28/2026-03:00:47] [I] Iterations: 1
+[04/28/2026-03:00:47] [I] Duration: 1s (+ 200ms warm up)
+[04/28/2026-03:00:47] [I] Sleep time: 0ms
+[04/28/2026-03:00:47] [I] Streams: 1
+[04/28/2026-03:00:47] [I] ExposeDMA: Disabled
+[04/28/2026-03:00:47] [I] Spin-wait: Disabled
+[04/28/2026-03:00:47] [I] Multithreading: Disabled
+[04/28/2026-03:00:47] [I] CUDA Graph: Disabled
+[04/28/2026-03:00:47] [I] Skip inference: Disabled
+[04/28/2026-03:00:47] [I] Inputs:
+[04/28/2026-03:00:47] [I] === Reporting Options ===
+[04/28/2026-03:00:47] [I] Verbose: Disabled
+[04/28/2026-03:00:47] [I] Averages: 10 inferences
+[04/28/2026-03:00:47] [I] Percentile: 99
+[04/28/2026-03:00:47] [I] Dump output: Disabled
+[04/28/2026-03:00:47] [I] Profile: Disabled
+[04/28/2026-03:00:47] [I] Export timing to JSON file: 
+[04/28/2026-03:00:47] [I] Export output to JSON file: 
+[04/28/2026-03:00:47] [I] Export profile to JSON file: 
+[04/28/2026-03:00:47] [I] 
+[04/28/2026-03:01:14] [I] Starting inference threads
+[04/28/2026-03:01:16] [I] Warmup completed 0 queries over 200 ms
+[04/28/2026-03:01:16] [I] Timing trace has 0 queries over 1.01151 s
+[04/28/2026-03:01:16] [I] Trace averages of 10 runs:
+[04/28/2026-03:01:16] [I] Average on 10 runs - GPU latency: 7.10252 ms - Host latency: 7.38994 ms (end to end 7.4108 ms, enqueue 0.673819 ms)
+[04/28/2026-03:01:16] [I] Average on 10 runs - GPU latency: 7.08988 ms - Host latency: 7.37784 ms (end to end 7.39882 ms, enqueue 0.658716 ms)
+[04/28/2026-03:01:16] [I] Average on 10 runs - GPU latency: 7.12966 ms - Host latency: 7.42691 ms (end to end 7.43888 ms, enqueue 0.802533 ms)
+[04/28/2026-03:01:16] [I] Average on 10 runs - GPU latency: 7.0735 ms - Host latency: 7.36098 ms (end to end 7.37065 ms, enqueue 1.28044 ms)
+[04/28/2026-03:01:16] [I] Average on 10 runs - GPU latency: 7.07498 ms - Host latency: 7.3638 ms (end to end 7.37382 ms, enqueue 1.14382 ms)
+[04/28/2026-03:01:16] [I] Average on 10 runs - GPU latency: 7.06476 ms - Host latency: 7.35203 ms (end to end 7.36189 ms, enqueue 1.79098 ms)
+[04/28/2026-03:01:16] [I] Average on 10 runs - GPU latency: 7.05725 ms - Host latency: 7.343 ms (end to end 7.35297 ms, enqueue 1.76451 ms)
+[04/28/2026-03:01:16] [I] Average on 10 runs - GPU latency: 7.07559 ms - Host latency: 7.36155 ms (end to end 7.37146 ms, enqueue 1.39078 ms)
+[04/28/2026-03:01:16] [I] Average on 10 runs - GPU latency: 7.06448 ms - Host latency: 7.35179 ms (end to end 7.36195 ms, enqueue 1.92861 ms)
+[04/28/2026-03:01:16] [I] Average on 10 runs - GPU latency: 7.06707 ms - Host latency: 7.35376 ms (end to end 7.36362 ms, enqueue 1.65621 ms)
+[04/28/2026-03:01:16] [I] Average on 10 runs - GPU latency: 7.07787 ms - Host latency: 7.36744 ms (end to end 7.37726 ms, enqueue 1.40925 ms)
+[04/28/2026-03:01:16] [I] Average on 10 runs - GPU latency: 7.10442 ms - Host latency: 7.40179 ms (end to end 7.41158 ms, enqueue 0.882086 ms)
+[04/28/2026-03:01:16] [I] Average on 10 runs - GPU latency: 7.08517 ms - Host latency: 7.37159 ms (end to end 7.3817 ms, enqueue 0.841638 ms)
+[04/28/2026-03:01:16] [I] Host Latency
+[04/28/2026-03:01:16] [I] min: 7.3172 ms (end to end 7.32867 ms)
+[04/28/2026-03:01:16] [I] max: 7.61063 ms (end to end 7.63208 ms)
+[04/28/2026-03:01:16] [I] mean: 7.37098 ms (end to end 7.38263 ms)
+[04/28/2026-03:01:16] [I] median: 7.3656 ms (end to end 7.37598 ms)
+[04/28/2026-03:01:16] [I] percentile: 7.49011 ms at 99% (end to end 7.49976 ms at 99%)
+[04/28/2026-03:01:16] [I] throughput: 0 qps
+[04/28/2026-03:01:16] [I] walltime: 1.01151 s
+[04/28/2026-03:01:16] [I] Enqueue Time
+[04/28/2026-03:01:16] [I] min: 0.580566 ms
+[04/28/2026-03:01:16] [I] max: 2.85242 ms
+[04/28/2026-03:01:16] [I] median: 1.19153 ms
+[04/28/2026-03:01:16] [I] GPU Compute
+[04/28/2026-03:01:16] [I] min: 7.03619 ms
+[04/28/2026-03:01:16] [I] max: 7.29318 ms
+[04/28/2026-03:01:16] [I] mean: 7.08227 ms
+[04/28/2026-03:01:16] [I] median: 7.07739 ms
+[04/28/2026-03:01:16] [I] percentile: 7.19739 ms at 99%
+[04/28/2026-03:01:16] [I] total compute time: 0.970272 s
+&&&& PASSED TensorRT.trtexec # /usr/src/tensorrt/bin/trtexec --loadEngine=/home/jetson/Desktop/JetsonNanoTracking/pytracking/pretrained_network/resnet18_vggmconv1/resnet18_vggmconv1_otb_dual_large_fp16.engine --shapes=input:1x3x160x160 --iterations=1 --duration=1

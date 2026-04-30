@@ -1,0 +1,23 @@
+before imread 2.86102294921875e-06
+after imread 0.007907390594482422 (158, 171, 3)
+after BGR2RGB 0.03215765953063965
+before Tracker 0.03223824501037598
+after Tracker 0.053118228912353516
+before get_parameters 0.0531919002532959
+after get_parameters 1.373866319656372
+params max_image_sample_size 25600
+params min_image_sample_size 20736
+params init_CG_iter 8
+params sample_memory_size 24
+before create_tracker 1.3743388652801514
+after create_tracker 1.3745002746582031
+before initialize_features 1.3745994567871094
+after initialize_features 46.19797682762146
+before tracker.initialize 46.19940495491028
+/home/jetson/Desktop/JetsonNanoTracking/pytracking/pytracking/features/featurebase.py:78: UserWarning: __floordiv__ is deprecated, and its behavior will change in a future version of pytorch. It currently rounds toward 0 (like the 'trunc' function NOT 'floor'). This results in incorrect rounding for negative values. To keep the current behavior, use torch.div(a, b, rounding_mode='trunc'), or for actual floor division, use torch.div(a, b, rounding_mode='floor').
+  return TensorList([im_sz // s for s in self.stride()])
+/home/jetson/Desktop/JetsonNanoTracking/.venv/lib/python3.6/site-packages/torch/nn/functional.py:3635: UserWarning: Default upsampling behavior when mode=bilinear is changed to align_corners=False since 0.4.0. Please specify align_corners=True if the old behavior is desired. See the documentation of nn.Upsample for details.
+  "See the documentation of nn.Upsample for details.".format(mode)
+after tracker.initialize 239.4306342601776
+output type <class 'NoneType'>
+output None

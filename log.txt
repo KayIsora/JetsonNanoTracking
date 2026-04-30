@@ -1,0 +1,58 @@
+&&&& RUNNING TensorRT.trtexec # /usr/src/tensorrt/bin/trtexec --onnx=/home/jetson/Desktop/JetsonNanoTracking/pytracking/pretrained_network/resnet18_vggmconv1/resnet18_vggmconv1_otb_dyn.onnx --saveEngine=/home/jetson/Desktop/JetsonNanoTracking/pytracking/pretrained_network/resnet18_vggmconv1/resnet18_vggmconv1_otb_dual_large_fp16.engine --explicitBatch --fp16 --workspace=1024 --minShapes=input:1x3x128x128 --optShapes=input:1x3x160x160 --maxShapes=input:5x3x224x224
+[04/28/2026-02:23:30] [I] === Model Options ===
+[04/28/2026-02:23:30] [I] Format: ONNX
+[04/28/2026-02:23:30] [I] Model: /home/jetson/Desktop/JetsonNanoTracking/pytracking/pretrained_network/resnet18_vggmconv1/resnet18_vggmconv1_otb_dyn.onnx
+[04/28/2026-02:23:30] [I] Output:
+[04/28/2026-02:23:30] [I] === Build Options ===
+[04/28/2026-02:23:30] [I] Max batch: explicit
+[04/28/2026-02:23:30] [I] Workspace: 1024 MB
+[04/28/2026-02:23:30] [I] minTiming: 1
+[04/28/2026-02:23:30] [I] avgTiming: 8
+[04/28/2026-02:23:30] [I] Precision: FP32+FP16
+[04/28/2026-02:23:30] [I] Calibration: 
+[04/28/2026-02:23:30] [I] Safe mode: Disabled
+[04/28/2026-02:23:30] [I] Save engine: /home/jetson/Desktop/JetsonNanoTracking/pytracking/pretrained_network/resnet18_vggmconv1/resnet18_vggmconv1_otb_dual_large_fp16.engine
+[04/28/2026-02:23:30] [I] Load engine: 
+[04/28/2026-02:23:30] [I] Builder Cache: Enabled
+[04/28/2026-02:23:30] [I] NVTX verbosity: 0
+[04/28/2026-02:23:30] [I] Inputs format: fp32:CHW
+[04/28/2026-02:23:30] [I] Outputs format: fp32:CHW
+[04/28/2026-02:23:30] [I] Input build shape: input=1x3x128x128+1x3x160x160+5x3x224x224
+[04/28/2026-02:23:30] [I] Input calibration shapes: model
+[04/28/2026-02:23:30] [I] === System Options ===
+[04/28/2026-02:23:30] [I] Device: 0
+[04/28/2026-02:23:30] [I] DLACore: 
+[04/28/2026-02:23:30] [I] Plugins:
+[04/28/2026-02:23:30] [I] === Inference Options ===
+[04/28/2026-02:23:30] [I] Batch: Explicit
+[04/28/2026-02:23:30] [I] Input inference shape: input=1x3x160x160
+[04/28/2026-02:23:30] [I] Iterations: 10
+[04/28/2026-02:23:30] [I] Duration: 3s (+ 200ms warm up)
+[04/28/2026-02:23:30] [I] Sleep time: 0ms
+[04/28/2026-02:23:30] [I] Streams: 1
+[04/28/2026-02:23:30] [I] ExposeDMA: Disabled
+[04/28/2026-02:23:30] [I] Spin-wait: Disabled
+[04/28/2026-02:23:30] [I] Multithreading: Disabled
+[04/28/2026-02:23:30] [I] CUDA Graph: Disabled
+[04/28/2026-02:23:30] [I] Skip inference: Disabled
+[04/28/2026-02:23:30] [I] Inputs:
+[04/28/2026-02:23:30] [I] === Reporting Options ===
+[04/28/2026-02:23:30] [I] Verbose: Disabled
+[04/28/2026-02:23:30] [I] Averages: 10 inferences
+[04/28/2026-02:23:30] [I] Percentile: 99
+[04/28/2026-02:23:30] [I] Dump output: Disabled
+[04/28/2026-02:23:30] [I] Profile: Disabled
+[04/28/2026-02:23:30] [I] Export timing to JSON file: 
+[04/28/2026-02:23:30] [I] Export output to JSON file: 
+[04/28/2026-02:23:30] [I] Export profile to JSON file: 
+[04/28/2026-02:23:30] [I] 
+----------------------------------------------------------------
+Input filename:   /home/jetson/Desktop/JetsonNanoTracking/pytracking/pretrained_network/resnet18_vggmconv1/resnet18_vggmconv1_otb_dyn.onnx
+ONNX IR version:  0.0.7
+Opset version:    11
+Producer name:    pytorch
+Producer version: 1.10
+Domain:           
+Model version:    0
+Doc string:       
+----------------------------------------------------------------

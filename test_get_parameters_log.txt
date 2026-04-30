@@ -1,0 +1,13 @@
+before Tracker 2.1457672119140625e-06
+after Tracker 0.02546238899230957
+before get_parameters 0.02554178237915039
+after get_parameters 2.616830825805664
+preload_features_on_create = True
+warmup_on_create = True
+warmup_image_sz = 132
+max_image_sample_size = 25600
+min_image_sample_size = 20736
+init_CG_iter = 8
+sample_memory_size = 24
+train_skipping = 25
+features: <class 'pytracking.features.extractor.MultiResolutionExtractor'>

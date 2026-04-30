@@ -1,0 +1,177 @@
+=== HOST ===
+jetson-desktop
+Thứ tư, 29 Tháng 4 năm 2026 11:16:29 +07
+Linux jetson-desktop 4.9.201-tegra #1 SMP PREEMPT Fri Jul 9 08:56:29 PDT 2021 aarch64 aarch64 aarch64 GNU/Linux
+
+=== JetPack / L4T ===
+# R32 (release), REVISION: 5.2, GCID: 27767740, BOARD: t210ref, EABI: aarch64, DATE: Fri Jul  9 16:01:52 UTC 2021
+nvidia-l4t-core	32.5.2-20210709090126
+
+=== CPU/GPU POWER ===
+NVPM WARN: fan mode is not set!
+NV Power Mode: MAXN
+0
+SOC family:tegra210  Machine:NVIDIA Jetson Nano Developer Kit
+Online CPUs: 0-3
+cpu0: Online=1 Governor=schedutil MinFreq=1479000 MaxFreq=1479000 CurrentFreq=1479000 IdleStates: WFI=0 c7=0 
+cpu1: Online=1 Governor=schedutil MinFreq=1479000 MaxFreq=1479000 CurrentFreq=1479000 IdleStates: WFI=0 c7=0 
+cpu2: Online=1 Governor=schedutil MinFreq=1479000 MaxFreq=1479000 CurrentFreq=1479000 IdleStates: WFI=0 c7=0 
+cpu3: Online=1 Governor=schedutil MinFreq=1479000 MaxFreq=1479000 CurrentFreq=1479000 IdleStates: WFI=0 c7=0 
+GPU MinFreq=921600000 MaxFreq=921600000 CurrentFreq=921600000
+EMC MinFreq=204000000 MaxFreq=1600000000 CurrentFreq=1600000000 FreqOverride=1
+Fan: PWM=0
+NV Power Mode: MAXN
+
+=== Memory ===
+              total        used        free      shared  buff/cache   available
+Mem:           3,9G        1,7G        1,3G        3,7M        920M        2,5G
+Swap:          7,9G        1,5G        6,4G
+NAME          TYPE        SIZE   USED PRIO
+/mnt/swapfile file          6G   524K   -1
+/dev/zram0    partition 494,5M 386,8M    5
+/dev/zram1    partition 494,5M 386,7M    5
+/dev/zram2    partition 494,5M   387M    5
+/dev/zram3    partition 494,5M   387M    5
+
+=== Top memory processes ===
+  PID USER     STAT %CPU %MEM   RSS    VSZ CMD
+12004 jetson   Sl    1.5  1.3 54284 170462788 /usr/share/code/code --type=utility --utility-sub-type=node.mojom.NodeService --lang=en-US --service-sandbox-type=none --dns-result-order=ipv4first --inspect-port=0 --crashpad-handler-pid=0 --enable-crash-reporter=a2323bd5-f292-466f-b1da-29003ab40817,no_channel --user-data-dir=/home/jetson/.config/Code --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --bypasscsp-schemes --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --streaming-schemes --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,701691727968168607,16171479887699678332,262144 --disable-features=CalculateNativeWinOcclusion,SpareRendererForSitePerProcess
+ 7699 jetson   Ssl   1.5  1.1 45240 884184 /usr/bin/compiz
+ 8238 jetson   Sl    0.4  0.9 37700 1238860 /usr/bin/nautilus --gapplication-service
+13639 jetson   Ssl   0.5  0.8 35836 603372 /usr/lib/gnome-terminal/gnome-terminal-server
+ 7448 jetson   RLsl 12.6  0.7 30860 435416 /usr/lib/vino/vino-server
+ 6704 root     Sl+   8.5  0.7 28796 6612932 /usr/lib/xorg/Xorg vt1 -displayfd 3 -auth /run/user/1000/gdm/Xauthority -background none -noreset -keeptty -verbose 3
+ 7793 jetson   Sl    0.0  0.6 26432 1078456 nautilus-desktop
+12084 jetson   Sl    1.0  0.5 21668 170461156 /usr/share/code/code --type=utility --utility-sub-type=node.mojom.NodeService --lang=en-US --service-sandbox-type=none --crashpad-handler-pid=0 --enable-crash-reporter=a2323bd5-f292-466f-b1da-29003ab40817,no_channel --user-data-dir=/home/jetson/.config/Code --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --bypasscsp-schemes --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --streaming-schemes --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,701691727968168607,16171479887699678332,262144 --disable-features=CalculateNativeWinOcclusion,SpareRendererForSitePerProcess
+12016 jetson   Sl    1.5  0.4 20060 170468752 /usr/share/code/code --type=utility --utility-sub-type=node.mojom.NodeService --lang=en-US --service-sandbox-type=none --crashpad-handler-pid=0 --enable-crash-reporter=a2323bd5-f292-466f-b1da-29003ab40817,no_channel --user-data-dir=/home/jetson/.config/Code --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --bypasscsp-schemes --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --streaming-schemes --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,701691727968168607,16171479887699678332,262144 --disable-features=CalculateNativeWinOcclusion,SpareRendererForSitePerProcess
+ 4567 root     Ssl   0.0  0.4 16868 1996824 /usr/lib/snapd/snapd
+ 7706 jetson   Ssl   0.0  0.3 15600 372736 /usr/lib/aarch64-linux-gnu/unity/unity-panel-service
+ 5144 root     Ssl   0.3  0.3 15276 1351900 /usr/sbin/tailscaled --state=/var/lib/tailscale/tailscaled.state --socket=/run/tailscale/tailscaled.sock --port=41641
+12169 jetson   Sl    3.7  0.3 14152 172479416 /usr/share/code/code --ms-enable-electron-run-as-node /home/jetson/.vscode/extensions/ms-python.vscode-pylance-2024.3.2/dist/server.bundle.js --cancellationReceive=file:1360f18ac073d4d587ce18f6676c7357d22e0f8caa --node-ipc --clientProcessId=12004
+ 6015 root     Ssl   0.0  0.3 14088 1501444 /usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
+ 7466 jetson   Ssl   0.0  0.3 13200 304640 /usr/lib/aarch64-linux-gnu/bamf/bamfdaemon
+12184 jetson   Sl    0.0  0.3 12296 170374056 /usr/share/code/code --ms-enable-electron-run-as-node /usr/share/code/resources/app/extensions/json-language-features/server/dist/node/jsonServerMain --node-ipc --clientProcessId=12004
+ 5311 root     Ssl   0.3  0.2 11956 1557628 /usr/bin/containerd
+ 7757 jetson   Sl    0.1  0.2 10968 455128 nm-applet
+ 4532 root     Ssl   0.1  0.2  8628 608504 /usr/sbin/NetworkManager --no-daemon
+ 7465 jetson   Ssl   0.0  0.1  7728 814880 /usr/lib/unity-settings-daemon/unity-settings-daemon
+11920 jetson   SLsl  0.3  0.1  7484 170644708 /usr/share/code/code
+ 8077 jetson   Ssl   0.0  0.1  6364 268976 /usr/lib/zeitgeist/zeitgeist/zeitgeist-fts
+13649 jetson   Ss    0.0  0.1  5248   9964 bash
+    1 root     Ss    0.0  0.1  4916 161072 /sbin/init 2
+ 1987 root     S<s   0.0  0.1  4712  18224 /lib/systemd/systemd-journald
+ 8070 jetson   Ssl   0.0  0.1  4648 383888 /usr/bin/zeitgeist-daemon
+12015 jetson   Sl    0.5  0.1  4112 170450456 /usr/share/code/code --type=utility --utility-sub-type=node.mojom.NodeService --lang=en-US --service-sandbox-type=none --crashpad-handler-pid=0 --enable-crash-reporter=a2323bd5-f292-466f-b1da-29003ab40817,no_channel --user-data-dir=/home/jetson/.config/Code --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --bypasscsp-schemes --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --streaming-schemes --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,701691727968168607,16171479887699678332,262144 --disable-features=CalculateNativeWinOcclusion,SpareRendererForSitePerProcess
+13927 jetson   R+    0.0  0.0  3896  10612 ps -eo pid,user,stat,%cpu,%mem,rss,vsz,cmd --sort=-rss
+ 7877 jetson   Sl    0.0  0.0  3880 382788 /usr/bin/ibus-daemon --replace --panel disable --xim
+
+=== Python stack ===
+/home/jetson/Desktop/JetsonNanoTracking/.venv/bin/python
+Python 3.6.9
+python: /home/jetson/Desktop/JetsonNanoTracking/.venv/bin/python
+torch version: 1.10.0
+torch file: /home/jetson/Desktop/JetsonNanoTracking/.venv/lib/python3.6/site-packages/torch/__init__.py
+torch cuda: True
+torch device: NVIDIA Tegra X1
+tensorrt version: 7.1.3.0
+tensorrt file: /usr/lib/python3.6/dist-packages/tensorrt/__init__.py
+cv2 version: 4.1.1
+cv2 file: /usr/lib/python3.6/dist-packages/cv2/python-3.6/cv2.cpython-36m-aarch64-linux-gnu.so
+numpy version: 1.19.4
+numpy file: /home/jetson/Desktop/JetsonNanoTracking/.venv/lib/python3.6/site-packages/numpy/__init__.py
+scipy version: 0.19.1
+scipy file: /usr/lib/python3/dist-packages/scipy/__init__.py
+
+=== TensorRT packages ===
+ii  libnvinfer-bin                             7.1.3-1+cuda10.2                           arm64        TensorRT binaries
+ii  libnvinfer-dev                             7.1.3-1+cuda10.2                           arm64        TensorRT development libraries and headers
+ii  libnvinfer-doc                             7.1.3-1+cuda10.2                           all          TensorRT documentation
+ii  libnvinfer-plugin-dev                      7.1.3-1+cuda10.2                           arm64        TensorRT plugin libraries
+ii  libnvinfer-plugin7                         7.1.3-1+cuda10.2                           arm64        TensorRT plugin libraries
+ii  libnvinfer-samples                         7.1.3-1+cuda10.2                           all          TensorRT samples
+ii  libnvinfer7                                7.1.3-1+cuda10.2                           arm64        TensorRT runtime libraries
+ii  nvidia-container-csv-tensorrt              7.1.3.0-1+cuda10.2                         arm64        Jetpack TensorRT CSV file
+ii  nvidia-tensorrt                            4.5.1-b17                                  arm64        NVIDIA TensorRT Meta Package
+ii  python-libnvinfer                          7.1.3-1+cuda10.2                           arm64        Python bindings for TensorRT
+ii  python-libnvinfer-dev                      7.1.3-1+cuda10.2                           arm64        Python development package for TensorRT
+ii  python3-libnvinfer                         7.1.3-1+cuda10.2                           arm64        Python 3 bindings for TensorRT
+ii  python3-libnvinfer-dev                     7.1.3-1+cuda10.2                           arm64        Python 3 development package for TensorRT
+ii  tensorrt                                   7.1.3.0-1+cuda10.2                         arm64        Meta package of TensorRT
+
+=== CUDA ===
+/usr/local/cuda-10.2/bin/nvcc
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2019 NVIDIA Corporation
+Built on Wed_Oct_23_21:14:42_PDT_2019
+Cuda compilation tools, release 10.2, V10.2.89
+lrwxrwxrwx  1 root root     9 Thg 4  2  2025 cuda -> cuda-10.2
+drwxr-xr-x 12 root root  4096 Thg 4  2  2025 cuda-10.2
+
+=== Engine / ONNX assets ===
+pytracking/pretrained_network/resnet18_vggmconv1/resnet18_vggmconv1_otb_dual_large_fp16.engine
+-rw-rw-r-- 1 jetson jetson 14M Thg 4 29 10:38 pytracking/pretrained_network/resnet18_vggmconv1/resnet18_vggmconv1_otb_dual_large_fp16.engine
+49f2b5f467cbc4d81597fcbc6f47a2c7f47e3d81f1f03ae27d56d6def0b19360  pytracking/pretrained_network/resnet18_vggmconv1/resnet18_vggmconv1_otb_dual_large_fp16.engine
+pytracking/pretrained_network/resnet18_vggmconv1/resnet18_vggmconv1_otb_dyn.onnx
+-rw-rw-r-- 1 jetson jetson 11M Thg 4 28 02:39 pytracking/pretrained_network/resnet18_vggmconv1/resnet18_vggmconv1_otb_dyn.onnx
+c4ebfc01c7692dffc0bbc7bc910cb5aecbd396582144eeeda6a3548a2a912ed8  pytracking/pretrained_network/resnet18_vggmconv1/resnet18_vggmconv1_otb_dyn.onnx
+pytracking/pretrained_network/resnet18_vggmconv1/resnet18_vggmconv1_otb_dyn.pad_error.onnx
+-rw-rw-r-- 1 jetson jetson 11M Thg 4 28 02:11 pytracking/pretrained_network/resnet18_vggmconv1/resnet18_vggmconv1_otb_dyn.pad_error.onnx
+d3f11205fe5571ded8654d6e28b388eed20ab0cf20ff949fa752389de272323a  pytracking/pretrained_network/resnet18_vggmconv1/resnet18_vggmconv1_otb_dyn.pad_error.onnx
+pytracking/pretrained_network/resnet18_vggmconv1/resnet18_vggmconv1_otb_dyn.opset11_pad_error.onnx
+-rw-rw-r-- 1 jetson jetson 11M Thg 4 28 02:16 pytracking/pretrained_network/resnet18_vggmconv1/resnet18_vggmconv1_otb_dyn.opset11_pad_error.onnx
+20603c83fec3f918b367e8db35500611f8eff337ba4fb40d81e259f3c2b1da49  pytracking/pretrained_network/resnet18_vggmconv1/resnet18_vggmconv1_otb_dyn.opset11_pad_error.onnx
+pytracking/pretrained_network/resnet18_vggmconv1/resnet18_vggmconv1.pth
+-rw-rw-r-- 1 jetson jetson 45M Thg 4 28 01:51 pytracking/pretrained_network/resnet18_vggmconv1/resnet18_vggmconv1.pth
+7a194a6e0c8673e702ed0893c165f1a18758312e2ceba40322c1302ec28f83fd  pytracking/pretrained_network/resnet18_vggmconv1/resnet18_vggmconv1.pth
+
+=== Git status ===
+fd843c0812e58c191f601be0f3afd02d08924f9b
+ M pytracking/pytracking/util_scripts/export_eco_backbone_onnx.py
+?? build_engine_fast_profile_log.txt
+?? build_engine_log.txt
+?? client_eco_96_80_second_test_log.txt
+?? client_eco_96_80_test_log.txt
+?? client_eco_96_80_warm_20_test_log.txt
+?? client_eco_fast_test_log.txt
+?? client_eco_test_log.txt
+?? client_eco_ultrafast_test_log.txt
+?? client_warmup_realtest_log.txt
+?? detect_realtest_log.txt
+?? eco_camera_bbox_demo_run_log.txt
+?? eco_service_96_80_runtime_log.txt
+?? eco_service_fast_runtime_log.txt
+?? eco_service_realtest_log.txt
+?? eco_service_runtime_log.txt
+?? eco_service_ultrafast_runtime_log.txt
+?? export_onnx_log.txt
+?? ffmpeg_realtest_log.txt
+?? jetson/eco_service.py
+?? jetson/output/
+?? jetson/run_eco_camera_bbox_demo.py
+?? jetson/run_eco_video_yolo_init_overlay.py
+?? jetson/video_inputs/test1/frame_000000.txt
+?? jetson/video_inputs/test1/frame_000001.txt
+?? jetson/video_inputs/test1/o1.mp4
+?? jetson/video_inputs/test1/o1_run_log.txt
+?? jetson/video_inputs/test1/o1_smoke.mp4
+?? jetson/video_inputs/test1/o1_smoke_run_log.txt
+?? jetson/video_inputs/test1/o1_smoke_tracking.csv
+?? jetson/video_inputs/test1/o1_tracking.csv
+?? jetson_config_report_jetson-desktop_20260429_111541.txt
+?? jetson_config_report_jetson-desktop_20260429_111629.txt
+?? log.txt
+?? pytracking/pytracking/util_scripts/export_eco_backbone_onnx.py.bak_before_force_lrn_20260428_023804
+?? pytracking/pytracking/util_scripts/export_eco_backbone_onnx.py.bak_force_lrn_symbolic
+?? pytracking/pytracking/util_scripts/export_eco_backbone_onnx.py.bak_lrn_fix
+?? pytracking/pytracking/util_scripts/export_eco_backbone_onnx.py.bak_py36
+?? pytracking/pytracking/util_scripts/export_eco_backbone_onnx.py.save
+?? sha256sum
+?? test_deep_trt_log.txt
+?? test_get_parameters_log.txt
+?? test_load_engine_80_log.txt
+?? test_load_engine_96_log.txt
+?? test_load_engine_log.txt
+?? test_params_features_log.txt
+?? test_tracker_initialize_log.txt
+?? test_tracker_initialize_no_init_features_log.txt
+?? test_trt_python_load_log.txt
