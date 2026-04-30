@@ -1,0 +1,12 @@
+before runtime
+after runtime 14.59678030014038
+before read engine
+after read engine 6326688 14.602359771728516
+before deserialize
+after deserialize True 26.82326889038086
+num_bindings: 3
+0 name= input is_input= True shape= (-1, 3, -1, -1) dtype= DataType.FLOAT
+1 name= vggconv1 is_input= False shape= (-1, 96, -1, -1) dtype= DataType.FLOAT
+2 name= layer3 is_input= False shape= (-1, 256, -1, -1) dtype= DataType.FLOAT
+before create context
+after create context True 26.85953426361084

@@ -1,0 +1,68 @@
+ECO service listening on /tmp/eco_tracker.sock
+Client connected.
+Request type received: 0x01
+[eco_service] 0.000s request type INIT received
+[eco_service] 0.000s before parse INIT metadata
+[eco_service] 0.000s after metadata parsed frame=171x158 bbox=[5, 5, 30, 30]
+[eco_service] 0.000s before read frame bytes
+[eco_service] 0.000s after frame bytes read
+[eco_service] 0.001s before BGR to RGB
+[eco_service] 0.001s after BGR to RGB done
+[eco_service] 0.001s before bbox validation
+[eco_service] 0.001s after bbox validation done
+[eco_service] 13.311s before Tracker(eco, verified_otb936_run_update)
+[eco_service] 13.327s after Tracker(...)
+[eco_service] 13.327s before wrapper.get_parameters()
+[eco_service] 13.802s after wrapper.get_parameters()
+[eco_service] override debug=0
+[eco_service] override visualization=False
+[eco_service] override preload_features_on_create=False
+[eco_service] override warmup_on_create=False
+[eco_service] override warmup_image_sz=96
+[eco_service] override max_image_sample_size=9216
+[eco_service] override min_image_sample_size=6400
+[eco_service] override init_CG_iter=1
+[eco_service] override CG_iter=1
+[eco_service] override sample_memory_size=4
+[eco_service] override train_skipping=80
+[eco_service] 13.804s after overriding params
+[eco_service] 13.804s before wrapper.create_tracker(params)
+[eco_service] 13.804s after wrapper.create_tracker(params)
+[eco_service] 13.805s before tracker.initialize_features()
+[eco_service] 206.993s after tracker.initialize_features()
+[eco_service] 207.086s before tracker.initialize(frame_rgb, {'init_bbox': ...})
+/home/jetson/Desktop/JetsonNanoTracking/pytracking/pytracking/features/featurebase.py:78: UserWarning: __floordiv__ is deprecated, and its behavior will change in a future version of pytorch. It currently rounds toward 0 (like the 'trunc' function NOT 'floor'). This results in incorrect rounding for negative values. To keep the current behavior, use torch.div(a, b, rounding_mode='trunc'), or for actual floor division, use torch.div(a, b, rounding_mode='floor').
+  return TensorList([im_sz // s for s in self.stride()])
+[eco_service] 488.897s after tracker.initialize(...)
+INIT bbox=[5, 5, 30, 30] score=1.0
+[eco_service] 488.938s before send response
+[eco_service] 488.939s after send response
+Request type received: 0x02
+[eco_service] 489.372s received UPDATE metadata frame=171x158
+[eco_service] 489.400s read UPDATE frame bytes complete
+[eco_service] 490.157s converted UPDATE frame
+[eco_service] 490.157s before tracker.track(...)
+[eco_service] 509.343s after tracker.track(...)
+UPDATE bbox=[5.5, 5.5, 30.0, 30.0] score=0.43721580505371094
+[eco_service] 509.487s before sending response
+[eco_service] 509.487s after sending response
+Request type received: 0x02
+[eco_service] 509.561s received UPDATE metadata frame=171x158
+[eco_service] 509.564s read UPDATE frame bytes complete
+[eco_service] 509.564s converted UPDATE frame
+[eco_service] 509.565s before tracker.track(...)
+[eco_service] 509.909s after tracker.track(...)
+UPDATE bbox=[4.5, 4.5, 30.0, 30.0] score=0.43334245681762695
+[eco_service] 509.910s before sending response
+[eco_service] 509.910s after sending response
+Request type received: 0x02
+[eco_service] 509.911s received UPDATE metadata frame=171x158
+[eco_service] 509.911s read UPDATE frame bytes complete
+[eco_service] 509.911s converted UPDATE frame
+[eco_service] 509.912s before tracker.track(...)
+[eco_service] 509.985s after tracker.track(...)
+UPDATE bbox=[4.5, 4.5, 30.0, 30.0] score=0.43721580505371094
+[eco_service] 509.985s before sending response
+[eco_service] 509.985s after sending response
+Client disconnected before request.
+Client disconnected.
