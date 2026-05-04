@@ -56,6 +56,7 @@ def parse_args():
     parser.add_argument("--confirm-center-threshold", type=float, default=0.35, help="Detector/tracker center distance threshold as frame diagonal ratio.")
     parser.add_argument("--reinit-iou-threshold", type=float, default=0.08, help="Hard reinit if selected detector is below this IoU during low confidence/lost.")
     parser.add_argument("--size-ratio-threshold", type=float, default=2.20, help="Hard reinit if tracker/detector area ratio exceeds this value.")
+    parser.add_argument("--shrink-ratio-threshold", type=float, default=1.50, help="Soft reinitialize from detector when tracker bbox is much larger than a confirmed detector bbox.")
     parser.add_argument("--detector-weight", type=float, default=0.65, help="Soft correction weight for detector bbox.")
     parser.add_argument("--ambiguous-margin", type=float, default=0.15, help="If top two detection ranks are closer than this margin, do not reinitialize blindly.")
     parser.add_argument("--metrics-interval", type=int, default=30, help="Write camera_metrics.txt every N frames. 0 means only on exit.")
@@ -602,7 +603,7 @@ def write_metrics_summary(output_dir, metrics):
             "camera", "tracker", "param", "detector_backend", "detector_model", "detector_bin", "frame_width", "frame_height",
             "input_size", "detector_conf", "detect_interval", "lost_detect_interval", "low_score_threshold",
             "very_low_score_threshold", "suspect_frames_threshold", "lost_frames_threshold", "confirm_iou_threshold",
-            "confirm_center_threshold", "reinit_iou_threshold", "size_ratio_threshold", "tracker_load_time_s",
+            "confirm_center_threshold", "reinit_iou_threshold", "size_ratio_threshold", "shrink_ratio_threshold", "tracker_load_time_s",
             "detector_load_time_s",
         ]:
             value = metrics[key]
@@ -739,6 +740,7 @@ def main():
         "confirm_center_threshold": float(args.confirm_center_threshold),
         "reinit_iou_threshold": float(args.reinit_iou_threshold),
         "size_ratio_threshold": float(args.size_ratio_threshold),
+        "shrink_ratio_threshold": float(args.shrink_ratio_threshold),
         "tracker_load_time_s": tracker_load_time,
         "detector_load_time_s": detector_load_time,
         "start_time": run_start,
@@ -949,6 +951,7 @@ def main():
                     detector_conflict = True
 
                 force_hard_reinit = False
+                force_shrink_reinit = False
                 allow_reinit = selected_det is not None and not ambiguous_detection
                 if allow_reinit:
                     if is_out_of_frame or consecutive_suspicious >= int(args.lost_frames):
@@ -957,6 +960,12 @@ def main():
                         force_hard_reinit = True
                     if math.isfinite(best_area_ratio) and best_area_ratio > float(args.size_ratio_threshold) and (is_low_score or detector_conflict):
                         force_hard_reinit = True
+                    if detector_confirmed and tracker_box is not None:
+                        tracker_area = bbox_area(tracker_box)
+                        det_area = bbox_area(selected_det["box_xywh"])
+                        tracker_larger = tracker_area > det_area * float(args.shrink_ratio_threshold)
+                        if tracker_larger and math.isfinite(best_center_distance_ratio) and best_center_distance_ratio <= float(args.confirm_center_threshold):
+                            force_shrink_reinit = True
 
                 if allow_reinit and force_hard_reinit:
                     final_box = selected_det["box_xywh"][:]
@@ -973,8 +982,8 @@ def main():
                     state = "REINITIALIZING"
                     color = (255, 0, 255)
                     print("hard_reinit_bbox=%.3f,%.3f,%.3f,%.3f det_conf=%.3f" % tuple(final_box + [selected_det["conf"]]), flush=True)
-                elif allow_reinit and detector_confirmed and (is_low_score or is_large_jump or is_large_area_change):
-                    final_box = blend_boxes(tracker_box, selected_det["box_xywh"], args.detector_weight)
+                elif allow_reinit and (force_shrink_reinit or (detector_confirmed and (is_low_score or is_large_jump or is_large_area_change))):
+                    final_box = selected_det["box_xywh"][:] if force_shrink_reinit else blend_boxes(tracker_box, selected_det["box_xywh"], args.detector_weight)
                     init_worker = TrackerInitializer(tracker, frame_bgr, final_box)
                     init_worker.start()
                     initializing = True
