@@ -1,0 +1,1000 @@
+#!/usr/bin/env python3
+from __future__ import print_function
+
+import argparse
+import csv
+import math
+import sys
+import threading
+import time
+import traceback
+from pathlib import Path
+
+import cv2
+import numpy as np
+
+
+PERSON_MODEL_DIR = Path("person_detection_update") / "pedestrian_detection"
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(description="Run detector-assisted MyECO on a live camera.")
+    parser.add_argument("--camera", default="0", help="Camera index, video path, or GStreamer pipeline.")
+    parser.add_argument("--gstreamer", action="store_true", help="Open --camera as a GStreamer pipeline.")
+    parser.add_argument("--width", type=int, default=640, help="Requested camera width for index cameras.")
+    parser.add_argument("--height", type=int, default=480, help="Requested camera height for index cameras.")
+    parser.add_argument("--fps", type=float, default=30.0, help="Requested camera FPS and output FPS fallback.")
+    parser.add_argument("--tracker-name", default="eco", help="PyTracking tracker name.")
+    parser.add_argument("--param", default="verified_otb936_run_update", help="PyTracking parameter name.")
+    parser.add_argument("--output-dir", type=Path, default=None, help="Optional directory for CSV/video output.")
+    parser.add_argument("--save-video", action="store_true", help="Save annotated camera output when --output-dir is set.")
+    parser.add_argument("--max-frames", type=int, default=0, help="Optional frame limit. 0 means run until Q/Esc.")
+    parser.add_argument("--window-name", default="MyECO Detector Camera", help="OpenCV display window name.")
+    parser.add_argument("--detector-backend", choices=["auto", "ncnn", "onnx", "torchscript", "hog"], default="auto", help="Person detector backend.")
+    parser.add_argument("--model-path", type=Path, default=None, help="Detector model path. For ncnn, this is the directory containing ssdperson10695.param/bin.")
+    parser.add_argument("--input-size", type=int, default=300, help="Detector input size. NCNN SSD uses 300.")
+    parser.add_argument("--detector-conf", type=float, default=0.75, help="Person detector confidence threshold.")
+    parser.add_argument("--nms-threshold", type=float, default=0.45, help="NMS threshold for ONNX/TorchScript YOLO-style detectors.")
+    parser.add_argument("--device", choices=["auto", "cpu", "cuda"], default="auto", help="Torch device for torchscript backend.")
+    parser.add_argument("--ncnn-use-gpu", action="store_true", help="Use NCNN Vulkan GPU when Python ncnn binding is available.")
+    parser.add_argument("--hog-scale", type=float, default=1.05, help="Scale factor for fallback OpenCV HOG detector.")
+    parser.add_argument("--hog-win-stride", type=int, default=8, help="Window stride for fallback OpenCV HOG detector.")
+    parser.add_argument("--detect-interval", type=int, default=5, help="Run detector every N tracking frames.")
+    parser.add_argument("--lost-detect-interval", type=int, default=2, help="Run detector every N frames while searching/lost.")
+    parser.add_argument("--low-score-threshold", type=float, default=0.50, help="Tracker score threshold for LOW_CONFIDENCE state.")
+    parser.add_argument("--very-low-score-threshold", type=float, default=0.25, help="Tracker score threshold for SUSPECTED_LOST/LOST state.")
+    parser.add_argument("--suspect-frames", type=int, default=10, help="Consecutive suspicious frames before SUSPECTED_LOST state.")
+    parser.add_argument("--lost-frames", type=int, default=20, help="Consecutive suspicious frames before LOST state.")
+    parser.add_argument("--bbox-margin", type=float, default=0.15, help="Allowed bbox margin outside frame as a ratio of bbox size.")
+    parser.add_argument("--jump-threshold", type=float, default=0.45, help="Center jump threshold as a ratio of frame diagonal.")
+    parser.add_argument("--area-change-threshold", type=float, default=2.80, help="Large bbox area-ratio threshold between adjacent tracking frames.")
+    parser.add_argument("--confirm-iou-threshold", type=float, default=0.20, help="Detector/tracker IoU needed to confirm target.")
+    parser.add_argument("--confirm-center-threshold", type=float, default=0.35, help="Detector/tracker center distance threshold as frame diagonal ratio.")
+    parser.add_argument("--reinit-iou-threshold", type=float, default=0.08, help="Hard reinit if selected detector is below this IoU during low confidence/lost.")
+    parser.add_argument("--size-ratio-threshold", type=float, default=2.20, help="Hard reinit if tracker/detector area ratio exceeds this value.")
+    parser.add_argument("--detector-weight", type=float, default=0.65, help="Soft correction weight for detector bbox.")
+    parser.add_argument("--ambiguous-margin", type=float, default=0.15, help="If top two detection ranks are closer than this margin, do not reinitialize blindly.")
+    parser.add_argument("--metrics-interval", type=int, default=30, help="Write camera_metrics.txt every N frames. 0 means only on exit.")
+    return parser.parse_args()
+
+
+def resolve_project_root(script_path):
+    for candidate in [script_path] + list(script_path.parents):
+        if (candidate / "pytracking").is_dir():
+            return candidate
+        if (candidate / "MyECOTracker" / "pytracking").is_dir():
+            return candidate / "MyECOTracker"
+    raise RuntimeError("Could not locate pytracking project root from %s" % script_path)
+
+
+def setup_pytracking(project_root):
+    pytracking_dir = project_root / "pytracking"
+    pytracking_str = str(pytracking_dir)
+    if pytracking_str not in sys.path:
+        sys.path.insert(0, pytracking_str)
+
+
+def create_tracker(project_root, tracker_name, param_name):
+    setup_pytracking(project_root)
+    from pytracking.evaluation.tracker import Tracker
+
+    wrapper = Tracker(tracker_name, param_name)
+    params = wrapper.get_parameters()
+    params.debug = 0
+    params.visualization = False
+    tracker = wrapper.create_tracker(params)
+    if hasattr(tracker, "initialize_features"):
+        tracker.initialize_features()
+    return tracker
+
+
+def open_capture(camera_arg, use_gstreamer, width, height, fps):
+    if use_gstreamer:
+        cap = cv2.VideoCapture(camera_arg, cv2.CAP_GSTREAMER)
+    else:
+        try:
+            camera_source = int(camera_arg)
+        except ValueError:
+            camera_source = camera_arg
+        cap = cv2.VideoCapture(camera_source)
+        if isinstance(camera_source, int):
+            cap.set(cv2.CAP_PROP_FRAME_WIDTH, int(width))
+            cap.set(cv2.CAP_PROP_FRAME_HEIGHT, int(height))
+            cap.set(cv2.CAP_PROP_FPS, float(fps))
+    if not cap.isOpened():
+        raise RuntimeError("Failed to open camera source: %s" % camera_arg)
+    return cap
+
+
+def clip_xywh(box_xywh, frame_shape):
+    height, width = frame_shape[:2]
+    x, y, bw, bh = [float(v) for v in box_xywh]
+    x = max(0.0, min(x, width - 1.0))
+    y = max(0.0, min(y, height - 1.0))
+    bw = max(1.0, min(bw, width - x))
+    bh = max(1.0, min(bh, height - y))
+    return [x, y, bw, bh]
+
+
+def bbox_center(box):
+    x, y, w, h = [float(v) for v in box]
+    return x + w / 2.0, y + h / 2.0
+
+
+def bbox_area(box):
+    return max(0.0, float(box[2])) * max(0.0, float(box[3]))
+
+
+def box_iou(box_a, box_b):
+    ax1, ay1, aw, ah = [float(v) for v in box_a]
+    bx1, by1, bw, bh = [float(v) for v in box_b]
+    ax2, ay2 = ax1 + aw, ay1 + ah
+    bx2, by2 = bx1 + bw, by1 + bh
+    inter_x1 = max(ax1, bx1)
+    inter_y1 = max(ay1, by1)
+    inter_x2 = min(ax2, bx2)
+    inter_y2 = min(ay2, by2)
+    inter_w = max(0.0, inter_x2 - inter_x1)
+    inter_h = max(0.0, inter_y2 - inter_y1)
+    inter_area = inter_w * inter_h
+    union_area = aw * ah + bw * bh - inter_area
+    if union_area <= 0:
+        return 0.0
+    return inter_area / union_area
+
+
+def center_distance(box_a, box_b):
+    acx, acy = bbox_center(box_a)
+    bcx, bcy = bbox_center(box_b)
+    return float(math.hypot(acx - bcx, acy - bcy))
+
+
+def area_ratio(box_a, box_b):
+    area_a = max(1.0, bbox_area(box_a))
+    area_b = max(1.0, bbox_area(box_b))
+    return max(area_a, area_b) / min(area_a, area_b)
+
+
+def bbox_out_of_frame(box, frame_shape, margin_ratio):
+    frame_h, frame_w = frame_shape[:2]
+    x, y, w, h = [float(v) for v in box]
+    margin_x = max(0.0, w * float(margin_ratio))
+    margin_y = max(0.0, h * float(margin_ratio))
+    return x + w < -margin_x or y + h < -margin_y or x > frame_w + margin_x or y > frame_h + margin_y
+
+
+def blend_boxes(box_a, box_b, box_b_weight):
+    alpha = float(box_b_weight)
+    beta = 1.0 - alpha
+    return [beta * float(a) + alpha * float(b) for a, b in zip(box_a, box_b)]
+
+
+def finite_or_nan(value):
+    if value is None:
+        return float("nan")
+    value = float(value)
+    if math.isfinite(value):
+        return value
+    return float("nan")
+
+
+def percentile(values, percent):
+    if not values:
+        return float("nan")
+    sorted_values = sorted(values)
+    if len(sorted_values) == 1:
+        return sorted_values[0]
+    pos = (len(sorted_values) - 1) * float(percent) / 100.0
+    low = int(math.floor(pos))
+    high = int(math.ceil(pos))
+    if low == high:
+        return sorted_values[low]
+    return sorted_values[low] * (high - pos) + sorted_values[high] * (pos - low)
+
+
+def resolve_detector_backend(model_path, backend):
+    if backend != "auto":
+        return backend
+    if model_path is None:
+        return "hog"
+    if model_path.is_dir():
+        return "ncnn"
+    suffix = model_path.suffix.lower()
+    if suffix == ".onnx":
+        return "onnx"
+    if suffix == ".torchscript":
+        return "torchscript"
+    return "ncnn"
+
+
+class NcnnPersonDetector(object):
+    def __init__(self, model_dir, input_size, use_gpu=True):
+        try:
+            import ncnn
+        except ImportError as exc:
+            raise RuntimeError(
+                "Python module 'ncnn' is not installed in this environment. "
+                "Use --detector-backend hog for a no-install smoke test, or run an ONNX/TorchScript detector with --model-path. "
+                "The existing Repo 3 NCNN detector was built as C++, not as a Python module."
+            ) from exc
+
+        self.ncnn = ncnn
+        self.input_size = int(input_size)
+        self.model_dir = Path(model_dir).expanduser().resolve()
+        param_path = self.model_dir / "ssdperson10695.param"
+        bin_path = self.model_dir / "ssdperson10695.bin"
+        if not param_path.exists() or not bin_path.exists():
+            raise RuntimeError("Missing NCNN person model files in %s" % self.model_dir)
+        if use_gpu:
+            try:
+                ncnn.create_gpu_instance()
+            except Exception:
+                use_gpu = False
+        self.use_gpu = bool(use_gpu)
+        self.net = ncnn.Net()
+        self.net.opt.use_vulkan_compute = bool(use_gpu)
+        self.net.load_param(str(param_path))
+        self.net.load_model(str(bin_path))
+
+    def close(self):
+        try:
+            self.net.clear()
+        except Exception:
+            pass
+        if self.use_gpu:
+            try:
+                self.ncnn.destroy_gpu_instance()
+            except Exception:
+                pass
+
+    def detect(self, frame_bgr, conf_thresh, nms_thresh):
+        del nms_thresh
+        img_h, img_w = frame_bgr.shape[:2]
+        mat_in = self.ncnn.Mat.from_pixels_resize(
+            frame_bgr,
+            self.ncnn.Mat.PixelType.PIXEL_BGR,
+            img_w,
+            img_h,
+            self.input_size,
+            self.input_size,
+        )
+        mean_vals = [127.5, 127.5, 127.5]
+        norm_vals = [1.0 / 127.5, 1.0 / 127.5, 1.0 / 127.5]
+        mat_in.substract_mean_normalize(mean_vals, norm_vals)
+        ex = self.net.create_extractor()
+        ex.set_light_mode(True)
+        ex.input("data", mat_in)
+        ret, out = ex.extract("detection_out")
+        if ret != 0:
+            return []
+        detections = []
+        for i in range(out.h):
+            values = out.row(i)
+            conf = float(values[1])
+            if conf < conf_thresh:
+                continue
+            x1 = float(values[2]) * img_w
+            y1 = float(values[3]) * img_h
+            x2 = float(values[4]) * img_w
+            y2 = float(values[5]) * img_h
+            box = clip_xywh([x1, y1, x2 - x1, y2 - y1], frame_bgr.shape)
+            detections.append({"box_xywh": box, "conf": conf})
+        return detections
+
+
+class HOGPersonDetector(object):
+    def __init__(self, win_stride, scale):
+        self.win_stride = int(win_stride)
+        self.scale = float(scale)
+        self.hog = cv2.HOGDescriptor()
+        self.hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
+
+    def close(self):
+        pass
+
+    def detect(self, frame_bgr, conf_thresh, nms_thresh):
+        del nms_thresh
+        rects, weights = self.hog.detectMultiScale(
+            frame_bgr,
+            winStride=(self.win_stride, self.win_stride),
+            padding=(8, 8),
+            scale=self.scale,
+        )
+        detections = []
+        for rect, weight in zip(rects, weights):
+            conf = float(weight)
+            if conf < float(conf_thresh):
+                continue
+            x, y, w, h = [float(v) for v in rect]
+            detections.append({"box_xywh": clip_xywh([x, y, w, h], frame_bgr.shape), "conf": conf})
+        return detections
+
+
+class YoloDnnDetector(object):
+    def __init__(self, model_path, input_size):
+        self.model_path = Path(model_path).expanduser().resolve()
+        self.input_size = int(input_size)
+        self.net = cv2.dnn.readNetFromONNX(str(self.model_path))
+        self.net.setPreferableBackend(cv2.dnn.DNN_BACKEND_OPENCV)
+        self.net.setPreferableTarget(cv2.dnn.DNN_TARGET_CPU)
+
+    def close(self):
+        pass
+
+    def detect(self, frame_bgr, conf_thresh, nms_thresh):
+        orig_h, orig_w = frame_bgr.shape[:2]
+        blob = cv2.dnn.blobFromImage(frame_bgr, 1.0 / 255.0, (self.input_size, self.input_size), swapRB=True, crop=False)
+        self.net.setInput(blob)
+        out = self.net.forward()[0]
+        return decode_yolo_output(out, frame_bgr.shape, orig_w, orig_h, self.input_size, conf_thresh, nms_thresh)
+
+
+class TorchscriptDetector(object):
+    def __init__(self, model_path, input_size, device):
+        import torch
+
+        if device == "auto":
+            torch_device = "cuda" if torch.cuda.is_available() else "cpu"
+        else:
+            torch_device = device
+        self.torch = torch
+        self.device = torch_device
+        self.input_size = int(input_size)
+        self.model_path = Path(model_path).expanduser().resolve()
+        self.model = torch.jit.load(str(self.model_path), map_location=torch_device)
+        self.model.eval()
+
+    def close(self):
+        pass
+
+    def detect(self, frame_bgr, conf_thresh, nms_thresh):
+        resized = cv2.resize(frame_bgr, (self.input_size, self.input_size), interpolation=cv2.INTER_LINEAR)
+        resized = cv2.cvtColor(resized, cv2.COLOR_BGR2RGB)
+        tensor = self.torch.from_numpy(resized).permute(2, 0, 1).float().unsqueeze(0) / 255.0
+        tensor = tensor.to(self.device)
+        with self.torch.no_grad():
+            out = self.model(tensor)
+        out = out.detach().cpu().numpy()[0]
+        orig_h, orig_w = frame_bgr.shape[:2]
+        return decode_yolo_output(out, frame_bgr.shape, orig_w, orig_h, self.input_size, conf_thresh, nms_thresh)
+
+
+def decode_yolo_output(out, frame_shape, orig_w, orig_h, input_size, conf_thresh, nms_thresh):
+    boxes = []
+    scores = []
+    for i in range(out.shape[1]):
+        xc, yc, bw, bh, conf = [float(v) for v in out[:, i]]
+        if conf < conf_thresh:
+            continue
+        x = (xc - bw / 2.0) * orig_w / float(input_size)
+        y = (yc - bh / 2.0) * orig_h / float(input_size)
+        box_w = bw * orig_w / float(input_size)
+        box_h = bh * orig_h / float(input_size)
+        boxes.append([x, y, box_w, box_h])
+        scores.append(conf)
+    if not boxes:
+        return []
+    indices = cv2.dnn.NMSBoxes(boxes, scores, conf_thresh, nms_thresh)
+    if indices is None or len(indices) == 0:
+        return []
+    detections = []
+    for idx in np.array(indices).reshape(-1).tolist():
+        detections.append({"box_xywh": clip_xywh(boxes[idx], frame_shape), "conf": float(scores[idx])})
+    return detections
+
+
+def load_detector(project_root, args):
+    model_path = args.model_path
+    if model_path is None:
+        model_path = project_root / PERSON_MODEL_DIR
+    else:
+        model_path = model_path.expanduser()
+        if not model_path.is_absolute():
+            model_path = project_root / model_path
+    backend = resolve_detector_backend(model_path, args.detector_backend)
+    if backend == "ncnn":
+        return backend, model_path.resolve(), NcnnPersonDetector(model_path, args.input_size, use_gpu=bool(args.ncnn_use_gpu))
+    if backend == "hog":
+        return backend, Path("opencv_hog"), HOGPersonDetector(args.hog_win_stride, args.hog_scale)
+    if backend == "onnx":
+        if not model_path.exists():
+            raise RuntimeError("Missing ONNX model: %s" % model_path)
+        return backend, model_path.resolve(), YoloDnnDetector(model_path, args.input_size)
+    if backend == "torchscript":
+        if not model_path.exists():
+            raise RuntimeError("Missing TorchScript model: %s" % model_path)
+        return backend, model_path.resolve(), TorchscriptDetector(model_path, args.input_size, args.device)
+    raise RuntimeError("Unsupported detector backend: %s" % backend)
+
+
+def rank_detections(detections, reference_box, frame_shape):
+    if not detections:
+        return []
+    if reference_box is None:
+        return sorted([(det["conf"], det) for det in detections], key=lambda item: item[0], reverse=True)
+    height, width = frame_shape[:2]
+    diag = max(1.0, float(math.hypot(width, height)))
+    ranked = []
+    for det in detections:
+        det_box = det["box_xywh"]
+        iou = box_iou(reference_box, det_box)
+        dist_ratio = center_distance(reference_box, det_box) / diag
+        proximity = max(0.0, 1.0 - dist_ratio)
+        size_penalty = min(1.0, abs(math.log(max(area_ratio(reference_box, det_box), 1e-9))) / math.log(4.0))
+        rank = 2.2 * iou + 0.8 * proximity + 0.4 * det["conf"] - 0.4 * size_penalty
+        ranked.append((rank, det))
+    return sorted(ranked, key=lambda item: item[0], reverse=True)
+
+
+def select_detection(detections, reference_box, frame_shape, ambiguous_margin):
+    ranked = rank_detections(detections, reference_box, frame_shape)
+    if not ranked:
+        return None, False, 0.0
+    best_rank, best_det = ranked[0]
+    ambiguous = False
+    if len(ranked) > 1 and ranked[0][0] - ranked[1][0] < float(ambiguous_margin):
+        ambiguous = True
+    return best_det, ambiguous, float(best_rank)
+
+
+class TrackerInitializer(threading.Thread):
+    def __init__(self, tracker, frame_bgr, init_box):
+        threading.Thread.__init__(self)
+        self.daemon = True
+        self.tracker = tracker
+        self.frame_bgr = frame_bgr.copy()
+        self.init_box = list(map(float, init_box))
+        self.output = None
+        self.error = None
+        self.elapsed = 0.0
+
+    def run(self):
+        start = time.perf_counter()
+        try:
+            frame_rgb = cv2.cvtColor(self.frame_bgr, cv2.COLOR_BGR2RGB)
+            self.output = self.tracker.initialize(frame_rgb, {"init_bbox": self.init_box}) or {}
+        except Exception as exc:
+            self.error = exc
+        finally:
+            self.elapsed = time.perf_counter() - start
+
+
+def draw_box(image, box, color, thickness=2):
+    x, y, w, h = [int(round(float(v))) for v in box]
+    cv2.rectangle(image, (x, y), (x + w, y + h), color, thickness)
+
+
+def draw_label(image, text, point, color):
+    cv2.putText(image, text, point, cv2.FONT_HERSHEY_SIMPLEX, 0.58, color, 2, cv2.LINE_AA)
+
+
+def draw_header(image, frame_index, fps_value, state, score, det_count, det_conf, best_iou):
+    score_text = "nan" if score is None or not math.isfinite(float(score)) else "%.3f" % score
+    det_text = "nan" if det_conf is None or not math.isfinite(float(det_conf)) else "%.2f" % det_conf
+    iou_text = "nan" if best_iou is None or not math.isfinite(float(best_iou)) else "%.2f" % best_iou
+    text = "frame=%d fps=%.2f state=%s score=%s dets=%d det=%s iou=%s" % (frame_index, fps_value, state, score_text, det_count, det_text, iou_text)
+    cv2.putText(image, text, (12, 28), cv2.FONT_HERSHEY_SIMPLEX, 0.58, (245, 245, 245), 2, cv2.LINE_AA)
+    cv2.putText(image, "Auto detect person -> init ECO. Press R to force re-detect. Q/Esc: quit", (12, 54), cv2.FONT_HERSHEY_SIMPLEX, 0.52, (245, 245, 245), 2, cv2.LINE_AA)
+
+
+def write_metrics_summary(output_dir, metrics):
+    if output_dir is None:
+        return
+    duration_s = max(metrics["end_time"] - metrics["start_time"], 1e-9)
+    scores = metrics["scores"]
+    center_deltas = metrics["center_deltas"]
+    area_ratios = metrics["area_ratios"]
+    detector_times = metrics["detector_times"]
+    init_times = metrics["init_times"]
+    summary_path = output_dir / "camera_metrics.txt"
+    with summary_path.open("w", encoding="utf-8") as f:
+        for key in [
+            "camera", "tracker", "param", "detector_backend", "detector_model", "frame_width", "frame_height",
+            "input_size", "detector_conf", "detect_interval", "lost_detect_interval", "low_score_threshold",
+            "very_low_score_threshold", "suspect_frames_threshold", "lost_frames_threshold", "confirm_iou_threshold",
+            "confirm_center_threshold", "reinit_iou_threshold", "size_ratio_threshold", "tracker_load_time_s",
+            "detector_load_time_s",
+        ]:
+            value = metrics[key]
+            if isinstance(value, float):
+                f.write("%s=%.6f\n" % (key, value))
+            else:
+                f.write("%s=%s\n" % (key, value))
+        f.write("duration_s=%.6f\n" % duration_s)
+        f.write("frames_total=%d\n" % metrics["frames_total"])
+        f.write("overall_loop_fps=%.6f\n" % (float(metrics["frames_total"]) / duration_s))
+        f.write("track_frames=%d\n" % metrics["track_frames"])
+        f.write("tracking_fps_excluding_idle=%.6f\n" % (float(max(metrics["track_frames"], 1)) / max(metrics["track_time_total_s"], 1e-9)))
+        f.write("track_time_total_s=%.6f\n" % metrics["track_time_total_s"])
+        f.write("track_time_avg_s=%.6f\n" % (metrics["track_time_total_s"] / float(max(metrics["track_frames"], 1))))
+        f.write("detector_calls=%d\n" % metrics["detector_calls"])
+        f.write("detector_time_total_s=%.6f\n" % sum(detector_times))
+        f.write("detector_time_avg_s=%.6f\n" % (sum(detector_times) / float(len(detector_times)) if detector_times else 0.0))
+        f.write("detections_total=%d\n" % metrics["detections_total"])
+        f.write("detections_avg_per_call=%.6f\n" % (float(metrics["detections_total"]) / float(max(metrics["detector_calls"], 1))))
+        f.write("initializations_completed=%d\n" % metrics["initializations_completed"])
+        f.write("init_time_avg_s=%.6f\n" % (sum(init_times) / float(len(init_times)) if init_times else 0.0))
+        f.write("init_time_max_s=%.6f\n" % (max(init_times) if init_times else 0.0))
+        f.write("soft_reinitializations=%d\n" % metrics["soft_reinitializations"])
+        f.write("hard_reinitializations=%d\n" % metrics["hard_reinitializations"])
+        f.write("ambiguous_reinit_skips=%d\n" % metrics["ambiguous_reinit_skips"])
+        f.write("detector_confirmed_frames=%d\n" % metrics["detector_confirmed_frames"])
+        f.write("detector_missing_frames=%d\n" % metrics["detector_missing_frames"])
+        f.write("background_lock_events=%d\n" % metrics["background_lock_events"])
+        f.write("lost_events=%d\n" % metrics["lost_events"])
+        f.write("score_count=%d\n" % len(scores))
+        f.write("score_min=%.6f\n" % (min(scores) if scores else float("nan")))
+        f.write("score_p10=%.6f\n" % percentile(scores, 10))
+        f.write("score_median=%.6f\n" % percentile(scores, 50))
+        f.write("score_p90=%.6f\n" % percentile(scores, 90))
+        f.write("score_mean=%.6f\n" % (sum(scores) / float(len(scores)) if scores else float("nan")))
+        f.write("score_max=%.6f\n" % (max(scores) if scores else float("nan")))
+        f.write("center_delta_avg_px=%.6f\n" % (sum(center_deltas) / float(len(center_deltas)) if center_deltas else 0.0))
+        f.write("center_delta_max_px=%.6f\n" % (max(center_deltas) if center_deltas else 0.0))
+        f.write("area_ratio_avg=%.6f\n" % (sum(area_ratios) / float(len(area_ratios)) if area_ratios else 1.0))
+        f.write("area_ratio_max=%.6f\n" % (max(area_ratios) if area_ratios else 1.0))
+        f.write("low_score_frames=%d\n" % metrics["low_score_frames"])
+        f.write("very_low_score_frames=%d\n" % metrics["very_low_score_frames"])
+        f.write("low_confidence_frames=%d\n" % metrics["low_confidence_frames"])
+        f.write("suspected_lost_frames=%d\n" % metrics["suspected_lost_frames"])
+        f.write("lost_frames=%d\n" % metrics["lost_frames"])
+        f.write("out_of_frame_frames=%d\n" % metrics["out_of_frame_frames"])
+        f.write("large_jump_frames=%d\n" % metrics["large_jump_frames"])
+        f.write("large_area_change_frames=%d\n" % metrics["large_area_change_frames"])
+        f.write("max_consecutive_suspicious=%d\n" % metrics["max_consecutive_suspicious"])
+    print("metrics_summary=%s" % summary_path, flush=True)
+
+
+def main():
+    args = parse_args()
+    output_dir = None
+    if args.output_dir is not None:
+        output_dir = args.output_dir.expanduser().resolve()
+        output_dir.mkdir(parents=True, exist_ok=True)
+        print("output_dir=%s" % output_dir, flush=True)
+
+    print("Resolving project root...", flush=True)
+    project_root = resolve_project_root(Path(__file__).resolve().parent)
+    print("project_root=%s" % project_root, flush=True)
+
+    print("Loading detector...", flush=True)
+    detector_load_start = time.perf_counter()
+    detector_backend, detector_model_path, detector = load_detector(project_root, args)
+    detector_load_time = time.perf_counter() - detector_load_start
+    print("Detector ready backend=%s model=%s time=%.3fs." % (detector_backend, detector_model_path, detector_load_time), flush=True)
+
+    print("Creating tracker %s/%s..." % (args.tracker_name, args.param), flush=True)
+    tracker_load_start = time.perf_counter()
+    tracker = create_tracker(project_root, args.tracker_name, args.param)
+    tracker_load_time = time.perf_counter() - tracker_load_start
+    print("Tracker ready in %.3fs." % tracker_load_time, flush=True)
+
+    print("Opening camera source: %s" % args.camera, flush=True)
+    cap = open_capture(args.camera, args.gstreamer, args.width, args.height, args.fps)
+    print("Camera opened.", flush=True)
+
+    csv_file = None
+    writer_csv = None
+    video_writer = None
+    if output_dir is not None:
+        csv_file = (output_dir / "camera_predictions.csv").open("w", newline="", encoding="utf-8")
+        writer_csv = csv.writer(csv_file)
+        writer_csv.writerow([
+            "frame_index", "timestamp_s", "tracker_x", "tracker_y", "tracker_w", "tracker_h",
+            "final_x", "final_y", "final_w", "final_h", "det_x", "det_y", "det_w", "det_h",
+            "tracker_score", "det_conf", "det_count", "best_detector_iou", "best_center_distance_ratio",
+            "best_area_ratio", "state", "track_time_s", "detect_time_s", "init_time_s", "fps",
+            "is_low_score", "is_very_low_score", "is_out_of_frame", "center_delta_px", "center_delta_ratio",
+            "area_ratio", "is_large_jump", "is_large_area_change", "consecutive_suspicious", "ambiguous_detection",
+            "soft_reinitializations", "hard_reinitializations", "background_lock_events",
+        ])
+
+    cv2.namedWindow(args.window_name, cv2.WINDOW_NORMAL)
+    tracking_active = False
+    initializing = False
+    init_worker = None
+    prev_output = {}
+    current_box = None
+    previous_box = None
+    last_detector_box = None
+    frame_index = 0
+    last_time = time.perf_counter()
+    run_start = time.perf_counter()
+    consecutive_suspicious = 0
+    consecutive_detector_missing = 0
+    was_lost = False
+    was_background_locked = False
+    last_init_time = 0.0
+    force_redetect = False
+    metrics = {
+        "camera": args.camera,
+        "tracker": args.tracker_name,
+        "param": args.param,
+        "detector_backend": detector_backend,
+        "detector_model": str(detector_model_path),
+        "frame_width": 0,
+        "frame_height": 0,
+        "input_size": int(args.input_size),
+        "detector_conf": float(args.detector_conf),
+        "detect_interval": int(args.detect_interval),
+        "lost_detect_interval": int(args.lost_detect_interval),
+        "low_score_threshold": float(args.low_score_threshold),
+        "very_low_score_threshold": float(args.very_low_score_threshold),
+        "suspect_frames_threshold": int(args.suspect_frames),
+        "lost_frames_threshold": int(args.lost_frames),
+        "confirm_iou_threshold": float(args.confirm_iou_threshold),
+        "confirm_center_threshold": float(args.confirm_center_threshold),
+        "reinit_iou_threshold": float(args.reinit_iou_threshold),
+        "size_ratio_threshold": float(args.size_ratio_threshold),
+        "tracker_load_time_s": tracker_load_time,
+        "detector_load_time_s": detector_load_time,
+        "start_time": run_start,
+        "end_time": run_start,
+        "frames_total": 0,
+        "track_frames": 0,
+        "track_time_total_s": 0.0,
+        "detector_calls": 0,
+        "detector_times": [],
+        "detections_total": 0,
+        "initializations_completed": 0,
+        "init_times": [],
+        "soft_reinitializations": 0,
+        "hard_reinitializations": 0,
+        "ambiguous_reinit_skips": 0,
+        "detector_confirmed_frames": 0,
+        "detector_missing_frames": 0,
+        "background_lock_events": 0,
+        "lost_events": 0,
+        "scores": [],
+        "center_deltas": [],
+        "area_ratios": [],
+        "low_score_frames": 0,
+        "very_low_score_frames": 0,
+        "low_confidence_frames": 0,
+        "suspected_lost_frames": 0,
+        "lost_frames": 0,
+        "out_of_frame_frames": 0,
+        "large_jump_frames": 0,
+        "large_area_change_frames": 0,
+        "max_consecutive_suspicious": 0,
+    }
+
+    try:
+        while True:
+            if args.max_frames > 0 and frame_index >= args.max_frames:
+                break
+
+            ok, frame_bgr = cap.read()
+            if not ok or frame_bgr is None:
+                print("Camera frame read failed.", file=sys.stderr)
+                break
+
+            frame_height, frame_width = frame_bgr.shape[:2]
+            frame_diag = max(1.0, math.hypot(float(frame_width), float(frame_height)))
+            metrics["frame_width"] = frame_width
+            metrics["frame_height"] = frame_height
+            display = frame_bgr.copy()
+            track_elapsed = 0.0
+            detect_elapsed = 0.0
+            init_time_for_row = 0.0
+            score = None
+            tracker_box = current_box[:] if current_box is not None else None
+            final_box = current_box[:] if current_box is not None else None
+            selected_det = None
+            detections = []
+            det_count = 0
+            det_conf = float("nan")
+            best_detector_iou = float("nan")
+            best_center_distance_ratio = float("nan")
+            best_area_ratio = float("nan")
+            ambiguous_detection = False
+            is_low_score = False
+            is_very_low_score = False
+            is_out_of_frame = False
+            is_large_jump = False
+            is_large_area_change = False
+            center_delta = 0.0
+            center_delta_ratio = 0.0
+            adjacent_area_ratio = 1.0
+            state = "SEARCHING"
+            color = (0, 255, 255)
+
+            if init_worker is not None and not init_worker.is_alive():
+                if init_worker.error is not None:
+                    raise init_worker.error
+                out = init_worker.output or {}
+                prev_output = dict(out)
+                current_box = [float(v) for v in out.get("target_bbox", init_worker.init_box)]
+                previous_box = current_box[:]
+                tracking_active = True
+                initializing = False
+                consecutive_suspicious = 0
+                consecutive_detector_missing = 0
+                was_lost = False
+                was_background_locked = False
+                last_init_time = init_worker.elapsed
+                init_time_for_row = last_init_time
+                metrics["initializations_completed"] += 1
+                metrics["init_times"].append(last_init_time)
+                print("initialized_bbox=%.3f,%.3f,%.3f,%.3f init_time_s=%.3f" % tuple(current_box + [last_init_time]), flush=True)
+                init_worker = None
+
+            need_detection = force_redetect
+            if not tracking_active and not initializing:
+                need_detection = frame_index % max(1, int(args.lost_detect_interval)) == 0
+            elif tracking_active:
+                need_detection = frame_index % max(1, int(args.detect_interval)) == 0
+
+            if tracking_active:
+                frame_rgb = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2RGB)
+                start = time.perf_counter()
+                out = tracker.track(frame_rgb, {"previous_output": prev_output}) or {}
+                track_elapsed = time.perf_counter() - start
+                prev_output = dict(out)
+                previous_for_metrics = previous_box
+                tracker_box = [float(v) for v in out["target_bbox"]]
+                final_box = tracker_box[:]
+                current_box = tracker_box[:]
+                raw_score = getattr(tracker, "last_max_score", float("nan"))
+                score = finite_or_nan(raw_score)
+                is_low_score = math.isfinite(score) and score < float(args.low_score_threshold)
+                is_very_low_score = math.isfinite(score) and score < float(args.very_low_score_threshold)
+                is_out_of_frame = bbox_out_of_frame(tracker_box, frame_bgr.shape, args.bbox_margin)
+
+                if previous_for_metrics is not None:
+                    center_delta = center_distance(previous_for_metrics, tracker_box)
+                    center_delta_ratio = center_delta / frame_diag
+                    adjacent_area_ratio = area_ratio(previous_for_metrics, tracker_box)
+
+                is_large_jump = center_delta_ratio > float(args.jump_threshold)
+                is_large_area_change = adjacent_area_ratio > float(args.area_change_threshold)
+                suspicious = is_out_of_frame or is_very_low_score or (is_low_score and (is_large_jump or is_large_area_change))
+                weak_confidence = is_low_score or is_large_jump or is_large_area_change
+                if suspicious:
+                    consecutive_suspicious += 1
+                else:
+                    consecutive_suspicious = 0
+                if is_low_score or is_very_low_score or consecutive_suspicious >= int(args.suspect_frames):
+                    need_detection = True
+                metrics["max_consecutive_suspicious"] = max(metrics["max_consecutive_suspicious"], consecutive_suspicious)
+                metrics["track_frames"] += 1
+                metrics["track_time_total_s"] += track_elapsed
+                if math.isfinite(score):
+                    metrics["scores"].append(score)
+                metrics["center_deltas"].append(center_delta)
+                metrics["area_ratios"].append(adjacent_area_ratio)
+                if is_low_score:
+                    metrics["low_score_frames"] += 1
+                if is_very_low_score:
+                    metrics["very_low_score_frames"] += 1
+                if is_out_of_frame:
+                    metrics["out_of_frame_frames"] += 1
+                if is_large_jump:
+                    metrics["large_jump_frames"] += 1
+                if is_large_area_change:
+                    metrics["large_area_change_frames"] += 1
+
+            if need_detection and not initializing:
+                detect_start = time.perf_counter()
+                detections = detector.detect(frame_bgr, args.detector_conf, args.nms_threshold)
+                detect_elapsed = time.perf_counter() - detect_start
+                metrics["detector_calls"] += 1
+                metrics["detector_times"].append(detect_elapsed)
+                metrics["detections_total"] += len(detections)
+                det_count = len(detections)
+                reference_box = tracker_box if tracker_box is not None else last_detector_box
+                selected_det, ambiguous_detection, _ = select_detection(detections, reference_box, frame_bgr.shape, args.ambiguous_margin)
+                if selected_det is not None:
+                    det_box = selected_det["box_xywh"]
+                    det_conf = selected_det["conf"]
+                    if tracker_box is not None:
+                        best_detector_iou = box_iou(tracker_box, det_box)
+                        best_center_distance_ratio = center_distance(tracker_box, det_box) / frame_diag
+                        best_area_ratio = area_ratio(tracker_box, det_box)
+                    last_detector_box = det_box[:]
+                else:
+                    consecutive_detector_missing += 1
+                    metrics["detector_missing_frames"] += 1
+
+            if initializing:
+                state = "INITIALIZING"
+                color = (0, 165, 255)
+            elif not tracking_active:
+                if selected_det is not None and not ambiguous_detection:
+                    init_worker = TrackerInitializer(tracker, frame_bgr, selected_det["box_xywh"])
+                    init_worker.start()
+                    initializing = True
+                    state = "DETECTED_INITIALIZING"
+                    color = (0, 165, 255)
+                    final_box = selected_det["box_xywh"][:]
+                    print("auto_initializing_bbox=%.3f,%.3f,%.3f,%.3f det_conf=%.3f" % tuple(final_box + [selected_det["conf"]]), flush=True)
+                elif selected_det is not None and ambiguous_detection:
+                    state = "AMBIGUOUS_DETECTION"
+                    color = (0, 128, 255)
+                    metrics["ambiguous_reinit_skips"] += 1
+                    final_box = selected_det["box_xywh"][:]
+                else:
+                    state = "SEARCHING"
+                    color = (0, 255, 255)
+            else:
+                detector_confirmed = False
+                detector_conflict = False
+                if selected_det is not None:
+                    detector_confirmed = (
+                        (math.isfinite(best_detector_iou) and best_detector_iou >= float(args.confirm_iou_threshold))
+                        or (math.isfinite(best_center_distance_ratio) and best_center_distance_ratio <= float(args.confirm_center_threshold))
+                    )
+                    detector_conflict = not detector_confirmed
+                    if detector_confirmed:
+                        metrics["detector_confirmed_frames"] += 1
+                        consecutive_detector_missing = 0
+                    elif math.isfinite(score) and score >= float(args.low_score_threshold):
+                        if not was_background_locked:
+                            metrics["background_lock_events"] += 1
+                        was_background_locked = True
+                elif need_detection:
+                    detector_conflict = True
+
+                force_hard_reinit = False
+                allow_reinit = selected_det is not None and not ambiguous_detection
+                if allow_reinit:
+                    if is_out_of_frame or consecutive_suspicious >= int(args.lost_frames):
+                        force_hard_reinit = True
+                    if math.isfinite(best_detector_iou) and best_detector_iou < float(args.reinit_iou_threshold) and (is_low_score or was_lost or was_background_locked):
+                        force_hard_reinit = True
+                    if math.isfinite(best_area_ratio) and best_area_ratio > float(args.size_ratio_threshold) and (is_low_score or detector_conflict):
+                        force_hard_reinit = True
+
+                if allow_reinit and force_hard_reinit:
+                    final_box = selected_det["box_xywh"][:]
+                    init_worker = TrackerInitializer(tracker, frame_bgr, final_box)
+                    init_worker.start()
+                    initializing = True
+                    tracking_active = False
+                    previous_box = None
+                    consecutive_suspicious = 0
+                    consecutive_detector_missing = 0
+                    was_lost = False
+                    was_background_locked = False
+                    metrics["hard_reinitializations"] += 1
+                    state = "REINITIALIZING"
+                    color = (255, 0, 255)
+                    print("hard_reinit_bbox=%.3f,%.3f,%.3f,%.3f det_conf=%.3f" % tuple(final_box + [selected_det["conf"]]), flush=True)
+                elif allow_reinit and detector_confirmed and (is_low_score or is_large_jump or is_large_area_change):
+                    final_box = blend_boxes(tracker_box, selected_det["box_xywh"], args.detector_weight)
+                    init_worker = TrackerInitializer(tracker, frame_bgr, final_box)
+                    init_worker.start()
+                    initializing = True
+                    tracking_active = False
+                    previous_box = None
+                    metrics["soft_reinitializations"] += 1
+                    state = "SOFT_REINITIALIZING"
+                    color = (255, 0, 255)
+                elif selected_det is not None and ambiguous_detection and (is_low_score or was_lost or was_background_locked):
+                    metrics["ambiguous_reinit_skips"] += 1
+                    state = "AMBIGUOUS_REDETECT"
+                    color = (0, 128, 255)
+                elif is_out_of_frame or consecutive_suspicious >= int(args.lost_frames):
+                    state = "LOST"
+                    color = (0, 0, 255)
+                    if not was_lost:
+                        metrics["lost_events"] += 1
+                    was_lost = True
+                elif was_background_locked and detector_conflict:
+                    state = "BACKGROUND_LOCK"
+                    color = (0, 0, 255)
+                elif consecutive_suspicious >= int(args.suspect_frames) or detector_conflict:
+                    state = "SUSPECTED_LOST"
+                    color = (0, 128, 255)
+                elif weak_confidence:
+                    state = "LOW_CONFIDENCE"
+                    color = (0, 165, 255)
+                elif detector_confirmed:
+                    state = "DETECTOR_CONFIRMED"
+                    color = (0, 255, 0)
+                else:
+                    state = "TRACKING"
+                    color = (0, 255, 0)
+
+                if state == "LOW_CONFIDENCE":
+                    metrics["low_confidence_frames"] += 1
+                if state in ("SUSPECTED_LOST", "BACKGROUND_LOCK", "AMBIGUOUS_REDETECT"):
+                    metrics["suspected_lost_frames"] += 1
+                if state == "LOST":
+                    metrics["lost_frames"] += 1
+                if final_box is not None:
+                    current_box = final_box[:]
+                    previous_box = final_box[:]
+
+            for det in detections:
+                draw_box(display, det["box_xywh"], (255, 180, 0), 1)
+            if selected_det is not None:
+                draw_box(display, selected_det["box_xywh"], (255, 0, 0), 2)
+            if final_box is not None:
+                draw_box(display, final_box, color, 2)
+            draw_label(display, state, (12, 82), color)
+
+            now = time.perf_counter()
+            fps_value = 1.0 / max(now - last_time, 1e-9)
+            last_time = now
+            draw_header(display, frame_index, fps_value, state, score, det_count, det_conf, best_detector_iou)
+            cv2.imshow(args.window_name, display)
+
+            if args.save_video and output_dir is not None and video_writer is None:
+                height, width = display.shape[:2]
+                out_fps = float(cap.get(cv2.CAP_PROP_FPS))
+                if out_fps <= 0:
+                    out_fps = float(args.fps)
+                video_writer = cv2.VideoWriter(str(output_dir / "camera_detector_tracking.mp4"), cv2.VideoWriter_fourcc(*"mp4v"), out_fps, (width, height))
+            if video_writer is not None:
+                video_writer.write(display)
+
+            if writer_csv is not None:
+                if tracker_box is None:
+                    tracker_values = [float("nan")] * 4
+                else:
+                    tracker_values = tracker_box
+                if final_box is None:
+                    final_values = [float("nan")] * 4
+                else:
+                    final_values = final_box
+                if selected_det is None:
+                    det_values = [float("nan")] * 4
+                else:
+                    det_values = selected_det["box_xywh"]
+                writer_csv.writerow([
+                    frame_index, now - run_start,
+                    tracker_values[0], tracker_values[1], tracker_values[2], tracker_values[3],
+                    final_values[0], final_values[1], final_values[2], final_values[3],
+                    det_values[0], det_values[1], det_values[2], det_values[3],
+                    score, det_conf, det_count, best_detector_iou, best_center_distance_ratio, best_area_ratio,
+                    state, track_elapsed, detect_elapsed, init_time_for_row, fps_value,
+                    int(is_low_score), int(is_very_low_score), int(is_out_of_frame), center_delta, center_delta_ratio,
+                    adjacent_area_ratio, int(is_large_jump), int(is_large_area_change), consecutive_suspicious,
+                    int(ambiguous_detection), metrics["soft_reinitializations"], metrics["hard_reinitializations"], metrics["background_lock_events"],
+                ])
+                csv_file.flush()
+
+            metrics["frames_total"] += 1
+            if output_dir is not None and args.metrics_interval > 0 and metrics["frames_total"] % int(args.metrics_interval) == 0:
+                metrics["end_time"] = time.perf_counter()
+                write_metrics_summary(output_dir, metrics)
+
+            key = cv2.waitKey(1) & 0xFF
+            if key in (ord("q"), ord("Q"), 27):
+                break
+            if key in (ord("r"), ord("R")):
+                force_redetect = True
+                tracking_active = False
+                initializing = False
+                current_box = None
+                previous_box = None
+                prev_output = {}
+                consecutive_suspicious = 0
+                consecutive_detector_missing = 0
+                print("force_redetect_requested", flush=True)
+            else:
+                force_redetect = False
+
+            frame_index += 1
+    finally:
+        metrics["end_time"] = time.perf_counter()
+        cap.release()
+        detector.close()
+        if video_writer is not None:
+            video_writer.release()
+        if csv_file is not None:
+            csv_file.close()
+        write_metrics_summary(output_dir, metrics)
+        cv2.destroyAllWindows()
+
+    return 0
+
+
+if __name__ == "__main__":
+    try:
+        sys.exit(main())
+    except Exception:
+        traceback.print_exc()
+        input("Press Enter to exit...")
+        sys.exit(1)
