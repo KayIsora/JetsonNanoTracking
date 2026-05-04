@@ -4,6 +4,8 @@ from __future__ import print_function
 import argparse
 import csv
 import math
+import struct
+import subprocess
 import sys
 import threading
 import time
@@ -30,8 +32,10 @@ def parse_args():
     parser.add_argument("--save-video", action="store_true", help="Save annotated camera output when --output-dir is set.")
     parser.add_argument("--max-frames", type=int, default=0, help="Optional frame limit. 0 means run until Q/Esc.")
     parser.add_argument("--window-name", default="MyECO Detector Camera", help="OpenCV display window name.")
-    parser.add_argument("--detector-backend", choices=["auto", "ncnn", "onnx", "torchscript", "hog"], default="auto", help="Person detector backend.")
+    parser.add_argument("--detector-backend", choices=["auto", "cpp_ncnn", "ncnn", "onnx", "torchscript", "hog"], default="auto", help="Person detector backend.")
     parser.add_argument("--model-path", type=Path, default=None, help="Detector model path. For ncnn, this is the directory containing ssdperson10695.param/bin.")
+    parser.add_argument("--detector-bin", type=Path, default=PERSON_MODEL_DIR / "build" / "detect_person_stdin", help="C++ NCNN stdin detector executable.")
+    parser.add_argument("--detector-model-dir", type=Path, default=PERSON_MODEL_DIR, help="Directory containing ssdperson10695.param/bin for cpp_ncnn.")
     parser.add_argument("--input-size", type=int, default=300, help="Detector input size. NCNN SSD uses 300.")
     parser.add_argument("--detector-conf", type=float, default=0.75, help="Person detector confidence threshold.")
     parser.add_argument("--nms-threshold", type=float, default=0.45, help="NMS threshold for ONNX/TorchScript YOLO-style detectors.")
@@ -192,10 +196,12 @@ def percentile(values, percent):
     return sorted_values[low] * (high - pos) + sorted_values[high] * (pos - low)
 
 
-def resolve_detector_backend(model_path, backend):
+def resolve_detector_backend(model_path, backend, detector_bin=None, model_path_was_explicit=False):
     if backend != "auto":
         return backend
-    if model_path is None:
+    if detector_bin is not None and detector_bin.exists():
+        return "cpp_ncnn"
+    if not model_path_was_explicit or model_path is None:
         return "hog"
     if model_path.is_dir():
         return "ncnn"
@@ -205,6 +211,82 @@ def resolve_detector_backend(model_path, backend):
     if suffix == ".torchscript":
         return "torchscript"
     return "ncnn"
+
+
+class CppNcnnStdinDetector(object):
+    def __init__(self, detector_bin, model_dir, stderr_path=None):
+        self.detector_bin = Path(detector_bin).expanduser().resolve()
+        self.model_dir = Path(model_dir).expanduser().resolve()
+        if not self.detector_bin.exists():
+            raise RuntimeError("Missing C++ NCNN detector executable: %s" % self.detector_bin)
+        if not (self.model_dir / "ssdperson10695.param").exists() or not (self.model_dir / "ssdperson10695.bin").exists():
+            raise RuntimeError("Missing NCNN person model files in %s" % self.model_dir)
+        self.stderr_file = None
+        stderr_target = None
+        if stderr_path is not None:
+            self.stderr_file = Path(stderr_path).open("w", encoding="utf-8")
+            stderr_target = self.stderr_file
+        self.process = subprocess.Popen(
+            [str(self.detector_bin), "--model-dir", str(self.model_dir), "--conf", "0.0"],
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=stderr_target,
+            bufsize=0,
+        )
+
+    def close(self):
+        process = getattr(self, "process", None)
+        if process is not None and process.poll() is None:
+            try:
+                process.stdin.close()
+            except Exception:
+                pass
+            try:
+                process.terminate()
+                process.wait(timeout=1.0)
+            except Exception:
+                try:
+                    process.kill()
+                except Exception:
+                    pass
+        stderr_file = getattr(self, "stderr_file", None)
+        if stderr_file is not None:
+            stderr_file.close()
+
+    def detect(self, frame_bgr, conf_thresh, nms_thresh):
+        del nms_thresh
+        if self.process.poll() is not None:
+            raise RuntimeError("C++ NCNN detector exited with code %s" % self.process.returncode)
+        if frame_bgr.dtype != np.uint8 or len(frame_bgr.shape) != 3 or frame_bgr.shape[2] != 3:
+            raise RuntimeError("C++ NCNN detector expects uint8 BGR frames")
+        frame = frame_bgr if frame_bgr.flags["C_CONTIGUOUS"] else np.ascontiguousarray(frame_bgr)
+        height, width = frame.shape[:2]
+        self.process.stdin.write(struct.pack("<ii", int(width), int(height)))
+        self.process.stdin.write(frame.tobytes())
+        self.process.stdin.flush()
+        line = self.process.stdout.readline()
+        if not line:
+            raise RuntimeError("C++ NCNN detector produced no response")
+        text = line.decode("utf-8", "replace").strip()
+        parts = text.split()
+        if not parts:
+            raise RuntimeError("C++ NCNN detector produced an empty response")
+        if parts[0] == "ERR":
+            raise RuntimeError("C++ NCNN detector error: %s" % " ".join(parts[1:]))
+        if parts[0] != "OK" or len(parts) < 2:
+            raise RuntimeError("Unexpected C++ NCNN detector response: %s" % text)
+        count = int(parts[1])
+        values = parts[2:]
+        if len(values) != count * 5:
+            raise RuntimeError("Malformed C++ NCNN detector response: %s" % text)
+        detections = []
+        for index in range(count):
+            offset = index * 5
+            x, y, w, h, conf = [float(v) for v in values[offset:offset + 5]]
+            if conf < float(conf_thresh):
+                continue
+            detections.append({"box_xywh": clip_xywh([x, y, w, h], frame_bgr.shape), "conf": conf})
+        return detections
 
 
 class NcnnPersonDetector(object):
@@ -383,27 +465,38 @@ def decode_yolo_output(out, frame_shape, orig_w, orig_h, input_size, conf_thresh
     return detections
 
 
-def load_detector(project_root, args):
+def resolve_path(project_root, path_value):
+    path = Path(path_value).expanduser()
+    if not path.is_absolute():
+        path = project_root / path
+    return path
+
+
+def load_detector(project_root, args, output_dir=None):
     model_path = args.model_path
+    model_path_was_explicit = model_path is not None
     if model_path is None:
         model_path = project_root / PERSON_MODEL_DIR
     else:
-        model_path = model_path.expanduser()
-        if not model_path.is_absolute():
-            model_path = project_root / model_path
-    backend = resolve_detector_backend(model_path, args.detector_backend)
+        model_path = resolve_path(project_root, model_path)
+    detector_bin = resolve_path(project_root, args.detector_bin)
+    detector_model_dir = resolve_path(project_root, args.detector_model_dir)
+    backend = resolve_detector_backend(model_path, args.detector_backend, detector_bin, model_path_was_explicit)
+    if backend == "cpp_ncnn":
+        stderr_path = output_dir / "cpp_detector_stderr.log" if output_dir is not None else None
+        return backend, detector_model_dir.resolve(), detector_bin.resolve(), CppNcnnStdinDetector(detector_bin, detector_model_dir, stderr_path)
     if backend == "ncnn":
-        return backend, model_path.resolve(), NcnnPersonDetector(model_path, args.input_size, use_gpu=bool(args.ncnn_use_gpu))
+        return backend, model_path.resolve(), Path(""), NcnnPersonDetector(model_path, args.input_size, use_gpu=bool(args.ncnn_use_gpu))
     if backend == "hog":
-        return backend, Path("opencv_hog"), HOGPersonDetector(args.hog_win_stride, args.hog_scale)
+        return backend, Path("opencv_hog"), Path(""), HOGPersonDetector(args.hog_win_stride, args.hog_scale)
     if backend == "onnx":
         if not model_path.exists():
             raise RuntimeError("Missing ONNX model: %s" % model_path)
-        return backend, model_path.resolve(), YoloDnnDetector(model_path, args.input_size)
+        return backend, model_path.resolve(), Path(""), YoloDnnDetector(model_path, args.input_size)
     if backend == "torchscript":
         if not model_path.exists():
             raise RuntimeError("Missing TorchScript model: %s" % model_path)
-        return backend, model_path.resolve(), TorchscriptDetector(model_path, args.input_size, args.device)
+        return backend, model_path.resolve(), Path(""), TorchscriptDetector(model_path, args.input_size, args.device)
     raise RuntimeError("Unsupported detector backend: %s" % backend)
 
 
@@ -477,6 +570,23 @@ def draw_header(image, frame_index, fps_value, state, score, det_count, det_conf
     cv2.putText(image, "Auto detect person -> init ECO. Press R to force re-detect. Q/Esc: quit", (12, 54), cv2.FONT_HERSHEY_SIMPLEX, 0.52, (245, 245, 245), 2, cv2.LINE_AA)
 
 
+def write_run_info(output_dir, args, detector_backend, detector_model_path, detector_bin_path):
+    if output_dir is None:
+        return
+    info_path = output_dir / "run_info.txt"
+    with info_path.open("w", encoding="utf-8") as f:
+        f.write("script=%s\n" % Path(__file__).name)
+        f.write("output_dir=%s\n" % output_dir)
+        f.write("detector_backend=%s\n" % detector_backend)
+        f.write("detector_model=%s\n" % detector_model_path)
+        f.write("detector_bin=%s\n" % detector_bin_path)
+        f.write("predictions_csv=%s\n" % (output_dir / "camera_predictions.csv"))
+        f.write("metrics_summary=%s\n" % (output_dir / "camera_metrics.txt"))
+        f.write("argv=%s\n" % " ".join(sys.argv))
+        f.write("args=%s\n" % vars(args))
+    print("run_info=%s" % info_path, flush=True)
+
+
 def write_metrics_summary(output_dir, metrics):
     if output_dir is None:
         return
@@ -489,7 +599,7 @@ def write_metrics_summary(output_dir, metrics):
     summary_path = output_dir / "camera_metrics.txt"
     with summary_path.open("w", encoding="utf-8") as f:
         for key in [
-            "camera", "tracker", "param", "detector_backend", "detector_model", "frame_width", "frame_height",
+            "camera", "tracker", "param", "detector_backend", "detector_model", "detector_bin", "frame_width", "frame_height",
             "input_size", "detector_conf", "detect_interval", "lost_detect_interval", "low_score_threshold",
             "very_low_score_threshold", "suspect_frames_threshold", "lost_frames_threshold", "confirm_iou_threshold",
             "confirm_center_threshold", "reinit_iou_threshold", "size_ratio_threshold", "tracker_load_time_s",
@@ -559,9 +669,10 @@ def main():
 
     print("Loading detector...", flush=True)
     detector_load_start = time.perf_counter()
-    detector_backend, detector_model_path, detector = load_detector(project_root, args)
+    detector_backend, detector_model_path, detector_bin_path, detector = load_detector(project_root, args, output_dir)
     detector_load_time = time.perf_counter() - detector_load_start
-    print("Detector ready backend=%s model=%s time=%.3fs." % (detector_backend, detector_model_path, detector_load_time), flush=True)
+    print("Detector ready backend=%s model=%s bin=%s time=%.3fs." % (detector_backend, detector_model_path, detector_bin_path, detector_load_time), flush=True)
+    write_run_info(output_dir, args, detector_backend, detector_model_path, detector_bin_path)
 
     print("Creating tracker %s/%s..." % (args.tracker_name, args.param), flush=True)
     tracker_load_start = time.perf_counter()
@@ -578,6 +689,7 @@ def main():
     video_writer = None
     if output_dir is not None:
         csv_file = (output_dir / "camera_predictions.csv").open("w", newline="", encoding="utf-8")
+        print("predictions_csv=%s" % (output_dir / "camera_predictions.csv"), flush=True)
         writer_csv = csv.writer(csv_file)
         writer_csv.writerow([
             "frame_index", "timestamp_s", "tracker_x", "tracker_y", "tracker_w", "tracker_h",
@@ -612,6 +724,7 @@ def main():
         "param": args.param,
         "detector_backend": detector_backend,
         "detector_model": str(detector_model_path),
+        "detector_bin": str(detector_bin_path),
         "frame_width": 0,
         "frame_height": 0,
         "input_size": int(args.input_size),
