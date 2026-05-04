@@ -28,9 +28,13 @@ def parse_args():
     parser.add_argument("--window-name", default="MyECO Camera Tracking", help="OpenCV display window name.")
     parser.add_argument("--init-width-ratio", type=float, default=0.28, help="Center init bbox width as a ratio of frame width.")
     parser.add_argument("--init-height-ratio", type=float, default=0.70, help="Center init bbox height as a ratio of frame height.")
-    parser.add_argument("--low-score-threshold", type=float, default=0.72, help="Tracker score threshold for LOW_SCORE state.")
-    parser.add_argument("--lost-frames", type=int, default=10, help="Consecutive low-score/out-of-frame frames before LOST state.")
+    parser.add_argument("--low-score-threshold", type=float, default=0.50, help="Tracker score threshold for LOW_CONFIDENCE state.")
+    parser.add_argument("--very-low-score-threshold", type=float, default=0.25, help="Tracker score threshold for SUSPECTED_LOST/LOST state.")
+    parser.add_argument("--lost-frames", type=int, default=20, help="Consecutive suspicious frames before LOST state.")
+    parser.add_argument("--suspect-frames", type=int, default=10, help="Consecutive suspicious frames before SUSPECTED_LOST state.")
     parser.add_argument("--bbox-margin", type=float, default=0.15, help="Allowed bbox margin outside frame as a ratio of bbox size.")
+    parser.add_argument("--jump-threshold", type=float, default=0.45, help="Center jump threshold as a ratio of frame diagonal.")
+    parser.add_argument("--area-change-threshold", type=float, default=2.80, help="Large bbox area-ratio threshold between adjacent tracking frames.")
     parser.add_argument("--metrics-interval", type=int, default=30, help="Write camera_metrics.txt every N frames. 0 means only on exit.")
     return parser.parse_args()
 
@@ -123,6 +127,20 @@ def finite_or_nan(value):
     return float("nan")
 
 
+def percentile(values, percent):
+    if not values:
+        return float("nan")
+    sorted_values = sorted(values)
+    if len(sorted_values) == 1:
+        return sorted_values[0]
+    pos = (len(sorted_values) - 1) * float(percent) / 100.0
+    low = int(math.floor(pos))
+    high = int(math.ceil(pos))
+    if low == high:
+        return sorted_values[low]
+    return sorted_values[low] * (high - pos) + sorted_values[high] * (pos - low)
+
+
 def draw_status_label(image, text, color):
     cv2.putText(image, text, (12, 82), cv2.FONT_HERSHEY_SIMPLEX, 0.65, color, 2, cv2.LINE_AA)
 
@@ -166,6 +184,9 @@ def write_metrics_summary(output_dir, metrics):
     duration_s = max(metrics["end_time"] - metrics["start_time"], 1e-9)
     track_frames = max(metrics["track_frames"], 1)
     init_times = metrics["init_times"]
+    scores = metrics["scores"]
+    center_deltas = metrics["center_deltas"]
+    area_ratios = metrics["area_ratios"]
     summary_path = output_dir / "camera_metrics.txt"
     with summary_path.open("w", encoding="utf-8") as f:
         f.write("camera=%s\n" % metrics["camera"])
@@ -174,7 +195,11 @@ def write_metrics_summary(output_dir, metrics):
         f.write("frame_width=%d\n" % metrics["frame_width"])
         f.write("frame_height=%d\n" % metrics["frame_height"])
         f.write("low_score_threshold=%.6f\n" % metrics["low_score_threshold"])
+        f.write("very_low_score_threshold=%.6f\n" % metrics["very_low_score_threshold"])
+        f.write("suspect_frames_threshold=%d\n" % metrics["suspect_frames_threshold"])
         f.write("lost_frames_threshold=%d\n" % metrics["lost_frames_threshold"])
+        f.write("jump_threshold=%.6f\n" % metrics["jump_threshold"])
+        f.write("area_change_threshold=%.6f\n" % metrics["area_change_threshold"])
         f.write("tracker_load_time_s=%.6f\n" % metrics["tracker_load_time_s"])
         f.write("duration_s=%.6f\n" % duration_s)
         f.write("frames_total=%d\n" % metrics["frames_total"])
@@ -187,11 +212,29 @@ def write_metrics_summary(output_dir, metrics):
         f.write("initializations_completed=%d\n" % metrics["initializations_completed"])
         f.write("init_time_avg_s=%.6f\n" % (sum(init_times) / float(len(init_times)) if init_times else 0.0))
         f.write("init_time_max_s=%.6f\n" % (max(init_times) if init_times else 0.0))
+        f.write("score_count=%d\n" % len(scores))
+        f.write("score_min=%.6f\n" % (min(scores) if scores else float("nan")))
+        f.write("score_p10=%.6f\n" % percentile(scores, 10))
+        f.write("score_p25=%.6f\n" % percentile(scores, 25))
+        f.write("score_median=%.6f\n" % percentile(scores, 50))
+        f.write("score_p75=%.6f\n" % percentile(scores, 75))
+        f.write("score_p90=%.6f\n" % percentile(scores, 90))
+        f.write("score_mean=%.6f\n" % (sum(scores) / float(len(scores)) if scores else float("nan")))
+        f.write("score_max=%.6f\n" % (max(scores) if scores else float("nan")))
+        f.write("center_delta_avg_px=%.6f\n" % (sum(center_deltas) / float(len(center_deltas)) if center_deltas else 0.0))
+        f.write("center_delta_max_px=%.6f\n" % (max(center_deltas) if center_deltas else 0.0))
+        f.write("area_ratio_avg=%.6f\n" % (sum(area_ratios) / float(len(area_ratios)) if area_ratios else 1.0))
+        f.write("area_ratio_max=%.6f\n" % (max(area_ratios) if area_ratios else 1.0))
         f.write("low_score_frames=%d\n" % metrics["low_score_frames"])
+        f.write("very_low_score_frames=%d\n" % metrics["very_low_score_frames"])
+        f.write("low_confidence_frames=%d\n" % metrics["low_confidence_frames"])
+        f.write("suspected_lost_frames=%d\n" % metrics["suspected_lost_frames"])
         f.write("lost_frames=%d\n" % metrics["lost_frames"])
         f.write("out_of_frame_frames=%d\n" % metrics["out_of_frame_frames"])
+        f.write("large_jump_frames=%d\n" % metrics["large_jump_frames"])
+        f.write("large_area_change_frames=%d\n" % metrics["large_area_change_frames"])
         f.write("lost_events=%d\n" % metrics["lost_events"])
-        f.write("max_consecutive_low_score=%d\n" % metrics["max_consecutive_low_score"])
+        f.write("max_consecutive_suspicious=%d\n" % metrics["max_consecutive_suspicious"])
         f.flush()
     print("metrics_summary=%s" % summary_path, flush=True)
 
@@ -226,8 +269,9 @@ def main():
         writer_csv = csv.writer(csv_file)
         writer_csv.writerow([
             "frame_index", "timestamp_s", "x", "y", "w", "h", "center_x", "center_y", "area",
-            "score", "state", "track_time_s", "init_time_s", "fps", "is_low_score", "is_out_of_frame",
-            "consecutive_low_score", "manual_reinitializations",
+            "score", "state", "track_time_s", "init_time_s", "fps", "is_low_score", "is_very_low_score",
+            "is_out_of_frame", "center_delta_px", "center_delta_ratio", "area_ratio", "is_large_jump",
+            "is_large_area_change", "consecutive_suspicious", "manual_reinitializations",
         ])
 
     cv2.namedWindow(args.window_name, cv2.WINDOW_NORMAL)
@@ -236,14 +280,13 @@ def main():
     init_worker = None
     prev_output = {}
     current_box = None
+    previous_box = None
     frame_index = 0
     last_time = time.perf_counter()
     run_start = time.perf_counter()
-    consecutive_low_score = 0
+    consecutive_suspicious = 0
     was_lost = False
     last_init_time = 0.0
-    frame_width = 0
-    frame_height = 0
     metrics = {
         "camera": args.camera,
         "tracker": args.tracker_name,
@@ -251,7 +294,11 @@ def main():
         "frame_width": 0,
         "frame_height": 0,
         "low_score_threshold": float(args.low_score_threshold),
+        "very_low_score_threshold": float(args.very_low_score_threshold),
+        "suspect_frames_threshold": int(args.suspect_frames),
         "lost_frames_threshold": int(args.lost_frames),
+        "jump_threshold": float(args.jump_threshold),
+        "area_change_threshold": float(args.area_change_threshold),
         "tracker_load_time_s": tracker_load_time,
         "start_time": run_start,
         "end_time": run_start,
@@ -261,11 +308,19 @@ def main():
         "manual_reinitializations": 0,
         "initializations_completed": 0,
         "init_times": [],
+        "scores": [],
+        "center_deltas": [],
+        "area_ratios": [],
         "low_score_frames": 0,
+        "very_low_score_frames": 0,
+        "low_confidence_frames": 0,
+        "suspected_lost_frames": 0,
         "lost_frames": 0,
         "out_of_frame_frames": 0,
+        "large_jump_frames": 0,
+        "large_area_change_frames": 0,
         "lost_events": 0,
-        "max_consecutive_low_score": 0,
+        "max_consecutive_suspicious": 0,
     }
 
     try:
@@ -279,6 +334,7 @@ def main():
                 break
 
             frame_height, frame_width = frame_bgr.shape[:2]
+            frame_diag = math.hypot(float(frame_width), float(frame_height))
             metrics["frame_width"] = frame_width
             metrics["frame_height"] = frame_height
             display = frame_bgr.copy()
@@ -286,7 +342,13 @@ def main():
             mode = "READY"
             score = None
             is_low_score = False
+            is_very_low_score = False
             is_out_of_frame = False
+            is_large_jump = False
+            is_large_area_change = False
+            center_delta = 0.0
+            center_delta_ratio = 0.0
+            area_ratio = 1.0
             init_time_for_row = 0.0
             init_box_preview = get_center_init_box(frame_bgr.shape, args.init_width_ratio, args.init_height_ratio)
 
@@ -296,9 +358,10 @@ def main():
                 out = init_worker.output or {}
                 prev_output = dict(out)
                 current_box = [float(v) for v in out.get("target_bbox", init_worker.init_box)]
+                previous_box = current_box[:]
                 tracking_active = True
                 initializing = False
-                consecutive_low_score = 0
+                consecutive_suspicious = 0
                 was_lost = False
                 last_init_time = init_worker.elapsed
                 init_time_for_row = last_init_time
@@ -313,25 +376,46 @@ def main():
                 out = tracker.track(frame_rgb, {"previous_output": prev_output}) or {}
                 track_elapsed = time.perf_counter() - start
                 prev_output = dict(out)
+                previous_for_metrics = previous_box
                 current_box = [float(v) for v in out["target_bbox"]]
                 raw_score = getattr(tracker, "last_max_score", float("nan"))
                 score = finite_or_nan(raw_score)
                 is_low_score = math.isfinite(score) and score < float(args.low_score_threshold)
+                is_very_low_score = math.isfinite(score) and score < float(args.very_low_score_threshold)
                 is_out_of_frame = bbox_out_of_frame(current_box, frame_bgr.shape, args.bbox_margin)
-                if is_low_score or is_out_of_frame:
-                    consecutive_low_score += 1
-                else:
-                    consecutive_low_score = 0
-                metrics["max_consecutive_low_score"] = max(metrics["max_consecutive_low_score"], consecutive_low_score)
 
-                if consecutive_low_score >= int(args.lost_frames):
+                if previous_for_metrics is not None:
+                    prev_center = bbox_center(previous_for_metrics)
+                    curr_center = bbox_center(current_box)
+                    center_delta = math.hypot(curr_center[0] - prev_center[0], curr_center[1] - prev_center[1])
+                    center_delta_ratio = center_delta / max(frame_diag, 1e-9)
+                    prev_area = max(bbox_area(previous_for_metrics), 1e-9)
+                    curr_area = max(bbox_area(current_box), 1e-9)
+                    area_ratio = max(curr_area / prev_area, prev_area / curr_area)
+
+                is_large_jump = center_delta_ratio > float(args.jump_threshold)
+                is_large_area_change = area_ratio > float(args.area_change_threshold)
+                suspicious = is_out_of_frame or is_very_low_score or (is_low_score and (is_large_jump or is_large_area_change))
+                weak_confidence = is_low_score or is_large_jump or is_large_area_change
+
+                if suspicious:
+                    consecutive_suspicious += 1
+                else:
+                    consecutive_suspicious = 0
+                metrics["max_consecutive_suspicious"] = max(metrics["max_consecutive_suspicious"], consecutive_suspicious)
+
+                if is_out_of_frame or consecutive_suspicious >= int(args.lost_frames):
                     mode = "LOST"
                     color = (0, 0, 255)
                     if not was_lost:
                         metrics["lost_events"] += 1
                     was_lost = True
-                elif is_low_score or is_out_of_frame:
-                    mode = "LOW_SCORE"
+                elif consecutive_suspicious >= int(args.suspect_frames):
+                    mode = "SUSPECTED_LOST"
+                    color = (0, 128, 255)
+                    was_lost = False
+                elif weak_confidence:
+                    mode = "LOW_CONFIDENCE"
                     color = (0, 165, 255)
                     was_lost = False
                 else:
@@ -343,12 +427,27 @@ def main():
                 draw_status_label(display, mode, color)
                 metrics["track_frames"] += 1
                 metrics["track_time_total_s"] += track_elapsed
+                if math.isfinite(score):
+                    metrics["scores"].append(score)
+                metrics["center_deltas"].append(center_delta)
+                metrics["area_ratios"].append(area_ratio)
                 if is_low_score:
                     metrics["low_score_frames"] += 1
+                if is_very_low_score:
+                    metrics["very_low_score_frames"] += 1
+                if mode == "LOW_CONFIDENCE":
+                    metrics["low_confidence_frames"] += 1
+                if mode == "SUSPECTED_LOST":
+                    metrics["suspected_lost_frames"] += 1
                 if is_out_of_frame:
                     metrics["out_of_frame_frames"] += 1
+                if is_large_jump:
+                    metrics["large_jump_frames"] += 1
+                if is_large_area_change:
+                    metrics["large_area_change_frames"] += 1
                 if mode == "LOST":
                     metrics["lost_frames"] += 1
+                previous_box = current_box[:]
             elif initializing:
                 mode = "INITIALIZING"
                 draw_box(display, init_box_preview, (0, 165, 255))
@@ -384,8 +483,9 @@ def main():
                     area = bbox_area(current_box)
                 writer_csv.writerow([
                     frame_index, now - run_start, row_box[0], row_box[1], row_box[2], row_box[3], center_x, center_y, area,
-                    score, mode, track_elapsed, init_time_for_row, fps_value, int(is_low_score), int(is_out_of_frame),
-                    consecutive_low_score, metrics["manual_reinitializations"],
+                    score, mode, track_elapsed, init_time_for_row, fps_value, int(is_low_score), int(is_very_low_score),
+                    int(is_out_of_frame), center_delta, center_delta_ratio, area_ratio, int(is_large_jump),
+                    int(is_large_area_change), consecutive_suspicious, metrics["manual_reinitializations"],
                 ])
                 csv_file.flush()
 
@@ -401,7 +501,8 @@ def main():
                 init_box = select_initial_bbox(frame_bgr, args.init_width_ratio, args.init_height_ratio)
                 initializing = True
                 tracking_active = False
-                consecutive_low_score = 0
+                consecutive_suspicious = 0
+                previous_box = None
                 init_worker = TrackerInitializer(tracker, frame_bgr, init_box)
                 init_worker.start()
                 metrics["manual_reinitializations"] += 1
