@@ -1374,13 +1374,26 @@ def main():
 
             control_candidate = None
             control_source = "none"
-            if selected_det is not None and not ambiguous_detection and state in ("DETECTOR_CONFIRMED", "LOW_CONFIDENCE", "SUSPECTED_LOST", "BACKGROUND_LOCK", "REINITIALIZING", "SOFT_REINITIALIZING", "DETECTED_INITIALIZING"):
+            tracker_control_states = ("TRACKING", "DETECTOR_CONFIRMED")
+            unsafe_control_states = (
+                "LOW_CONFIDENCE", "SUSPECTED_LOST", "BACKGROUND_LOCK", "LOST",
+                "AMBIGUOUS_REDETECT", "AMBIGUOUS_DETECTION", "REINITIALIZING",
+                "SOFT_REINITIALIZING", "INITIALIZING", "SEARCHING", "WAITING_FACE",
+                "SEARCHING_TARGET", "IDENTITY_REJECTED",
+            )
+            if selected_det is not None and not ambiguous_detection:
                 control_candidate = selected_det["box_xywh"][:]
                 control_source = "detector"
-            elif final_box is not None and state not in ("SEARCHING", "WAITING_FACE", "SEARCHING_TARGET", "IDENTITY_REJECTED"):
-                control_candidate = final_box[:]
-                control_source = "tracker"
-            elif control_box is not None:
+            elif final_box is not None and state in tracker_control_states:
+                tracker_control_ok = True
+                if control_box is not None:
+                    tracker_control_ok = area_ratio(control_box, final_box) <= float(args.size_ratio_threshold)
+                if tracker_control_ok:
+                    control_candidate = final_box[:]
+                    control_source = "tracker"
+                elif control_box is not None:
+                    control_source = "held"
+            elif control_box is not None and state in unsafe_control_states:
                 control_source = "held"
 
             if control_candidate is not None:
