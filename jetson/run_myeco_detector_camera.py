@@ -570,7 +570,7 @@ def draw_header(image, frame_index, fps_value, state, score, det_count, det_conf
     iou_text = "nan" if best_iou is None or not math.isfinite(float(best_iou)) else "%.2f" % best_iou
     text = "frame=%d fps=%.2f state=%s score=%s dets=%d det=%s iou=%s" % (frame_index, fps_value, state, score_text, det_count, det_text, iou_text)
     cv2.putText(image, text, (12, 28), cv2.FONT_HERSHEY_SIMPLEX, 0.58, (245, 245, 245), 2, cv2.LINE_AA)
-    cv2.putText(image, "Auto detect person -> init ECO. Press R to force re-detect. Q/Esc: quit", (12, 54), cv2.FONT_HERSHEY_SIMPLEX, 0.52, (245, 245, 245), 2, cv2.LINE_AA)
+    cv2.putText(image, "Auto detect person -> init ECO. R: re-detect. S: screenshot. Q/Esc: quit", (12, 54), cv2.FONT_HERSHEY_SIMPLEX, 0.52, (245, 245, 245), 2, cv2.LINE_AA)
 
 
 def write_run_info(output_dir, args, detector_backend, detector_model_path, detector_bin_path):
@@ -1136,6 +1136,15 @@ def main():
                 consecutive_suspicious = 0
                 consecutive_detector_missing = 0
                 print("force_redetect_requested", flush=True)
+            elif key in (ord("s"), ord("S")):
+                if output_dir is None:
+                    screenshot_path = Path("tracking_screenshot_%06d.jpg" % frame_index).resolve()
+                else:
+                    screenshot_dir = output_dir / "screenshots"
+                    screenshot_dir.mkdir(parents=True, exist_ok=True)
+                    screenshot_path = screenshot_dir / ("frame_%06d_%s.jpg" % (frame_index, state.lower()))
+                cv2.imwrite(str(screenshot_path), display)
+                print("screenshot=%s" % screenshot_path, flush=True)
             else:
                 force_redetect = False
 
