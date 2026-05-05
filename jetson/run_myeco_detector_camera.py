@@ -15,6 +15,9 @@ from pathlib import Path
 import cv2
 import numpy as np
 
+from identity_manager import IdentityManager, IdentityState
+from recognition_client import CppFaceRecognizer, DisabledFaceRecognizer
+
 
 PERSON_MODEL_DIR = Path("person_detection_update") / "pedestrian_detection"
 
@@ -39,6 +42,20 @@ def parse_args():
     parser.add_argument("--input-size", type=int, default=300, help="Detector input size. NCNN SSD uses 300.")
     parser.add_argument("--detector-conf", type=float, default=0.75, help="Person detector confidence threshold.")
     parser.add_argument("--nms-threshold", type=float, default=0.45, help="NMS threshold for ONNX/TorchScript YOLO-style detectors.")
+    parser.add_argument("--recognizer-backend", choices=["auto", "off", "cpp_ncnn"], default="auto", help="Face recognition backend for identity gating.")
+    parser.add_argument("--recognizer-bin", type=Path, default=PERSON_MODEL_DIR / "build" / "face_recognize_stdin", help="C++ NCNN stdin face recognizer executable.")
+    parser.add_argument("--recognizer-model-dir", type=Path, default=PERSON_MODEL_DIR / "models", help="Directory containing retinaface and mbv2facenet NCNN models.")
+    parser.add_argument("--recognizer-cpu", action="store_true", help="Run the C++ face recognizer without NCNN Vulkan.")
+    parser.add_argument("--recognizer-face-conf", type=float, default=0.80, help="RetinaFace confidence threshold.")
+    parser.add_argument("--recognizer-face-nms", type=float, default=0.40, help="RetinaFace NMS threshold.")
+    parser.add_argument("--recognize-interval", type=int, default=30, help="Verify identity every N stable tracking frames.")
+    parser.add_argument("--recognize-fast-interval", type=int, default=3, help="Verify identity every N frames while tracking is uncertain.")
+    parser.add_argument("--identity-match-threshold", type=float, default=0.35, help="Cosine similarity needed to verify target identity.")
+    parser.add_argument("--identity-reject-threshold", type=float, default=0.12, help="Cosine similarity low enough to count as identity rejection.")
+    parser.add_argument("--identity-reject-confirm-frames", type=int, default=2, help="Consecutive clear rejects before dropping the current target.")
+    parser.add_argument("--identity-stale-frames", type=int, default=90, help="Frames after last match before identity becomes STALE.")
+    parser.add_argument("--identity-probation-frames", type=int, default=45, help="Frames to keep uncertain identity in PROBATION before STALE.")
+    parser.add_argument("--allow-probation-reinit", action="store_true", help="Allow detector reinit without identity match when no face is visible.")
     parser.add_argument("--device", choices=["auto", "cpu", "cuda"], default="auto", help="Torch device for torchscript backend.")
     parser.add_argument("--ncnn-use-gpu", action="store_true", help="Use NCNN Vulkan GPU when Python ncnn binding is available.")
     parser.add_argument("--hog-scale", type=float, default=1.05, help="Scale factor for fallback OpenCV HOG detector.")
@@ -60,6 +77,7 @@ def parse_args():
     parser.add_argument("--reinit-cooldown-frames", type=int, default=60, help="Minimum frames between detector-driven reinitializations unless target is lost or background-locked.")
     parser.add_argument("--shrink-confirm-frames", type=int, default=3, help="Require this many consecutive confirmed oversized tracker boxes before shrink reinitialization.")
     parser.add_argument("--detector-weight", type=float, default=0.65, help="Soft correction weight for detector bbox.")
+    parser.add_argument("--control-box-smoothing", type=float, default=0.35, help="Smoothing weight for the display/control bbox used by later recognition or robot-control stages.")
     parser.add_argument("--ambiguous-margin", type=float, default=0.15, help="If top two detection ranks are closer than this margin, do not reinitialize blindly.")
     parser.add_argument("--metrics-interval", type=int, default=30, help="Write camera_metrics.txt every N frames. 0 means only on exit.")
     return parser.parse_args()
@@ -503,6 +521,44 @@ def load_detector(project_root, args, output_dir=None):
     raise RuntimeError("Unsupported detector backend: %s" % backend)
 
 
+def resolve_recognizer_backend(project_root, args):
+    if args.recognizer_backend == "off":
+        return "off"
+    recognizer_bin = resolve_path(project_root, args.recognizer_bin)
+    model_dir = resolve_path(project_root, args.recognizer_model_dir)
+    required = ["retinaface.param", "retinaface.bin", "mbv2facenet.param", "mbv2facenet.bin"]
+    models_exist = all((model_dir / name).exists() for name in required)
+    if args.recognizer_backend == "cpp_ncnn":
+        return "cpp_ncnn"
+    if recognizer_bin.exists() and models_exist:
+        return "cpp_ncnn"
+    return "off"
+
+
+def load_recognizer(project_root, args, output_dir=None):
+    backend = resolve_recognizer_backend(project_root, args)
+    recognizer_bin = resolve_path(project_root, args.recognizer_bin)
+    model_dir = resolve_path(project_root, args.recognizer_model_dir)
+    if backend == "off":
+        return backend, model_dir.resolve(), recognizer_bin.resolve(), DisabledFaceRecognizer()
+    if backend == "cpp_ncnn":
+        stderr_path = output_dir / "cpp_recognizer_stderr.log" if output_dir is not None else None
+        return (
+            backend,
+            model_dir.resolve(),
+            recognizer_bin.resolve(),
+            CppFaceRecognizer(
+                recognizer_bin,
+                model_dir,
+                face_conf=args.recognizer_face_conf,
+                face_nms=args.recognizer_face_nms,
+                use_gpu=not bool(args.recognizer_cpu),
+                stderr_path=stderr_path,
+            ),
+        )
+    raise RuntimeError("Unsupported recognizer backend: %s" % backend)
+
+
 def rank_detections(detections, reference_box, frame_shape):
     if not detections:
         return []
@@ -533,6 +589,55 @@ def select_detection(detections, reference_box, frame_shape, ambiguous_margin):
     return best_det, ambiguous, float(best_rank)
 
 
+def detector_match_metrics(tracker_box, selected_det, frame_diag):
+    if selected_det is None:
+        return float("nan"), float("nan"), float("nan"), float("nan")
+    det_conf = selected_det["conf"]
+    if tracker_box is None:
+        return det_conf, float("nan"), float("nan"), float("nan")
+    det_box = selected_det["box_xywh"]
+    return (
+        det_conf,
+        box_iou(tracker_box, det_box),
+        center_distance(tracker_box, det_box) / max(1.0, float(frame_diag)),
+        area_ratio(tracker_box, det_box),
+    )
+
+
+def find_detection_index(detections, selected_det):
+    if selected_det is None:
+        return -1
+    for idx, det in enumerate(detections):
+        if det is selected_det:
+            return idx
+    selected_box = selected_det.get("box_xywh")
+    for idx, det in enumerate(detections):
+        if det.get("box_xywh") == selected_box:
+            return idx
+    return -1
+
+
+def recognition_boxes_from_candidates(candidates):
+    return [item["box_xywh"] for item in candidates if item is not None and item.get("box_xywh") is not None]
+
+
+def run_identity_recognition(recognizer, identity, frame_index, frame_bgr, candidates, enroll, metrics, danger=False):
+    boxes = recognition_boxes_from_candidates(candidates)
+    if not identity.enabled or not boxes:
+        return -1, 0.0, {"target_ready": identity.target_ready, "enrolled_index": -1, "results": []}
+    start = time.perf_counter()
+    response = recognizer.enroll(frame_bgr, boxes) if enroll else recognizer.verify(frame_bgr, boxes)
+    elapsed = time.perf_counter() - start
+    metrics["recognition_calls"] += 1
+    metrics["recognition_times"].append(elapsed)
+    if enroll:
+        candidate_index = identity.observe_enroll(frame_index, response)
+        metrics["identity_enrollments"] = identity.enrollments
+    else:
+        candidate_index = identity.observe_verify(frame_index, response, danger=danger)
+    return candidate_index, elapsed, response
+
+
 class TrackerInitializer(threading.Thread):
     def __init__(self, tracker, frame_bgr, init_box):
         threading.Thread.__init__(self)
@@ -555,25 +660,31 @@ class TrackerInitializer(threading.Thread):
             self.elapsed = time.perf_counter() - start
 
 
-def draw_box(image, box, color, thickness=2):
+def draw_box(image, box, color, thickness=2, label=None):
     x, y, w, h = [int(round(float(v))) for v in box]
     cv2.rectangle(image, (x, y), (x + w, y + h), color, thickness)
+    if label:
+        label_y = max(18, y - 6)
+        cv2.putText(image, label, (x, label_y), cv2.FONT_HERSHEY_SIMPLEX, 0.48, color, 2, cv2.LINE_AA)
 
 
 def draw_label(image, text, point, color):
     cv2.putText(image, text, point, cv2.FONT_HERSHEY_SIMPLEX, 0.58, color, 2, cv2.LINE_AA)
 
 
-def draw_header(image, frame_index, fps_value, state, score, det_count, det_conf, best_iou):
+def draw_header(image, frame_index, fps_value, state, score, det_count, det_conf, best_iou, identity_state=None, identity_score=None):
     score_text = "nan" if score is None or not math.isfinite(float(score)) else "%.3f" % score
     det_text = "nan" if det_conf is None or not math.isfinite(float(det_conf)) else "%.2f" % det_conf
     iou_text = "nan" if best_iou is None or not math.isfinite(float(best_iou)) else "%.2f" % best_iou
     text = "frame=%d fps=%.2f state=%s score=%s dets=%d det=%s iou=%s" % (frame_index, fps_value, state, score_text, det_count, det_text, iou_text)
+    if identity_state is not None:
+        id_text = "nan" if identity_score is None or not math.isfinite(float(identity_score)) else "%.2f" % identity_score
+        text += " id=%s idscore=%s" % (identity_state, id_text)
     cv2.putText(image, text, (12, 28), cv2.FONT_HERSHEY_SIMPLEX, 0.58, (245, 245, 245), 2, cv2.LINE_AA)
     cv2.putText(image, "Auto detect person -> init ECO. R: re-detect. S: screenshot. Q/Esc: quit", (12, 54), cv2.FONT_HERSHEY_SIMPLEX, 0.52, (245, 245, 245), 2, cv2.LINE_AA)
 
 
-def write_run_info(output_dir, args, detector_backend, detector_model_path, detector_bin_path):
+def write_run_info(output_dir, args, detector_backend, detector_model_path, detector_bin_path, recognizer_backend=None, recognizer_model_path=None, recognizer_bin_path=None):
     if output_dir is None:
         return
     info_path = output_dir / "run_info.txt"
@@ -583,6 +694,10 @@ def write_run_info(output_dir, args, detector_backend, detector_model_path, dete
         f.write("detector_backend=%s\n" % detector_backend)
         f.write("detector_model=%s\n" % detector_model_path)
         f.write("detector_bin=%s\n" % detector_bin_path)
+        if recognizer_backend is not None:
+            f.write("recognizer_backend=%s\n" % recognizer_backend)
+            f.write("recognizer_model=%s\n" % recognizer_model_path)
+            f.write("recognizer_bin=%s\n" % recognizer_bin_path)
         f.write("predictions_csv=%s\n" % (output_dir / "camera_predictions.csv"))
         f.write("metrics_summary=%s\n" % (output_dir / "camera_metrics.txt"))
         f.write("argv=%s\n" % " ".join(sys.argv))
@@ -598,6 +713,7 @@ def write_metrics_summary(output_dir, metrics):
     center_deltas = metrics["center_deltas"]
     area_ratios = metrics["area_ratios"]
     detector_times = metrics["detector_times"]
+    recognition_times = metrics["recognition_times"]
     init_times = metrics["init_times"]
     summary_path = output_dir / "camera_metrics.txt"
     with summary_path.open("w", encoding="utf-8") as f:
@@ -607,6 +723,9 @@ def write_metrics_summary(output_dir, metrics):
             "very_low_score_threshold", "suspect_frames_threshold", "lost_frames_threshold", "confirm_iou_threshold",
             "confirm_center_threshold", "reinit_iou_threshold", "size_ratio_threshold", "shrink_ratio_threshold",
             "reinit_cooldown_frames", "shrink_confirm_frames", "tracker_load_time_s", "detector_load_time_s",
+            "recognizer_backend", "recognizer_model", "recognizer_bin", "recognizer_load_time_s",
+            "recognize_interval", "recognize_fast_interval", "identity_match_threshold", "identity_reject_threshold",
+            "control_box_smoothing",
         ]:
             value = metrics[key]
             if isinstance(value, float):
@@ -625,11 +744,29 @@ def write_metrics_summary(output_dir, metrics):
         f.write("detector_time_avg_s=%.6f\n" % (sum(detector_times) / float(len(detector_times)) if detector_times else 0.0))
         f.write("detections_total=%d\n" % metrics["detections_total"])
         f.write("detections_avg_per_call=%.6f\n" % (float(metrics["detections_total"]) / float(max(metrics["detector_calls"], 1))))
+        f.write("recognition_calls=%d\n" % metrics["recognition_calls"])
+        f.write("recognition_time_total_s=%.6f\n" % sum(recognition_times))
+        f.write("recognition_time_avg_s=%.6f\n" % (sum(recognition_times) / float(len(recognition_times)) if recognition_times else 0.0))
+        f.write("identity_enrollments=%d\n" % metrics["identity_enrollments"])
+        f.write("identity_verified_frames=%d\n" % metrics["identity_verified_frames"])
+        f.write("identity_stale_frames=%d\n" % metrics["identity_stale_frames"])
+        f.write("identity_probation_frames=%d\n" % metrics["identity_probation_frames"])
+        f.write("identity_rejected_frames=%d\n" % metrics["identity_rejected_frames"])
+        f.write("identity_reinit_blocks=%d\n" % metrics["identity_reinit_blocks"])
         f.write("initializations_completed=%d\n" % metrics["initializations_completed"])
         f.write("init_time_avg_s=%.6f\n" % (sum(init_times) / float(len(init_times)) if init_times else 0.0))
         f.write("init_time_max_s=%.6f\n" % (max(init_times) if init_times else 0.0))
         f.write("soft_reinitializations=%d\n" % metrics["soft_reinitializations"])
         f.write("hard_reinitializations=%d\n" % metrics["hard_reinitializations"])
+        f.write("hard_reinit_out_of_frame=%d\n" % metrics["hard_reinit_out_of_frame"])
+        f.write("hard_reinit_lost_suspicious=%d\n" % metrics["hard_reinit_lost_suspicious"])
+        f.write("hard_reinit_low_iou=%d\n" % metrics["hard_reinit_low_iou"])
+        f.write("hard_reinit_area_ratio=%d\n" % metrics["hard_reinit_area_ratio"])
+        f.write("hard_reinit_background_lock=%d\n" % metrics["hard_reinit_background_lock"])
+        f.write("control_box_frames=%d\n" % metrics["control_box_frames"])
+        f.write("control_box_from_detector=%d\n" % metrics["control_box_from_detector"])
+        f.write("control_box_from_tracker=%d\n" % metrics["control_box_from_tracker"])
+        f.write("control_box_held=%d\n" % metrics["control_box_held"])
         f.write("ambiguous_reinit_skips=%d\n" % metrics["ambiguous_reinit_skips"])
         f.write("reinit_cooldown_skips=%d\n" % metrics["reinit_cooldown_skips"])
         f.write("shrink_reinit_cooldown_skips=%d\n" % metrics["shrink_reinit_cooldown_skips"])
@@ -678,7 +815,22 @@ def main():
     detector_backend, detector_model_path, detector_bin_path, detector = load_detector(project_root, args, output_dir)
     detector_load_time = time.perf_counter() - detector_load_start
     print("Detector ready backend=%s model=%s bin=%s time=%.3fs." % (detector_backend, detector_model_path, detector_bin_path, detector_load_time), flush=True)
-    write_run_info(output_dir, args, detector_backend, detector_model_path, detector_bin_path)
+
+    print("Loading recognizer...", flush=True)
+    recognizer_load_start = time.perf_counter()
+    recognizer_backend, recognizer_model_path, recognizer_bin_path, recognizer = load_recognizer(project_root, args, output_dir)
+    recognizer_load_time = time.perf_counter() - recognizer_load_start
+    print("Recognizer ready backend=%s model=%s bin=%s time=%.3fs." % (recognizer_backend, recognizer_model_path, recognizer_bin_path, recognizer_load_time), flush=True)
+    recognizer_enabled = recognizer_backend != "off"
+    identity = IdentityManager(
+        enabled=recognizer_enabled,
+        match_threshold=args.identity_match_threshold,
+        reject_threshold=args.identity_reject_threshold,
+        reject_confirm_frames=args.identity_reject_confirm_frames,
+        stale_frames=args.identity_stale_frames,
+        probation_frames=args.identity_probation_frames,
+    )
+    write_run_info(output_dir, args, detector_backend, detector_model_path, detector_bin_path, recognizer_backend, recognizer_model_path, recognizer_bin_path)
 
     print("Creating tracker %s/%s..." % (args.tracker_name, args.param), flush=True)
     tracker_load_start = time.perf_counter()
@@ -699,12 +851,14 @@ def main():
         writer_csv = csv.writer(csv_file)
         writer_csv.writerow([
             "frame_index", "timestamp_s", "tracker_x", "tracker_y", "tracker_w", "tracker_h",
-            "final_x", "final_y", "final_w", "final_h", "det_x", "det_y", "det_w", "det_h",
+            "final_x", "final_y", "final_w", "final_h", "control_x", "control_y", "control_w", "control_h", "control_source", "det_x", "det_y", "det_w", "det_h",
             "tracker_score", "det_conf", "det_count", "best_detector_iou", "best_center_distance_ratio",
             "best_area_ratio", "state", "track_time_s", "detect_time_s", "init_time_s", "fps",
             "is_low_score", "is_very_low_score", "is_out_of_frame", "center_delta_px", "center_delta_ratio",
             "area_ratio", "is_large_jump", "is_large_area_change", "consecutive_suspicious", "ambiguous_detection",
             "soft_reinitializations", "hard_reinitializations", "background_lock_events",
+            "identity_state", "identity_score", "identity_face_found", "identity_candidate_index",
+            "identity_target_ready", "recognition_time_s", "identity_reinit_blocks",
         ])
 
     cv2.namedWindow(args.window_name, cv2.WINDOW_NORMAL)
@@ -715,6 +869,8 @@ def main():
     current_box = None
     previous_box = None
     last_detector_box = None
+    control_box = None
+    control_box_source = "none"
     frame_index = 0
     last_time = time.perf_counter()
     run_start = time.perf_counter()
@@ -733,6 +889,9 @@ def main():
         "detector_backend": detector_backend,
         "detector_model": str(detector_model_path),
         "detector_bin": str(detector_bin_path),
+        "recognizer_backend": recognizer_backend,
+        "recognizer_model": str(recognizer_model_path),
+        "recognizer_bin": str(recognizer_bin_path),
         "frame_width": 0,
         "frame_height": 0,
         "input_size": int(args.input_size),
@@ -752,6 +911,12 @@ def main():
         "shrink_confirm_frames": int(args.shrink_confirm_frames),
         "tracker_load_time_s": tracker_load_time,
         "detector_load_time_s": detector_load_time,
+        "recognizer_load_time_s": recognizer_load_time,
+        "recognize_interval": int(args.recognize_interval),
+        "recognize_fast_interval": int(args.recognize_fast_interval),
+        "identity_match_threshold": float(args.identity_match_threshold),
+        "identity_reject_threshold": float(args.identity_reject_threshold),
+        "control_box_smoothing": float(args.control_box_smoothing),
         "start_time": run_start,
         "end_time": run_start,
         "frames_total": 0,
@@ -760,10 +925,27 @@ def main():
         "detector_calls": 0,
         "detector_times": [],
         "detections_total": 0,
+        "recognition_calls": 0,
+        "recognition_times": [],
+        "identity_enrollments": 0,
+        "identity_verified_frames": 0,
+        "identity_stale_frames": 0,
+        "identity_probation_frames": 0,
+        "identity_rejected_frames": 0,
+        "identity_reinit_blocks": 0,
         "initializations_completed": 0,
         "init_times": [],
         "soft_reinitializations": 0,
         "hard_reinitializations": 0,
+        "hard_reinit_out_of_frame": 0,
+        "hard_reinit_lost_suspicious": 0,
+        "hard_reinit_low_iou": 0,
+        "hard_reinit_area_ratio": 0,
+        "hard_reinit_background_lock": 0,
+        "control_box_frames": 0,
+        "control_box_from_detector": 0,
+        "control_box_from_tracker": 0,
+        "control_box_held": 0,
         "ambiguous_reinit_skips": 0,
         "reinit_cooldown_skips": 0,
         "shrink_reinit_cooldown_skips": 0,
@@ -803,6 +985,7 @@ def main():
             display = frame_bgr.copy()
             track_elapsed = 0.0
             detect_elapsed = 0.0
+            recognition_elapsed = 0.0
             init_time_for_row = 0.0
             score = None
             tracker_box = current_box[:] if current_box is not None else None
@@ -815,6 +998,9 @@ def main():
             best_center_distance_ratio = float("nan")
             best_area_ratio = float("nan")
             ambiguous_detection = False
+            identity_candidate_index = -1
+            identity_face_found = False
+            identity_score = identity.last_similarity
             is_low_score = False
             is_very_low_score = False
             is_out_of_frame = False
@@ -825,6 +1011,7 @@ def main():
             adjacent_area_ratio = 1.0
             state = "SEARCHING"
             color = (0, 255, 255)
+            hard_reinit_reasons = []
 
             if init_worker is not None and not init_worker.is_alive():
                 if init_worker.error is not None:
@@ -913,11 +1100,7 @@ def main():
                 selected_det, ambiguous_detection, _ = select_detection(detections, reference_box, frame_bgr.shape, args.ambiguous_margin)
                 if selected_det is not None:
                     det_box = selected_det["box_xywh"]
-                    det_conf = selected_det["conf"]
-                    if tracker_box is not None:
-                        best_detector_iou = box_iou(tracker_box, det_box)
-                        best_center_distance_ratio = center_distance(tracker_box, det_box) / frame_diag
-                        best_area_ratio = area_ratio(tracker_box, det_box)
+                    det_conf, best_detector_iou, best_center_distance_ratio, best_area_ratio = detector_match_metrics(tracker_box, selected_det, frame_diag)
                     last_detector_box = det_box[:]
                 else:
                     consecutive_detector_missing += 1
@@ -928,13 +1111,39 @@ def main():
                 color = (0, 165, 255)
             elif not tracking_active:
                 if selected_det is not None and not ambiguous_detection:
-                    init_worker = TrackerInitializer(tracker, frame_bgr, selected_det["box_xywh"])
-                    init_worker.start()
-                    initializing = True
-                    state = "DETECTED_INITIALIZING"
-                    color = (0, 165, 255)
-                    final_box = selected_det["box_xywh"][:]
-                    print("auto_initializing_bbox=%.3f,%.3f,%.3f,%.3f det_conf=%.3f" % tuple(final_box + [selected_det["conf"]]), flush=True)
+                    can_initialize = True
+                    if recognizer_enabled:
+                        if not identity.target_ready:
+                            identity_candidate_index, recognition_elapsed, _ = run_identity_recognition(
+                                recognizer, identity, frame_index, frame_bgr, [selected_det], True, metrics, danger=True)
+                            identity_face_found = identity.last_face_found
+                            identity_score = identity.last_similarity
+                            can_initialize = identity.target_ready and identity_candidate_index == 0
+                            if not can_initialize:
+                                state = "WAITING_FACE"
+                                color = (0, 128, 255)
+                                final_box = selected_det["box_xywh"][:]
+                        else:
+                            identity_candidate_index, recognition_elapsed, _ = run_identity_recognition(
+                                recognizer, identity, frame_index, frame_bgr, detections, False, metrics, danger=True)
+                            identity_face_found = identity.last_face_found
+                            identity_score = identity.last_similarity
+                            if identity_candidate_index >= 0 and identity_candidate_index < len(detections):
+                                selected_det = detections[identity_candidate_index]
+                                det_conf, best_detector_iou, best_center_distance_ratio, best_area_ratio = detector_match_metrics(tracker_box, selected_det, frame_diag)
+                            can_initialize = identity.state == IdentityState.VERIFIED and identity_candidate_index >= 0
+                            if not can_initialize:
+                                state = "SEARCHING_TARGET"
+                                color = (0, 128, 255)
+                                final_box = selected_det["box_xywh"][:]
+                    if can_initialize:
+                        init_worker = TrackerInitializer(tracker, frame_bgr, selected_det["box_xywh"])
+                        init_worker.start()
+                        initializing = True
+                        state = "DETECTED_INITIALIZING"
+                        color = (0, 165, 255)
+                        final_box = selected_det["box_xywh"][:]
+                        print("auto_initializing_bbox=%.3f,%.3f,%.3f,%.3f det_conf=%.3f identity=%s id_score=%.3f" % tuple(final_box + [selected_det["conf"], identity.state, identity.last_similarity]), flush=True)
                 elif selected_det is not None and ambiguous_detection:
                     state = "AMBIGUOUS_DETECTION"
                     color = (0, 128, 255)
@@ -946,6 +1155,8 @@ def main():
             else:
                 detector_confirmed = False
                 detector_conflict = False
+                identity_drop_current = False
+                identity_checked_current_box = False
                 in_reinit_cooldown = frame_index - last_reinit_frame < int(args.reinit_cooldown_frames)
                 if selected_det is not None:
                     detector_confirmed = (
@@ -963,20 +1174,72 @@ def main():
                 elif need_detection:
                     detector_conflict = True
 
+                identity_danger = (
+                    is_low_score
+                    or is_very_low_score
+                    or detector_conflict
+                    or was_lost
+                    or was_background_locked
+                    or consecutive_suspicious >= int(args.suspect_frames)
+                    or is_large_jump
+                    or is_large_area_change
+                )
+                identity.refresh_staleness(frame_index, danger=identity_danger)
+                if recognizer_enabled and identity.target_ready and identity.should_check(
+                    frame_index,
+                    args.recognize_interval,
+                    args.recognize_fast_interval,
+                    danger=identity_danger,
+                ):
+                    identity_candidates = detections[:] if detections else []
+                    identity_candidate_is_detector = len(identity_candidates) > 0
+                    if not identity_candidates and final_box is not None:
+                        identity_candidates = [{"box_xywh": final_box, "conf": float("nan")}]
+                        identity_checked_current_box = True
+                    if identity_candidates:
+                        identity_candidate_index, recognition_elapsed, _ = run_identity_recognition(
+                            recognizer, identity, frame_index, frame_bgr, identity_candidates, False, metrics, danger=identity_danger)
+                        identity_face_found = identity.last_face_found
+                        identity_score = identity.last_similarity
+                        if identity_candidate_index >= 0 and identity_candidate_is_detector and identity_candidate_index < len(detections):
+                            selected_det = detections[identity_candidate_index]
+                            ambiguous_detection = False
+                            det_conf, best_detector_iou, best_center_distance_ratio, best_area_ratio = detector_match_metrics(tracker_box, selected_det, frame_diag)
+                            detector_confirmed = (
+                                (math.isfinite(best_detector_iou) and best_detector_iou >= float(args.confirm_iou_threshold))
+                                or (math.isfinite(best_center_distance_ratio) and best_center_distance_ratio <= float(args.confirm_center_threshold))
+                            )
+                            detector_conflict = not detector_confirmed
+                            consecutive_detector_missing = 0
+                            last_detector_box = selected_det["box_xywh"][:]
+                        elif identity_checked_current_box and identity.hard_rejected():
+                            identity_drop_current = True
+
                 force_hard_reinit = False
                 force_shrink_reinit = False
                 rescue_reinit = False
                 allow_reinit = selected_det is not None and not ambiguous_detection
                 if allow_reinit:
-                    if is_out_of_frame or consecutive_suspicious >= int(args.lost_frames):
+                    if is_out_of_frame:
                         force_hard_reinit = True
                         rescue_reinit = True
+                        hard_reinit_reasons.append("out_of_frame")
+                    if consecutive_suspicious >= int(args.lost_frames):
+                        force_hard_reinit = True
+                        rescue_reinit = True
+                        hard_reinit_reasons.append("lost_suspicious")
                     if math.isfinite(best_detector_iou) and best_detector_iou < float(args.reinit_iou_threshold) and (is_low_score or was_lost or was_background_locked):
                         force_hard_reinit = True
                         rescue_reinit = was_lost or was_background_locked
+                        hard_reinit_reasons.append("low_iou")
+                        if was_background_locked:
+                            hard_reinit_reasons.append("background_lock")
                     if math.isfinite(best_area_ratio) and best_area_ratio > float(args.size_ratio_threshold) and (is_low_score or detector_conflict):
                         force_hard_reinit = True
                         rescue_reinit = was_lost or was_background_locked
+                        hard_reinit_reasons.append("area_ratio")
+                        if was_background_locked:
+                            hard_reinit_reasons.append("background_lock")
                     if detector_confirmed and tracker_box is not None:
                         tracker_area = bbox_area(tracker_box)
                         det_area = bbox_area(selected_det["box_xywh"])
@@ -996,6 +1259,16 @@ def main():
                     shrink_confirm_count = 0
 
                 soft_reinit_requested = force_shrink_reinit or (detector_confirmed and is_low_score and (is_large_jump or is_large_area_change))
+                if recognizer_enabled and identity.target_ready and (force_hard_reinit or soft_reinit_requested):
+                    identity_allows_reinit = identity.state == IdentityState.VERIFIED
+                    if args.allow_probation_reinit and identity.state in (IdentityState.PROBATION, IdentityState.STALE) and not identity.last_face_found:
+                        identity_allows_reinit = True
+                    if not identity_allows_reinit:
+                        identity.block_reinit()
+                        metrics["identity_reinit_blocks"] = identity.reinit_blocks
+                        force_hard_reinit = False
+                        force_shrink_reinit = False
+                        soft_reinit_requested = False
                 if in_reinit_cooldown and allow_reinit and not rescue_reinit and (force_hard_reinit or soft_reinit_requested):
                     metrics["reinit_cooldown_skips"] += 1
                     if force_shrink_reinit:
@@ -1004,7 +1277,19 @@ def main():
                     force_shrink_reinit = False
                     soft_reinit_requested = False
 
-                if allow_reinit and force_hard_reinit:
+                if identity_drop_current:
+                    state = "IDENTITY_REJECTED"
+                    color = (0, 0, 255)
+                    tracking_active = False
+                    current_box = None
+                    previous_box = None
+                    control_box = None
+                    control_box_source = "none"
+                    prev_output = {}
+                    final_box = None
+                    consecutive_suspicious = 0
+                    consecutive_detector_missing = 0
+                elif allow_reinit and force_hard_reinit:
                     final_box = selected_det["box_xywh"][:]
                     init_worker = TrackerInitializer(tracker, frame_bgr, final_box)
                     init_worker.start()
@@ -1018,6 +1303,16 @@ def main():
                     was_lost = False
                     was_background_locked = False
                     metrics["hard_reinitializations"] += 1
+                    if "out_of_frame" in hard_reinit_reasons:
+                        metrics["hard_reinit_out_of_frame"] += 1
+                    if "lost_suspicious" in hard_reinit_reasons:
+                        metrics["hard_reinit_lost_suspicious"] += 1
+                    if "low_iou" in hard_reinit_reasons:
+                        metrics["hard_reinit_low_iou"] += 1
+                    if "area_ratio" in hard_reinit_reasons:
+                        metrics["hard_reinit_area_ratio"] += 1
+                    if "background_lock" in hard_reinit_reasons:
+                        metrics["hard_reinit_background_lock"] += 1
                     state = "REINITIALIZING"
                     color = (255, 0, 255)
                     print("hard_reinit_bbox=%.3f,%.3f,%.3f,%.3f det_conf=%.3f" % tuple(final_box + [selected_det["conf"]]), flush=True)
@@ -1065,22 +1360,70 @@ def main():
                     metrics["suspected_lost_frames"] += 1
                 if state == "LOST":
                     metrics["lost_frames"] += 1
+                if identity.state == IdentityState.VERIFIED:
+                    metrics["identity_verified_frames"] += 1
+                elif identity.state == IdentityState.STALE:
+                    metrics["identity_stale_frames"] += 1
+                elif identity.state in (IdentityState.PROBATION, IdentityState.WAITING_FACE):
+                    metrics["identity_probation_frames"] += 1
+                elif identity.state == IdentityState.REJECTED:
+                    metrics["identity_rejected_frames"] += 1
                 if final_box is not None:
                     current_box = final_box[:]
                     previous_box = final_box[:]
 
+            control_candidate = None
+            control_source = "none"
+            if selected_det is not None and not ambiguous_detection and state in ("DETECTOR_CONFIRMED", "LOW_CONFIDENCE", "SUSPECTED_LOST", "BACKGROUND_LOCK", "REINITIALIZING", "SOFT_REINITIALIZING", "DETECTED_INITIALIZING"):
+                control_candidate = selected_det["box_xywh"][:]
+                control_source = "detector"
+            elif final_box is not None and state not in ("SEARCHING", "WAITING_FACE", "SEARCHING_TARGET", "IDENTITY_REJECTED"):
+                control_candidate = final_box[:]
+                control_source = "tracker"
+            elif control_box is not None:
+                control_source = "held"
+
+            if control_candidate is not None:
+                if control_box is None or control_source == "detector":
+                    control_box = control_candidate[:]
+                else:
+                    control_box = blend_boxes(control_box, control_candidate, args.control_box_smoothing)
+                control_box = clip_xywh(control_box, frame_bgr.shape)
+                control_box_source = control_source
+            elif control_box is not None:
+                control_box_source = "held"
+
+            if control_box is not None:
+                metrics["control_box_frames"] += 1
+                if control_box_source == "detector":
+                    metrics["control_box_from_detector"] += 1
+                elif control_box_source == "tracker":
+                    metrics["control_box_from_tracker"] += 1
+                elif control_box_source == "held":
+                    metrics["control_box_held"] += 1
+
             for det in detections:
-                draw_box(display, det["box_xywh"], (255, 180, 0), 1)
+                label = "DET %.2f" % det.get("conf", float("nan"))
+                draw_box(display, det["box_xywh"], (255, 180, 0), 1, label)
             if selected_det is not None:
-                draw_box(display, selected_det["box_xywh"], (255, 0, 0), 2)
+                draw_box(display, selected_det["box_xywh"], (255, 0, 0), 2, "SELECTED")
+            if tracker_box is not None and final_box is not None and tracker_box is not final_box:
+                draw_box(display, tracker_box, (180, 180, 180), 1, "TRACK")
             if final_box is not None:
-                draw_box(display, final_box, color, 2)
+                draw_box(display, final_box, color, 2, "FINAL")
+            if control_box is not None:
+                draw_box(display, control_box, (255, 255, 255), 2, "CONTROL:%s" % control_box_source.upper())
+            if identity.last_face_found and identity.last_face_box is not None:
+                draw_box(display, identity.last_face_box, (255, 255, 0), 1, "FACE")
             draw_label(display, state, (12, 82), color)
+            if recognizer_enabled:
+                id_color = (0, 255, 0) if identity.state == IdentityState.VERIFIED else ((0, 0, 255) if identity.state == IdentityState.REJECTED else (0, 165, 255))
+                draw_label(display, "ID:%s" % identity.state, (12, 108), id_color)
 
             now = time.perf_counter()
             fps_value = 1.0 / max(now - last_time, 1e-9)
             last_time = now
-            draw_header(display, frame_index, fps_value, state, score, det_count, det_conf, best_detector_iou)
+            draw_header(display, frame_index, fps_value, state, score, det_count, det_conf, best_detector_iou, identity.state if recognizer_enabled else None, identity.last_similarity)
             cv2.imshow(args.window_name, display)
 
             if args.save_video and output_dir is not None and video_writer is None:
@@ -1101,6 +1444,12 @@ def main():
                     final_values = [float("nan")] * 4
                 else:
                     final_values = final_box
+                if control_box is None:
+                    control_values = [float("nan")] * 4
+                    control_value_source = "none"
+                else:
+                    control_values = control_box
+                    control_value_source = control_box_source
                 if selected_det is None:
                     det_values = [float("nan")] * 4
                 else:
@@ -1109,12 +1458,15 @@ def main():
                     frame_index, now - run_start,
                     tracker_values[0], tracker_values[1], tracker_values[2], tracker_values[3],
                     final_values[0], final_values[1], final_values[2], final_values[3],
+                    control_values[0], control_values[1], control_values[2], control_values[3], control_value_source,
                     det_values[0], det_values[1], det_values[2], det_values[3],
                     score, det_conf, det_count, best_detector_iou, best_center_distance_ratio, best_area_ratio,
                     state, track_elapsed, detect_elapsed, init_time_for_row, fps_value,
                     int(is_low_score), int(is_very_low_score), int(is_out_of_frame), center_delta, center_delta_ratio,
                     adjacent_area_ratio, int(is_large_jump), int(is_large_area_change), consecutive_suspicious,
                     int(ambiguous_detection), metrics["soft_reinitializations"], metrics["hard_reinitializations"], metrics["background_lock_events"],
+                    identity.state, identity.last_similarity, int(identity.last_face_found), identity.last_candidate_index,
+                    int(identity.target_ready), recognition_elapsed, identity.reinit_blocks,
                 ])
                 csv_file.flush()
 
@@ -1132,9 +1484,13 @@ def main():
                 initializing = False
                 current_box = None
                 previous_box = None
+                control_box = None
+                control_box_source = "none"
                 prev_output = {}
                 consecutive_suspicious = 0
                 consecutive_detector_missing = 0
+                if recognizer_enabled:
+                    identity.reset(keep_target=True)
                 print("force_redetect_requested", flush=True)
             elif key in (ord("s"), ord("S")):
                 if output_dir is None:
@@ -1153,6 +1509,7 @@ def main():
         metrics["end_time"] = time.perf_counter()
         cap.release()
         detector.close()
+        recognizer.close()
         if video_writer is not None:
             video_writer.release()
         if csv_file is not None:
