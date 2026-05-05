@@ -621,6 +621,13 @@ def recognition_boxes_from_candidates(candidates):
     return [item["box_xywh"] for item in candidates if item is not None and item.get("box_xywh") is not None]
 
 
+def detector_confirms_track(best_iou, center_ratio, area_ratio_value, args):
+    iou_ok = math.isfinite(best_iou) and best_iou >= float(args.confirm_iou_threshold)
+    center_ok = math.isfinite(center_ratio) and center_ratio <= float(args.confirm_center_threshold)
+    scale_ok = (not math.isfinite(area_ratio_value)) or area_ratio_value <= float(args.size_ratio_threshold)
+    return iou_ok or (center_ok and scale_ok)
+
+
 def run_identity_recognition(recognizer, identity, frame_index, frame_bgr, candidates, enroll, metrics, danger=False):
     boxes = recognition_boxes_from_candidates(candidates)
     if not identity.enabled or not boxes:
@@ -1159,10 +1166,7 @@ def main():
                 identity_checked_current_box = False
                 in_reinit_cooldown = frame_index - last_reinit_frame < int(args.reinit_cooldown_frames)
                 if selected_det is not None:
-                    detector_confirmed = (
-                        (math.isfinite(best_detector_iou) and best_detector_iou >= float(args.confirm_iou_threshold))
-                        or (math.isfinite(best_center_distance_ratio) and best_center_distance_ratio <= float(args.confirm_center_threshold))
-                    )
+                    detector_confirmed = detector_confirms_track(best_detector_iou, best_center_distance_ratio, best_area_ratio, args)
                     detector_conflict = not detector_confirmed
                     if detector_confirmed:
                         metrics["detector_confirmed_frames"] += 1
@@ -1205,10 +1209,7 @@ def main():
                             selected_det = detections[identity_candidate_index]
                             ambiguous_detection = False
                             det_conf, best_detector_iou, best_center_distance_ratio, best_area_ratio = detector_match_metrics(tracker_box, selected_det, frame_diag)
-                            detector_confirmed = (
-                                (math.isfinite(best_detector_iou) and best_detector_iou >= float(args.confirm_iou_threshold))
-                                or (math.isfinite(best_center_distance_ratio) and best_center_distance_ratio <= float(args.confirm_center_threshold))
-                            )
+                            detector_confirmed = detector_confirms_track(best_detector_iou, best_center_distance_ratio, best_area_ratio, args)
                             detector_conflict = not detector_confirmed
                             consecutive_detector_missing = 0
                             last_detector_box = selected_det["box_xywh"][:]
@@ -1217,6 +1218,7 @@ def main():
 
                 force_hard_reinit = False
                 force_shrink_reinit = False
+                shrink_confirmed = False
                 rescue_reinit = False
                 allow_reinit = selected_det is not None and not ambiguous_detection
                 if allow_reinit:
@@ -1269,7 +1271,8 @@ def main():
                         force_hard_reinit = False
                         force_shrink_reinit = False
                         soft_reinit_requested = False
-                if in_reinit_cooldown and allow_reinit and not rescue_reinit and (force_hard_reinit or soft_reinit_requested):
+                shrink_bypass_cooldown = force_shrink_reinit and shrink_confirmed
+                if in_reinit_cooldown and allow_reinit and not rescue_reinit and not shrink_bypass_cooldown and (force_hard_reinit or soft_reinit_requested):
                     metrics["reinit_cooldown_skips"] += 1
                     if force_shrink_reinit:
                         metrics["shrink_reinit_cooldown_skips"] += 1
@@ -1386,8 +1389,9 @@ def main():
                 control_source = "detector"
             elif final_box is not None and state in tracker_control_states:
                 tracker_control_ok = True
-                if control_box is not None:
-                    tracker_control_ok = area_ratio(control_box, final_box) <= float(args.size_ratio_threshold)
+                reference_box = last_detector_box if last_detector_box is not None else control_box
+                if reference_box is not None:
+                    tracker_control_ok = area_ratio(reference_box, final_box) <= float(args.shrink_ratio_threshold)
                 if tracker_control_ok:
                     control_candidate = final_box[:]
                     control_source = "tracker"
