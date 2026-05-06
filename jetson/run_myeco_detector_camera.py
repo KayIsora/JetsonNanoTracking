@@ -623,9 +623,10 @@ def recognition_boxes_from_candidates(candidates):
 
 def detector_confirms_track(best_iou, center_ratio, area_ratio_value, args):
     iou_ok = math.isfinite(best_iou) and best_iou >= float(args.confirm_iou_threshold)
+    overlap_ok = math.isfinite(best_iou) and best_iou >= float(args.reinit_iou_threshold)
     center_ok = math.isfinite(center_ratio) and center_ratio <= float(args.confirm_center_threshold)
     scale_ok = (not math.isfinite(area_ratio_value)) or area_ratio_value <= float(args.size_ratio_threshold)
-    return iou_ok or (center_ok and scale_ok)
+    return iou_ok or (center_ok and overlap_ok and scale_ok)
 
 
 def run_identity_recognition(recognizer, identity, frame_index, frame_bgr, candidates, enroll, metrics, danger=False):
