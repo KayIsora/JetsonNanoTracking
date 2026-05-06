@@ -78,6 +78,7 @@ def parse_args():
     parser.add_argument("--shrink-confirm-frames", type=int, default=3, help="Require this many consecutive confirmed oversized tracker boxes before shrink reinitialization.")
     parser.add_argument("--detector-weight", type=float, default=0.65, help="Soft correction weight for detector bbox.")
     parser.add_argument("--control-box-smoothing", type=float, default=0.35, help="Smoothing weight for the display/control bbox used by later recognition or robot-control stages.")
+    parser.add_argument("--control-center-threshold", type=float, default=0.20, help="Maximum center distance, as a frame diagonal ratio, for tracker updates to move the control bbox.")
     parser.add_argument("--ambiguous-margin", type=float, default=0.15, help="If top two detection ranks are closer than this margin, do not reinitialize blindly.")
     parser.add_argument("--metrics-interval", type=int, default=30, help="Write camera_metrics.txt every N frames. 0 means only on exit.")
     return parser.parse_args()
@@ -733,7 +734,7 @@ def write_metrics_summary(output_dir, metrics):
             "reinit_cooldown_frames", "shrink_confirm_frames", "tracker_load_time_s", "detector_load_time_s",
             "recognizer_backend", "recognizer_model", "recognizer_bin", "recognizer_load_time_s",
             "recognize_interval", "recognize_fast_interval", "identity_match_threshold", "identity_reject_threshold",
-            "control_box_smoothing",
+            "control_box_smoothing", "control_center_threshold",
         ]:
             value = metrics[key]
             if isinstance(value, float):
@@ -925,6 +926,7 @@ def main():
         "identity_match_threshold": float(args.identity_match_threshold),
         "identity_reject_threshold": float(args.identity_reject_threshold),
         "control_box_smoothing": float(args.control_box_smoothing),
+        "control_center_threshold": float(args.control_center_threshold),
         "start_time": run_start,
         "end_time": run_start,
         "frames_total": 0,
@@ -1020,6 +1022,9 @@ def main():
             state = "SEARCHING"
             color = (0, 255, 255)
             hard_reinit_reasons = []
+            detector_confirmed = False
+            detector_conflict = False
+            rescue_reinit = False
 
             if init_worker is not None and not init_worker.is_alive():
                 if init_worker.error is not None:
@@ -1385,14 +1390,39 @@ def main():
                 "SOFT_REINITIALIZING", "INITIALIZING", "SEARCHING", "WAITING_FACE",
                 "SEARCHING_TARGET", "IDENTITY_REJECTED",
             )
-            if selected_det is not None and not ambiguous_detection:
+            detector_control_states = ("DETECTED_INITIALIZING", "REINITIALIZING", "SOFT_REINITIALIZING")
+            detector_rescue_states = ("SUSPECTED_LOST", "BACKGROUND_LOCK", "LOST")
+            detector_can_update_control = (
+                selected_det is not None
+                and not ambiguous_detection
+                and (
+                    control_box is None
+                    or detector_confirmed
+                    or state in detector_control_states
+                    or (
+                        state in detector_rescue_states
+                        and (
+                            rescue_reinit
+                            or is_low_score
+                            or was_lost
+                            or was_background_locked
+                            or consecutive_suspicious >= int(args.suspect_frames)
+                        )
+                    )
+                )
+            )
+            if detector_can_update_control:
                 control_candidate = selected_det["box_xywh"][:]
                 control_source = "detector"
             elif final_box is not None and state in tracker_control_states:
                 tracker_control_ok = True
-                reference_box = last_detector_box if last_detector_box is not None else control_box
+                reference_box = control_box if control_box is not None else last_detector_box
                 if reference_box is not None:
-                    tracker_control_ok = area_ratio(reference_box, final_box) <= float(args.shrink_ratio_threshold)
+                    control_center_ratio = center_distance(reference_box, final_box) / frame_diag
+                    tracker_control_ok = (
+                        area_ratio(reference_box, final_box) <= float(args.shrink_ratio_threshold)
+                        and control_center_ratio <= float(args.control_center_threshold)
+                    )
                 if tracker_control_ok:
                     control_candidate = final_box[:]
                     control_source = "tracker"
