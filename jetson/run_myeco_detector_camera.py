@@ -772,6 +772,7 @@ def write_metrics_summary(output_dir, metrics):
         f.write("hard_reinit_low_iou=%d\n" % metrics["hard_reinit_low_iou"])
         f.write("hard_reinit_area_ratio=%d\n" % metrics["hard_reinit_area_ratio"])
         f.write("hard_reinit_background_lock=%d\n" % metrics["hard_reinit_background_lock"])
+        f.write("hard_reinit_identity_verified=%d\n" % metrics["hard_reinit_identity_verified"])
         f.write("control_box_frames=%d\n" % metrics["control_box_frames"])
         f.write("control_box_from_detector=%d\n" % metrics["control_box_from_detector"])
         f.write("control_box_from_tracker=%d\n" % metrics["control_box_from_tracker"])
@@ -952,6 +953,7 @@ def main():
         "hard_reinit_low_iou": 0,
         "hard_reinit_area_ratio": 0,
         "hard_reinit_background_lock": 0,
+        "hard_reinit_identity_verified": 0,
         "control_box_frames": 0,
         "control_box_from_detector": 0,
         "control_box_from_tracker": 0,
@@ -1011,6 +1013,7 @@ def main():
             identity_candidate_index = -1
             identity_face_found = False
             identity_score = identity.last_similarity
+            identity_verified_detection = False
             is_low_score = False
             is_very_low_score = False
             is_out_of_frame = False
@@ -1214,6 +1217,7 @@ def main():
                         if identity_candidate_index >= 0 and identity_candidate_is_detector and identity_candidate_index < len(detections):
                             selected_det = detections[identity_candidate_index]
                             ambiguous_detection = False
+                            identity_verified_detection = True
                             det_conf, best_detector_iou, best_center_distance_ratio, best_area_ratio = detector_match_metrics(tracker_box, selected_det, frame_diag)
                             detector_confirmed = detector_confirms_track(best_detector_iou, best_center_distance_ratio, best_area_ratio, args)
                             detector_conflict = not detector_confirmed
@@ -1263,6 +1267,13 @@ def main():
                             force_shrink_reinit = True
                     else:
                         shrink_confirm_count = 0
+                    if identity_verified_detection and tracker_box is not None:
+                        verified_low_overlap = math.isfinite(best_detector_iou) and best_detector_iou < float(args.confirm_iou_threshold)
+                        verified_far_center = math.isfinite(best_center_distance_ratio) and best_center_distance_ratio > float(args.control_center_threshold)
+                        if verified_low_overlap or verified_far_center or is_low_score or was_lost or was_background_locked:
+                            force_hard_reinit = True
+                            rescue_reinit = True
+                            hard_reinit_reasons.append("identity_verified")
                 else:
                     shrink_confirm_count = 0
 
@@ -1322,6 +1333,8 @@ def main():
                         metrics["hard_reinit_area_ratio"] += 1
                     if "background_lock" in hard_reinit_reasons:
                         metrics["hard_reinit_background_lock"] += 1
+                    if "identity_verified" in hard_reinit_reasons:
+                        metrics["hard_reinit_identity_verified"] += 1
                     state = "REINITIALIZING"
                     color = (255, 0, 255)
                     print("hard_reinit_bbox=%.3f,%.3f,%.3f,%.3f det_conf=%.3f" % tuple(final_box + [selected_det["conf"]]), flush=True)
