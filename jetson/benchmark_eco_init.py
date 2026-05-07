@@ -15,6 +15,27 @@ from pathlib import Path
 import cv2
 
 
+PROFILE_STAGE_KEYS = [
+    "initialize_features_inside_initialize_time_s",
+    "setup_target_geometry_time_s",
+    "feature_size_window_interp_time_s",
+    "image_conversion_bounds_time_s",
+    "generate_init_samples_time_s",
+    "projection_svd_time_s",
+    "preprocess_train_sample_time_s",
+    "training_memory_alloc_time_s",
+    "joint_problem_create_time_s",
+    "joint_optimizer_create_time_s",
+    "compressed_samples_time_s",
+    "filter_optimizer_register_time_s",
+    "filter_optimizer_init_run_time_s",
+    "post_init_optimizer_time_s",
+    "symmetrize_finalize_time_s",
+    "initialize_total_profiled_time_s",
+    "profile_unaccounted_time_s",
+]
+
+
 CSV_FIELDS = [
     "run_index",
     "phase",
@@ -28,7 +49,7 @@ CSV_FIELDS = [
     "bbox_w",
     "bbox_h",
     "success",
-]
+] + PROFILE_STAGE_KEYS
 
 
 def parse_args():
@@ -45,6 +66,7 @@ def parse_args():
     parser.add_argument("--track-frames", type=int, default=30, help="Number of track frames measured after each initialize.")
     parser.add_argument("--output-dir", type=Path, default=Path("jetson/benchmarks/eco_init"), help="Directory for benchmark metrics and CSV output.")
     parser.add_argument("--no-initialize-features", action="store_true", help="Skip explicit tracker.initialize_features() to compare lazy init behavior.")
+    parser.add_argument("--profile-eco-init", action="store_true", help="Enable per-stage profiling inside ECO.initialize().")
     return parser.parse_args()
 
 
@@ -214,7 +236,10 @@ def initialize_and_count_wait_frames(cap, tracker, frame_bgr, bbox):
     worker.join()
     if worker.error is not None:
         raise worker.error
-    return worker.output or {}, worker.elapsed, initializing_frames
+    init_profile = getattr(tracker, "last_init_profile", None) or {}
+    if isinstance(worker.output, dict) and "init_profile" in worker.output:
+        init_profile = worker.output.get("init_profile") or init_profile
+    return worker.output or {}, worker.elapsed, initializing_frames, init_profile
 
 
 def measure_track_frames(cap, tracker, prev_output, count):
@@ -231,6 +256,18 @@ def measure_track_frames(cap, tracker, prev_output, count):
         if "target_bbox" in output:
             bbox = output["target_bbox"]
     return times, output, bbox
+
+
+def profile_stage_values(rows, stage_key):
+    values = []
+    for row in rows:
+        try:
+            value = float(row.get(stage_key, float("nan")))
+        except (TypeError, ValueError):
+            value = float("nan")
+        if math.isfinite(value):
+            values.append(value)
+    return values
 
 
 def write_metrics(path, args, stage_times, rows, all_init_times, all_track_times, first_init_time, rss_start, rss_after_create, rss_end):
@@ -277,6 +314,13 @@ def write_metrics(path, args, stage_times, rows, all_init_times, all_track_times
         f.write("rss_start_mb=%.3f\n" % rss_start)
         f.write("rss_after_create_mb=%.3f\n" % rss_after_create)
         f.write("rss_end_mb=%.3f\n" % rss_end)
+        f.write("profile_eco_init=%d\n" % (1 if args.profile_eco_init else 0))
+        for stage_key in PROFILE_STAGE_KEYS:
+            values = profile_stage_values(rows, stage_key)
+            f.write("%s_avg=%.6f\n" % (stage_key, avg(values)))
+            f.write("%s_p50=%.6f\n" % (stage_key, percentile(values, 50)))
+            f.write("%s_p90=%.6f\n" % (stage_key, percentile(values, 90)))
+            f.write("%s_max=%.6f\n" % (stage_key, max(values) if values else float("nan")))
         f.write("runs_csv=%s\n" % (path.parent / "eco_benchmark_runs.csv"))
 
 
@@ -289,6 +333,11 @@ def main():
     print("output_dir=%s" % output_dir, flush=True)
     project_root = resolve_project_root(Path(__file__).resolve().parent)
     print("project_root=%s" % project_root, flush=True)
+
+    if args.profile_eco_init:
+        os.environ["ECO_PROFILE_INIT"] = "1"
+    else:
+        os.environ.pop("ECO_PROFILE_INIT", None)
 
     rss_start = rss_mb()
     print("Creating ECO tracker %s/%s..." % (args.tracker_name, args.param), flush=True)
@@ -317,12 +366,13 @@ def main():
             print("%s run_index=%d bbox=%.1f,%.1f,%.1f,%.1f" % tuple([phase, run_index] + clipped_bbox), flush=True)
 
             try:
-                output, init_time, initializing_frames = initialize_and_count_wait_frames(cap, tracker, frame_bgr, clipped_bbox)
+                output, init_time, initializing_frames, init_profile = initialize_and_count_wait_frames(cap, tracker, frame_bgr, clipped_bbox)
                 track_times, output, tracked_bbox = measure_track_frames(cap, tracker, output, args.track_frames)
                 success = 1
             except Exception:
                 print(traceback.format_exc(), file=sys.stderr, flush=True)
                 output = {}
+                init_profile = {}
                 init_time = float("nan")
                 initializing_frames = 0
                 track_times = []
@@ -353,6 +403,8 @@ def main():
                 "bbox_h": row_bbox[3],
                 "success": success,
             }
+            for stage_key in PROFILE_STAGE_KEYS:
+                row[stage_key] = init_profile.get(stage_key, float("nan"))
             rows.append(row)
             print("%s done init=%.3fs initializing_frames=%d track_avg=%.3fs success=%d" % (
                 phase, init_time, initializing_frames, row["track_avg_s"], success

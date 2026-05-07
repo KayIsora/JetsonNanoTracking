@@ -1,4 +1,6 @@
 from pytracking.tracker.base import BaseTracker
+import os
+import time
 import torch
 import torch.nn.functional as F
 import math
@@ -64,6 +66,23 @@ class ECO(BaseTracker):
 
 
     def initialize(self, image, info: dict) -> dict:
+        profile_enabled = os.environ.get('ECO_PROFILE_INIT', '').lower() in ('1', 'true', 'yes', 'on')
+        profile = {}
+        profile_start = time.perf_counter()
+
+        def profile_sync_cuda():
+            if profile_enabled and self.params.use_gpu and torch.cuda.is_available():
+                torch.cuda.synchronize()
+
+        def profile_stage(name, callback):
+            profile_sync_cuda()
+            start = time.perf_counter()
+            result = callback()
+            profile_sync_cuda()
+            if profile_enabled:
+                profile[name] = time.perf_counter() - start
+            return result
+
         state = info['init_bbox']
 
         # Initialize some stuff
@@ -71,153 +90,154 @@ class ECO(BaseTracker):
         if not self.params.has('device'):
             self.params.device = 'cuda' if self.params.use_gpu else 'cpu'
 
-        # Initialize features
-        self.initialize_features()
+        profile_stage('initialize_features_inside_initialize_time_s', self.initialize_features)
 
-        # Chack if image is color
-        self.params.features.set_is_color(image.shape[2] == 3)
+        def setup_target_geometry():
+            self.params.features.set_is_color(image.shape[2] == 3)
+            self.fparams = self.params.features.get_fparams('feature_params')
+            self.pos = torch.Tensor([state[1] + (state[3] - 1)/2, state[0] + (state[2] - 1)/2])
+            self.target_sz = torch.Tensor([state[3], state[2]])
+            self.target_scale = 1.0
+            search_area = torch.prod(self.target_sz * self.params.search_area_scale).item()
+            if search_area > self.params.max_image_sample_size:
+                self.target_scale = math.sqrt(search_area / self.params.max_image_sample_size)
+            elif search_area < self.params.min_image_sample_size:
+                self.target_scale = math.sqrt(search_area / self.params.min_image_sample_size)
+            self.base_target_sz = self.target_sz / self.target_scale
 
-        # Get feature specific params
-        self.fparams = self.params.features.get_fparams('feature_params')
+        profile_stage('setup_target_geometry_time_s', setup_target_geometry)
 
-        # Get position and size
-        self.pos = torch.Tensor([state[1] + (state[3] - 1)/2, state[0] + (state[2] - 1)/2])
-        self.target_sz = torch.Tensor([state[3], state[2]])
+        def setup_feature_size_window_interp():
+            feat_max_stride = max(self.params.features.stride())
+            self.img_sample_sz = torch.round(torch.sqrt(torch.prod(self.base_target_sz * self.params.search_area_scale))) * torch.ones(2)
+            self.img_sample_sz += feat_max_stride - self.img_sample_sz % (2 * feat_max_stride)
+            self.img_support_sz = self.img_sample_sz
+            self.feature_sz = self.params.features.size(self.img_sample_sz)
+            self.filter_sz = self.feature_sz + (self.feature_sz + 1) % 2
+            self.output_sz = self.params.score_upsample_factor * self.img_support_sz
+            self.compressed_dim = self.fparams.attribute('compressed_dim')
+            self.num_filters = len(self.filter_sz)
+            self.window = TensorList([dcf.hann2d(sz).to(self.params.device) for sz in self.feature_sz])
+            self.interp_fs = TensorList([dcf.get_interp_fourier(sz, self.params.interpolation_method,
+                                                    self.params.interpolation_bicubic_a, self.params.interpolation_centering,
+                                                    self.params.interpolation_windowing, self.params.device) for sz in self.filter_sz])
+            self.reg_filter = TensorList([dcf.get_reg_filter(self.img_support_sz, self.base_target_sz, fparams).to(self.params.device)
+                                          for fparams in self.fparams])
+            self.reg_energy = self.reg_filter.view(-1) @ self.reg_filter.view(-1)
+            output_sigma_factor = self.fparams.attribute('output_sigma_factor')
+            sigma = (self.filter_sz / self.img_support_sz) * torch.sqrt(self.base_target_sz.prod()) * output_sigma_factor
+            self.yf = TensorList([dcf.label_function(sz, sig).to(self.params.device) for sz, sig in zip(self.filter_sz, sigma)])
+            self.params.precond_learning_rate = self.fparams.attribute('learning_rate')
+            if self.params.CG_forgetting_rate is None or max(self.params.precond_learning_rate) >= 1:
+                self.params.direction_forget_factor = 0
+            else:
+                self.params.direction_forget_factor = (1 - max(self.params.precond_learning_rate))**self.params.CG_forgetting_rate
 
-        # Set search area
-        self.target_scale = 1.0
-        search_area = torch.prod(self.target_sz * self.params.search_area_scale).item()
-        if search_area > self.params.max_image_sample_size:
-            self.target_scale =  math.sqrt(search_area / self.params.max_image_sample_size)
-        elif search_area < self.params.min_image_sample_size:
-            self.target_scale =  math.sqrt(search_area / self.params.min_image_sample_size)
+        profile_stage('feature_size_window_interp_time_s', setup_feature_size_window_interp)
 
-        # Target size in base scale
-        self.base_target_sz = self.target_sz / self.target_scale
+        def image_conversion_bounds():
+            im = numpy_to_torch(image)
+            self.image_sz = torch.Tensor([im.shape[2], im.shape[3]])
+            self.min_scale_factor = torch.max(10 / self.base_target_sz)
+            self.max_scale_factor = torch.min(self.image_sz / self.base_target_sz)
+            return im
 
-        # Use odd square search area and set sizes
-        feat_max_stride = max(self.params.features.stride())
-        self.img_sample_sz = torch.round(torch.sqrt(torch.prod(self.base_target_sz * self.params.search_area_scale))) * torch.ones(2)
-        self.img_sample_sz += feat_max_stride - self.img_sample_sz % (2 * feat_max_stride)
+        im = profile_stage('image_conversion_bounds_time_s', image_conversion_bounds)
 
-        # Set other sizes (corresponds to ECO code)
-        self.img_support_sz = self.img_sample_sz
-        self.feature_sz = self.params.features.size(self.img_sample_sz)
-        self.filter_sz = self.feature_sz + (self.feature_sz + 1) % 2
-        self.output_sz = self.params.score_upsample_factor * self.img_support_sz    # Interpolated size of the output
-        self.compressed_dim = self.fparams.attribute('compressed_dim')
+        x = profile_stage('generate_init_samples_time_s', lambda: self.generate_init_samples(im))
 
-        # Number of filters
-        self.num_filters = len(self.filter_sz)
+        def initialize_projection_matrix():
+            x_mat = TensorList([e.permute(1,0,2,3).reshape(e.shape[1], -1).clone() for e in x])
+            x_mat -= x_mat.mean(dim=1, keepdim=True)
+            cov_x = x_mat @ x_mat.t()
+            self.projection_matrix = TensorList([torch.svd(C)[0][:,:cdim].clone() for C, cdim in zip(cov_x, self.compressed_dim)])
 
-        # Get window function
-        self.window = TensorList([dcf.hann2d(sz).to(self.params.device) for sz in self.feature_sz])
+        profile_stage('projection_svd_time_s', initialize_projection_matrix)
 
-        # Get interpolation function
-        self.interp_fs = TensorList([dcf.get_interp_fourier(sz, self.params.interpolation_method,
-                                                self.params.interpolation_bicubic_a, self.params.interpolation_centering,
-                                                self.params.interpolation_windowing, self.params.device) for sz in self.filter_sz])
+        def preprocess_train_sample():
+            train_xf = self.preprocess_sample(x)
+            if 'shift' in self.params.augmentation:
+                for xf in train_xf:
+                    if xf.shape[0] == 1:
+                        continue
+                    for i, shift in enumerate(self.params.augmentation['shift']):
+                        shift_samp = 2 * math.pi * torch.Tensor(shift) / self.img_support_sz
+                        xf[1+i:2+i,...] = fourier.shift_fs(xf[1+i:2+i,...], shift=shift_samp)
+            shift_samp = 2*math.pi * (self.pos - self.pos.round()) / (self.target_scale * self.img_support_sz)
+            return fourier.shift_fs(train_xf, shift=shift_samp)
 
-        # Get regularization filter
-        self.reg_filter = TensorList([dcf.get_reg_filter(self.img_support_sz, self.base_target_sz, fparams).to(self.params.device)
-                                      for fparams in self.fparams])
-        self.reg_energy = self.reg_filter.view(-1) @ self.reg_filter.view(-1)
+        train_xf = profile_stage('preprocess_train_sample_time_s', preprocess_train_sample)
 
-        # Get label function
-        output_sigma_factor = self.fparams.attribute('output_sigma_factor')
-        sigma = (self.filter_sz / self.img_support_sz) * torch.sqrt(self.base_target_sz.prod()) * output_sigma_factor
-        self.yf = TensorList([dcf.label_function(sz, sig).to(self.params.device) for sz, sig in zip(self.filter_sz, sigma)])
+        def allocate_training_memory():
+            num_init_samples = train_xf.size(0)
+            self.init_sample_weights = TensorList([xf.new_ones(1) / xf.shape[0] for xf in train_xf])
+            self.init_training_samples = train_xf.permute(2, 3, 0, 1, 4)
+            self.num_stored_samples = num_init_samples
+            self.previous_replace_ind = [None]*len(self.num_stored_samples)
+            self.sample_weights = TensorList([xf.new_zeros(self.params.sample_memory_size) for xf in train_xf])
+            for sw, init_sw, num in zip(self.sample_weights, self.init_sample_weights, num_init_samples):
+                sw[:num] = init_sw
+            self.training_samples = TensorList(
+                [xf.new_zeros(xf.shape[2], xf.shape[3], self.params.sample_memory_size, cdim, 2) for xf, cdim in zip(train_xf, self.compressed_dim)])
+            self.filter = TensorList(
+                [xf.new_zeros(1, cdim, xf.shape[2], xf.shape[3], 2) for xf, cdim in zip(train_xf, self.compressed_dim)])
 
-        # Optimization options
-        self.params.precond_learning_rate = self.fparams.attribute('learning_rate')
-        if self.params.CG_forgetting_rate is None or max(self.params.precond_learning_rate) >= 1:
-            self.params.direction_forget_factor = 0
-        else:
-            self.params.direction_forget_factor = (1 - max(self.params.precond_learning_rate))**self.params.CG_forgetting_rate
+        profile_stage('training_memory_alloc_time_s', allocate_training_memory)
 
-
-        # Convert image
-        im = numpy_to_torch(image)
-
-        # Setup bounds
-        self.image_sz = torch.Tensor([im.shape[2], im.shape[3]])
-        self.min_scale_factor = torch.max(10 / self.base_target_sz)
-        self.max_scale_factor = torch.min(self.image_sz / self.base_target_sz)
-
-        # Extract and transform sample
-        x = self.generate_init_samples(im)
-
-        # Initialize projection matrix
-        x_mat = TensorList([e.permute(1,0,2,3).reshape(e.shape[1], -1).clone() for e in x])
-        x_mat -= x_mat.mean(dim=1, keepdim=True)
-        cov_x = x_mat @ x_mat.t()
-        self.projection_matrix = TensorList([torch.svd(C)[0][:,:cdim].clone() for C, cdim in zip(cov_x, self.compressed_dim)])
-
-        # Transform to get the training sample
-        train_xf = self.preprocess_sample(x)
-
-        # Shift the samples back
-        if 'shift' in self.params.augmentation:
-            for xf in train_xf:
-                if xf.shape[0] == 1:
-                    continue
-                for i, shift in enumerate(self.params.augmentation['shift']):
-                    shift_samp = 2 * math.pi * torch.Tensor(shift) / self.img_support_sz
-                    xf[1+i:2+i,...] = fourier.shift_fs(xf[1+i:2+i,...], shift=shift_samp)
-
-        # Shift sample
-        shift_samp = 2*math.pi * (self.pos - self.pos.round()) / (self.target_scale * self.img_support_sz)
-        train_xf = fourier.shift_fs(train_xf, shift=shift_samp)
-
-        # Initialize first-frame training samples
-        num_init_samples = train_xf.size(0)
-        self.init_sample_weights = TensorList([xf.new_ones(1) / xf.shape[0] for xf in train_xf])
-        self.init_training_samples = train_xf.permute(2, 3, 0, 1, 4)
-
-
-        # Sample counters and weights
-        self.num_stored_samples = num_init_samples
-        self.previous_replace_ind = [None]*len(self.num_stored_samples)
-        self.sample_weights = TensorList([xf.new_zeros(self.params.sample_memory_size) for xf in train_xf])
-        for sw, init_sw, num in zip(self.sample_weights, self.init_sample_weights, num_init_samples):
-            sw[:num] = init_sw
-
-        # Initialize memory
-        self.training_samples = TensorList(
-            [xf.new_zeros(xf.shape[2], xf.shape[3], self.params.sample_memory_size, cdim, 2) for xf, cdim in zip(train_xf, self.compressed_dim)])
-
-        # Initialize filter
-        self.filter = TensorList(
-            [xf.new_zeros(1, cdim, xf.shape[2], xf.shape[3], 2) for xf, cdim in zip(train_xf, self.compressed_dim)])
-
-        # Do joint optimization
-        self.joint_problem = FactorizedConvProblem(self.init_training_samples, self.yf, self.reg_filter, self.projection_matrix, self.params, self.init_sample_weights)
+        self.joint_problem = profile_stage(
+            'joint_problem_create_time_s',
+            lambda: FactorizedConvProblem(self.init_training_samples, self.yf, self.reg_filter, self.projection_matrix, self.params, self.init_sample_weights)
+        )
         joint_var = self.filter.concat(self.projection_matrix)
-        self.joint_optimizer = GaussNewtonCG(self.joint_problem, joint_var, debug=(self.params.debug>=1), visdom=self.visdom)
+        self.joint_optimizer = profile_stage(
+            'joint_optimizer_create_time_s',
+            lambda: GaussNewtonCG(self.joint_problem, joint_var, debug=(self.params.debug>=1), visdom=self.visdom)
+        )
 
         if self.params.update_projection_matrix:
-            self.joint_optimizer.run(self.params.init_CG_iter // self.params.init_GN_iter, self.params.init_GN_iter)
+            profile_stage('filter_optimizer_init_run_time_s', lambda: self.joint_optimizer.run(self.params.init_CG_iter // self.params.init_GN_iter, self.params.init_GN_iter))
+        elif profile_enabled:
+            profile['filter_optimizer_init_run_time_s'] = 0.0
 
-        # Re-project samples with the new projection matrix
-        compressed_samples = complex.mtimes(self.init_training_samples, self.projection_matrix)
-        for train_samp, init_samp in zip(self.training_samples, compressed_samples):
-            train_samp[:,:,:init_samp.shape[2],:,:] = init_samp
+        def project_compressed_samples():
+            compressed_samples = complex.mtimes(self.init_training_samples, self.projection_matrix)
+            for train_samp, init_samp in zip(self.training_samples, compressed_samples):
+                train_samp[:,:,:init_samp.shape[2],:,:] = init_samp
 
-        # Initialize optimizer
+        profile_stage('compressed_samples_time_s', project_compressed_samples)
+
         self.filter_optimizer = FilterOptim(self.params, self.reg_energy)
-        self.filter_optimizer.register(self.filter, self.training_samples, self.yf, self.sample_weights, self.reg_filter)
-        self.filter_optimizer.sample_energy = self.joint_problem.sample_energy
-        self.filter_optimizer.residuals = self.joint_optimizer.residuals.clone()
+
+        def register_filter_optimizer():
+            self.filter_optimizer.register(self.filter, self.training_samples, self.yf, self.sample_weights, self.reg_filter)
+            self.filter_optimizer.sample_energy = self.joint_problem.sample_energy
+            self.filter_optimizer.residuals = self.joint_optimizer.residuals.clone()
+
+        profile_stage('filter_optimizer_register_time_s', register_filter_optimizer)
 
         if not self.params.update_projection_matrix:
-            self.filter_optimizer.run(self.params.init_CG_iter)
+            profile_stage('filter_optimizer_init_run_time_s', lambda: self.filter_optimizer.run(self.params.init_CG_iter))
 
-        # Post optimization
-        self.filter_optimizer.run(self.params.post_init_CG_iter)
+        profile_stage('post_init_optimizer_time_s', lambda: self.filter_optimizer.run(self.params.post_init_CG_iter))
 
-        self.symmetrize_filter()
-        self.last_train_frame = self.frame_num
-        self.last_max_score = float('inf')
+        def symmetrize_finalize():
+            self.symmetrize_filter()
+            self.last_train_frame = self.frame_num
+            self.last_max_score = float('inf')
+
+        profile_stage('symmetrize_finalize_time_s', symmetrize_finalize)
+
+        if profile_enabled:
+            profile_sync_cuda()
+            profile['initialize_total_profiled_time_s'] = time.perf_counter() - profile_start
+            stage_sum = sum(value for key, value in profile.items() if key != 'initialize_total_profiled_time_s')
+            profile['profile_unaccounted_time_s'] = profile['initialize_total_profiled_time_s'] - stage_sum
+            self.last_init_profile = dict(profile)
+            return {'init_profile': dict(profile)}
+        else:
+            self.last_init_profile = None
+
+        return {}
 
 
 
