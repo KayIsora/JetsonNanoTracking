@@ -81,6 +81,14 @@ def parse_args():
     parser.add_argument("--control-center-threshold", type=float, default=0.20, help="Maximum center distance, as a frame diagonal ratio, for tracker updates to move the control bbox.")
     parser.add_argument("--ambiguous-margin", type=float, default=0.15, help="If top two detection ranks are closer than this margin, do not reinitialize blindly.")
     parser.add_argument("--metrics-interval", type=int, default=30, help="Write camera_metrics.txt every N frames. 0 means only on exit.")
+    parser.add_argument("--wheel-log-only", action="store_true", help="Compute wheel-control commands from the CONTROL box and log them without sending real motor commands.")
+    parser.add_argument("--wheel-target-height-ratio", type=float, default=0.70, help="Desired CONTROL-box height ratio used as a distance proxy for wheel log-only control.")
+    parser.add_argument("--wheel-kp-linear", type=float, default=0.45, help="Proportional gain for wheel log-only linear control.")
+    parser.add_argument("--wheel-kp-angular", type=float, default=0.65, help="Proportional gain for wheel log-only angular control.")
+    parser.add_argument("--wheel-max-linear", type=float, default=0.35, help="Clamp limit for wheel log-only linear command.")
+    parser.add_argument("--wheel-max-angular", type=float, default=0.45, help="Clamp limit for wheel log-only angular command.")
+    parser.add_argument("--wheel-deadband-center", type=float, default=0.05, help="Deadband for normalized CONTROL-box center error before angular command is applied.")
+    parser.add_argument("--wheel-deadband-distance", type=float, default=0.05, help="Deadband for normalized CONTROL-box distance proxy error before linear command is applied.")
     parser.set_defaults(eco_prewarm=False)
     parser.add_argument("--eco-prewarm", dest="eco_prewarm", action="store_true", help="Warm ECO with real camera frames before normal detection/tracking starts.")
     parser.add_argument("--no-eco-prewarm", dest="eco_prewarm", action="store_false", help="Skip the ECO prewarm gate.")
@@ -222,6 +230,63 @@ def finite_or_nan(value):
     if math.isfinite(value):
         return value
     return float("nan")
+
+
+def clamp(value, low, high):
+    return max(float(low), min(float(value), float(high)))
+
+
+def compute_wheel_control(control_box, frame_width, frame_height, state, identity_state, recognizer_enabled, eco_ready_warmed, args):
+    result = {
+        "enabled": int(bool(args.wheel_log_only)),
+        "allowed": 0,
+        "center_error_norm": 0.0,
+        "distance_error_norm": 0.0,
+        "linear_cmd": 0.0,
+        "angular_cmd": 0.0,
+        "left_cmd": 0.0,
+        "right_cmd": 0.0,
+        "reason": "disabled",
+    }
+    if not args.wheel_log_only:
+        return result
+    if int(eco_ready_warmed) != 1:
+        result["reason"] = "not_ready"
+        return result
+    if control_box is None:
+        result["reason"] = "no_control_box"
+        return result
+    if state not in ("TRACKING", "DETECTOR_CONFIRMED"):
+        result["reason"] = "unsafe_state"
+        return result
+    if recognizer_enabled and identity_state != IdentityState.VERIFIED:
+        result["reason"] = "identity_not_verified"
+        return result
+
+    center_x, _ = bbox_center(control_box)
+    frame_width = max(1.0, float(frame_width))
+    frame_height = max(1.0, float(frame_height))
+    center_error_norm = (center_x - frame_width / 2.0) / (frame_width / 2.0)
+    current_height_ratio = float(control_box[3]) / frame_height
+    distance_error_norm = float(args.wheel_target_height_ratio) - current_height_ratio
+    angular_error = 0.0 if abs(center_error_norm) < float(args.wheel_deadband_center) else center_error_norm
+    linear_error = 0.0 if abs(distance_error_norm) < float(args.wheel_deadband_distance) else distance_error_norm
+    angular_cmd = clamp(float(args.wheel_kp_angular) * angular_error, -float(args.wheel_max_angular), float(args.wheel_max_angular))
+    linear_cmd = clamp(float(args.wheel_kp_linear) * linear_error, -float(args.wheel_max_linear), float(args.wheel_max_linear))
+    left_cmd = clamp(linear_cmd - angular_cmd, -1.0, 1.0)
+    right_cmd = clamp(linear_cmd + angular_cmd, -1.0, 1.0)
+
+    result.update({
+        "allowed": 1,
+        "center_error_norm": center_error_norm,
+        "distance_error_norm": distance_error_norm,
+        "linear_cmd": linear_cmd,
+        "angular_cmd": angular_cmd,
+        "left_cmd": left_cmd,
+        "right_cmd": right_cmd,
+        "reason": "ok",
+    })
+    return result
 
 
 def percentile(values, percent):
@@ -898,7 +963,7 @@ def write_metrics_summary(output_dir, metrics):
             "control_box_smoothing", "control_center_threshold", "eco_prewarm_enabled", "eco_ready_warmed",
             "eco_standby_warmed", "eco_first_live_handoff_mode", "eco_first_live_acquisition_time_s",
             "eco_prewarm_first_init_time_s", "eco_prewarm_reinit_count", "eco_prewarm_reinit_avg_s",
-            "eco_prewarm_total_time_s",
+            "eco_prewarm_total_time_s", "wheel_control_enabled",
         ]:
             value = metrics[key]
             if isinstance(value, float):
@@ -942,6 +1007,13 @@ def write_metrics_summary(output_dir, metrics):
         f.write("control_box_from_detector=%d\n" % metrics["control_box_from_detector"])
         f.write("control_box_from_tracker=%d\n" % metrics["control_box_from_tracker"])
         f.write("control_box_held=%d\n" % metrics["control_box_held"])
+        f.write("wheel_control_allowed_frames=%d\n" % metrics["wheel_control_allowed_frames"])
+        f.write("wheel_control_blocked_frames=%d\n" % metrics["wheel_control_blocked_frames"])
+        allowed_frames = max(metrics["wheel_control_allowed_frames"], 1)
+        f.write("wheel_linear_abs_avg=%.6f\n" % (metrics["wheel_linear_abs_sum"] / float(allowed_frames) if metrics["wheel_control_allowed_frames"] > 0 else 0.0))
+        f.write("wheel_angular_abs_avg=%.6f\n" % (metrics["wheel_angular_abs_sum"] / float(allowed_frames) if metrics["wheel_control_allowed_frames"] > 0 else 0.0))
+        f.write("wheel_left_abs_max=%.6f\n" % metrics["wheel_left_abs_max"])
+        f.write("wheel_right_abs_max=%.6f\n" % metrics["wheel_right_abs_max"])
         f.write("ambiguous_reinit_skips=%d\n" % metrics["ambiguous_reinit_skips"])
         f.write("reinit_cooldown_skips=%d\n" % metrics["reinit_cooldown_skips"])
         f.write("shrink_reinit_cooldown_skips=%d\n" % metrics["shrink_reinit_cooldown_skips"])
@@ -1035,6 +1107,8 @@ def main():
             "identity_state", "identity_score", "identity_face_found", "identity_candidate_index",
             "identity_target_ready", "recognition_time_s", "identity_reinit_blocks",
             "eco_ready_warmed", "eco_standby_warmed", "eco_first_live_handoff_mode",
+            "wheel_control_enabled", "wheel_control_allowed", "wheel_center_error_norm", "wheel_distance_error_norm",
+            "wheel_linear_cmd", "wheel_angular_cmd", "wheel_left_cmd", "wheel_right_cmd", "wheel_control_reason",
         ])
 
     cv2.namedWindow(args.window_name, cv2.WINDOW_NORMAL)
@@ -1100,6 +1174,7 @@ def main():
         "control_box_smoothing": float(args.control_box_smoothing),
         "control_center_threshold": float(args.control_center_threshold),
         "eco_prewarm_enabled": int(bool(args.eco_prewarm)),
+        "wheel_control_enabled": int(bool(args.wheel_log_only)),
         "eco_ready_warmed": 0,
         "eco_standby_warmed": 0,
         "eco_first_live_handoff_mode": "none",
@@ -1139,6 +1214,12 @@ def main():
         "control_box_from_detector": 0,
         "control_box_from_tracker": 0,
         "control_box_held": 0,
+        "wheel_control_allowed_frames": 0,
+        "wheel_control_blocked_frames": 0,
+        "wheel_linear_abs_sum": 0.0,
+        "wheel_angular_abs_sum": 0.0,
+        "wheel_left_abs_max": 0.0,
+        "wheel_right_abs_max": 0.0,
         "ambiguous_reinit_skips": 0,
         "reinit_cooldown_skips": 0,
         "shrink_reinit_cooldown_skips": 0,
@@ -1710,6 +1791,26 @@ def main():
                 elif control_box_source == "held":
                     metrics["control_box_held"] += 1
 
+            wheel_control = compute_wheel_control(
+                control_box,
+                frame_width,
+                frame_height,
+                state,
+                identity.state,
+                recognizer_enabled,
+                metrics["eco_ready_warmed"],
+                args,
+            )
+            if wheel_control["enabled"]:
+                if wheel_control["allowed"]:
+                    metrics["wheel_control_allowed_frames"] += 1
+                    metrics["wheel_linear_abs_sum"] += abs(wheel_control["linear_cmd"])
+                    metrics["wheel_angular_abs_sum"] += abs(wheel_control["angular_cmd"])
+                    metrics["wheel_left_abs_max"] = max(metrics["wheel_left_abs_max"], abs(wheel_control["left_cmd"]))
+                    metrics["wheel_right_abs_max"] = max(metrics["wheel_right_abs_max"], abs(wheel_control["right_cmd"]))
+                else:
+                    metrics["wheel_control_blocked_frames"] += 1
+
             for det in detections:
                 label = "DET %.2f" % det.get("conf", float("nan"))
                 draw_box(display, det["box_xywh"], (255, 180, 0), 1, label)
@@ -1727,6 +1828,8 @@ def main():
             if recognizer_enabled:
                 id_color = (0, 255, 0) if identity.state == IdentityState.VERIFIED else ((0, 0, 255) if identity.state == IdentityState.REJECTED else (0, 165, 255))
                 draw_label(display, "ID:%s" % identity.state, (12, 108), id_color)
+            if args.wheel_log_only:
+                draw_label(display, "WHEEL LOG L/R=%.2f/%.2f" % (wheel_control["left_cmd"], wheel_control["right_cmd"]), (12, 134), (200, 200, 255))
 
             now = time.perf_counter()
             fps_value = 1.0 / max(now - last_time, 1e-9)
@@ -1776,6 +1879,8 @@ def main():
                     identity.state, identity.last_similarity, int(identity.last_face_found), identity.last_candidate_index,
                     int(identity.target_ready), recognition_elapsed, identity.reinit_blocks,
                     metrics["eco_ready_warmed"], int(standby_warmed), metrics["eco_first_live_handoff_mode"],
+                    wheel_control["enabled"], wheel_control["allowed"], wheel_control["center_error_norm"], wheel_control["distance_error_norm"],
+                    wheel_control["linear_cmd"], wheel_control["angular_cmd"], wheel_control["left_cmd"], wheel_control["right_cmd"], wheel_control["reason"],
                 ])
                 csv_file.flush()
 
