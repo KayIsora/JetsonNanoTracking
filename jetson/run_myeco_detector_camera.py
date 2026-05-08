@@ -25,10 +25,13 @@ PERSON_MODEL_DIR = Path("person_detection_update") / "pedestrian_detection"
 def parse_args():
     parser = argparse.ArgumentParser(description="Run detector-assisted MyECO on a live camera.")
     parser.add_argument("--camera", default="0", help="Camera index, video path, or GStreamer pipeline.")
+    parser.add_argument("--video-input", type=Path, default=None, help="Optional video file path for replay. Overrides --camera when set.")
     parser.add_argument("--gstreamer", action="store_true", help="Open --camera as a GStreamer pipeline.")
     parser.add_argument("--width", type=int, default=640, help="Requested camera width for index cameras.")
     parser.add_argument("--height", type=int, default=480, help="Requested camera height for index cameras.")
     parser.add_argument("--fps", type=float, default=30.0, help="Requested camera FPS and output FPS fallback.")
+    parser.add_argument("--input-resize", default=None, help="Optional WIDTH,HEIGHT resize applied to each input frame before detection/tracking.")
+    parser.add_argument("--input-rotate", choices=["none", "90cw", "90ccw", "180"], default="none", help="Optional rotation applied to each input frame before detection/tracking.")
     parser.add_argument("--tracker-name", default="eco", help="PyTracking tracker name.")
     parser.add_argument("--param", default="verified_otb936_run_update", help="PyTracking parameter name.")
     parser.add_argument("--output-dir", type=Path, default=None, help="Optional directory for CSV/video output.")
@@ -96,6 +99,7 @@ def parse_args():
     parser.add_argument("--eco-prewarm-reinit-runs", "--prewarm-repeats", dest="eco_prewarm_reinit_runs", type=int, default=1, help="Number of extra ECO reinitialize calls to run before READY_WARMED.")
     parser.add_argument("--eco-prewarm-track-frames", type=int, default=30, help="Number of tracker.track frames to run after each ECO prewarm initialize.")
     parser.add_argument("--eco-prewarm-timeout-frames", type=int, default=30, help="Frames to wait for a detector-selected prewarm bbox before using the fallback bbox.")
+    parser.add_argument("--reset-video-after-prewarm", action="store_true", help="If the source is a video file, seek back to frame 0 after READY_WARMED before the main loop.")
     return parser.parse_args()
 
 
@@ -110,6 +114,20 @@ def parse_xywh(value, name):
     if box[2] <= 0 or box[3] <= 0:
         raise ValueError("%s width and height must be positive" % name)
     return box
+
+
+def parse_width_height(value, name):
+    parts = str(value).split(",")
+    if len(parts) != 2:
+        raise ValueError("%s must be WIDTH,HEIGHT" % name)
+    try:
+        width = int(parts[0].strip())
+        height = int(parts[1].strip())
+    except ValueError:
+        raise ValueError("%s must contain integer WIDTH,HEIGHT values" % name)
+    if width <= 0 or height <= 0:
+        raise ValueError("%s width and height must be positive" % name)
+    return width, height
 
 
 def resolve_project_root(script_path):
@@ -142,6 +160,47 @@ def create_tracker(project_root, tracker_name, param_name):
     return tracker
 
 
+def resolve_input_source(args):
+    if args.video_input is not None:
+        video_path = args.video_input.expanduser().resolve()
+        return {
+            "capture_arg": str(video_path),
+            "source_label": str(video_path),
+            "video_path": str(video_path),
+            "source_is_video": 1,
+            "use_gstreamer": False,
+            "camera_label": args.camera,
+        }
+    camera_text = str(args.camera)
+    if args.gstreamer:
+        return {
+            "capture_arg": camera_text,
+            "source_label": camera_text,
+            "video_path": "",
+            "source_is_video": 0,
+            "use_gstreamer": True,
+            "camera_label": camera_text,
+        }
+    try:
+        int(camera_text)
+        is_video = 0
+    except ValueError:
+        expanded = Path(camera_text).expanduser()
+        if expanded.exists():
+            camera_text = str(expanded.resolve())
+            is_video = 1 if expanded.is_file() else 0
+        else:
+            is_video = 0
+    return {
+        "capture_arg": camera_text,
+        "source_label": camera_text,
+        "video_path": camera_text if is_video else "",
+        "source_is_video": int(is_video),
+        "use_gstreamer": bool(args.gstreamer),
+        "camera_label": str(args.camera),
+    }
+
+
 def open_capture(camera_arg, use_gstreamer, width, height, fps):
     if use_gstreamer:
         cap = cv2.VideoCapture(camera_arg, cv2.CAP_GSTREAMER)
@@ -158,6 +217,58 @@ def open_capture(camera_arg, use_gstreamer, width, height, fps):
     if not cap.isOpened():
         raise RuntimeError("Failed to open camera source: %s" % camera_arg)
     return cap
+
+
+def rotate_frame(frame, mode):
+    if mode == "none":
+        return frame
+    if mode == "90cw":
+        return cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
+    if mode == "90ccw":
+        return cv2.rotate(frame, cv2.ROTATE_90_COUNTERCLOCKWISE)
+    if mode == "180":
+        return cv2.rotate(frame, cv2.ROTATE_180)
+    raise ValueError("Unknown rotate mode: %s" % mode)
+
+
+def preprocess_input_frame(frame_bgr, args):
+    frame = rotate_frame(frame_bgr, args.input_rotate)
+    if args.input_resize is None:
+        return frame
+    resize_w, resize_h = parse_width_height(args.input_resize, "--input-resize")
+    if frame.shape[1] == resize_w and frame.shape[0] == resize_h:
+        return frame
+    return cv2.resize(frame, (resize_w, resize_h), interpolation=cv2.INTER_LINEAR)
+
+
+def read_processed_frame(cap, args):
+    source_frame_index = float(cap.get(cv2.CAP_PROP_POS_FRAMES))
+    ok, frame_bgr = cap.read()
+    if not ok or frame_bgr is None:
+        return False, None, None
+    source_info = {
+        "source_frame_index": max(0.0, source_frame_index),
+        "source_timestamp_s": float("nan"),
+    }
+    pos_msec = float(cap.get(cv2.CAP_PROP_POS_MSEC))
+    if math.isfinite(pos_msec) and pos_msec >= 0.0:
+        source_info["source_timestamp_s"] = pos_msec / 1000.0
+    return True, preprocess_input_frame(frame_bgr, args), source_info
+
+
+def enrich_source_info(source_info, source_is_video, source_fps):
+    row = dict(source_info or {})
+    row["source_is_video"] = int(bool(source_is_video))
+    row["source_fps"] = float(source_fps)
+    frame_index = row.get("source_frame_index", float("nan"))
+    timestamp_s = row.get("source_timestamp_s", float("nan"))
+    if (not math.isfinite(timestamp_s) or timestamp_s < 0.0) and source_is_video and math.isfinite(source_fps) and source_fps > 0.0 and math.isfinite(frame_index):
+        row["source_timestamp_s"] = float(frame_index) / float(source_fps)
+    if not math.isfinite(row.get("source_timestamp_s", float("nan"))):
+        row["source_timestamp_s"] = float("nan")
+    if not math.isfinite(row.get("source_frame_index", float("nan"))):
+        row["source_frame_index"] = float("nan")
+    return row
 
 
 def clip_xywh(box_xywh, frame_shape):
@@ -798,7 +909,7 @@ def draw_prewarm_frame(frame_bgr, state, init_box, elapsed, repeat_index, total_
 
 
 def run_prewarm_initialize(tracker, cap, args, init_box, run_index, total_runs, started, metrics):
-    ok, frame_bgr = cap.read()
+    ok, frame_bgr, _ = read_processed_frame(cap, args)
     if not ok or frame_bgr is None:
         raise RuntimeError("Camera frame read failed during ECO prewarm.")
     metrics["frame_width"] = frame_bgr.shape[1]
@@ -818,7 +929,7 @@ def run_prewarm_initialize(tracker, cap, args, init_box, run_index, total_runs, 
     prev_output = dict(worker.output or {})
     current_box = [float(v) for v in prev_output.get("target_bbox", init_box)]
     for track_index in range(max(0, int(args.eco_prewarm_track_frames))):
-        ok, track_frame_bgr = cap.read()
+        ok, track_frame_bgr, _ = read_processed_frame(cap, args)
         if not ok or track_frame_bgr is None:
             raise RuntimeError("Camera frame read failed during ECO prewarm tracking.")
         frame_rgb = cv2.cvtColor(track_frame_bgr, cv2.COLOR_BGR2RGB)
@@ -837,7 +948,7 @@ def select_prewarm_box(cap, detector, args, metrics):
     timeout_frames = max(0, int(args.eco_prewarm_timeout_frames))
     last_frame = None
     for frame_offset in range(timeout_frames):
-        ok, frame_bgr = cap.read()
+        ok, frame_bgr, _ = read_processed_frame(cap, args)
         if not ok or frame_bgr is None:
             raise RuntimeError("Camera frame read failed while selecting ECO prewarm bbox.")
         last_frame = frame_bgr
@@ -858,7 +969,7 @@ def select_prewarm_box(cap, detector, args, metrics):
             print("eco_prewarm_detector_bbox=%.3f,%.3f,%.3f,%.3f det_conf=%.3f" % tuple(selected_det["box_xywh"] + [selected_det["conf"]]), flush=True)
             return clip_xywh(selected_det["box_xywh"], frame_bgr.shape), True
     if last_frame is None:
-        ok, last_frame = cap.read()
+        ok, last_frame, _ = read_processed_frame(cap, args)
         if not ok or last_frame is None:
             raise RuntimeError("Camera frame read failed while building ECO prewarm fallback bbox.")
     fallback = centered_fallback_box(last_frame.shape, fallback_box)
@@ -901,7 +1012,7 @@ def prewarm_eco_tracker(tracker, cap, detector, args, metrics):
     metrics["eco_ready_warmed"] = 1
     metrics["eco_standby_warmed"] = 1 if standby_prev_output else 0
 
-    ok, frame_bgr = cap.read()
+    ok, frame_bgr, _ = read_processed_frame(cap, args)
     if ok and frame_bgr is not None:
         display = frame_bgr.copy()
         draw_label(display, "READY_WARMED", (12, 82), (0, 255, 0))
@@ -919,10 +1030,11 @@ def prewarm_eco_tracker(tracker, cap, detector, args, metrics):
     }
 
 
-def write_run_info(output_dir, args, detector_backend, detector_model_path, detector_bin_path, recognizer_backend=None, recognizer_model_path=None, recognizer_bin_path=None):
+def write_run_info(output_dir, args, detector_backend, detector_model_path, detector_bin_path, recognizer_backend=None, recognizer_model_path=None, recognizer_bin_path=None, source_info=None):
     if output_dir is None:
         return
     info_path = output_dir / "run_info.txt"
+    source_info = source_info or {}
     with info_path.open("w", encoding="utf-8") as f:
         f.write("script=%s\n" % Path(__file__).name)
         f.write("output_dir=%s\n" % output_dir)
@@ -933,6 +1045,12 @@ def write_run_info(output_dir, args, detector_backend, detector_model_path, dete
             f.write("recognizer_backend=%s\n" % recognizer_backend)
             f.write("recognizer_model=%s\n" % recognizer_model_path)
             f.write("recognizer_bin=%s\n" % recognizer_bin_path)
+        f.write("input_source=%s\n" % source_info.get("source_label", args.camera))
+        f.write("input_source_is_video=%s\n" % int(bool(source_info.get("source_is_video", 0))))
+        f.write("input_video_path=%s\n" % source_info.get("video_path", ""))
+        f.write("input_rotate=%s\n" % args.input_rotate)
+        f.write("input_resize=%s\n" % (args.input_resize if args.input_resize is not None else "none"))
+        f.write("reset_video_after_prewarm=%s\n" % int(bool(args.reset_video_after_prewarm)))
         f.write("predictions_csv=%s\n" % (output_dir / "camera_predictions.csv"))
         f.write("metrics_summary=%s\n" % (output_dir / "camera_metrics.txt"))
         f.write("argv=%s\n" % " ".join(sys.argv))
@@ -960,7 +1078,8 @@ def write_metrics_summary(output_dir, metrics):
             "reinit_cooldown_frames", "shrink_confirm_frames", "tracker_load_time_s", "detector_load_time_s",
             "recognizer_backend", "recognizer_model", "recognizer_bin", "recognizer_load_time_s",
             "recognize_interval", "recognize_fast_interval", "identity_match_threshold", "identity_reject_threshold",
-            "control_box_smoothing", "control_center_threshold", "eco_prewarm_enabled", "eco_ready_warmed",
+            "control_box_smoothing", "control_center_threshold", "source_label", "source_is_video", "source_fps",
+            "input_rotate", "input_resize", "reset_video_after_prewarm", "eco_prewarm_enabled", "eco_ready_warmed",
             "eco_standby_warmed", "eco_first_live_handoff_mode", "eco_first_live_acquisition_time_s",
             "eco_prewarm_first_init_time_s", "eco_prewarm_reinit_count", "eco_prewarm_reinit_avg_s",
             "eco_prewarm_total_time_s", "wheel_control_enabled",
@@ -1047,6 +1166,9 @@ def write_metrics_summary(output_dir, metrics):
 
 def main():
     args = parse_args()
+    if args.input_resize is not None:
+        parse_width_height(args.input_resize, "--input-resize")
+    input_source = resolve_input_source(args)
     output_dir = None
     if args.output_dir is not None:
         output_dir = args.output_dir.expanduser().resolve()
@@ -1077,7 +1199,7 @@ def main():
         stale_frames=args.identity_stale_frames,
         probation_frames=args.identity_probation_frames,
     )
-    write_run_info(output_dir, args, detector_backend, detector_model_path, detector_bin_path, recognizer_backend, recognizer_model_path, recognizer_bin_path)
+    write_run_info(output_dir, args, detector_backend, detector_model_path, detector_bin_path, recognizer_backend, recognizer_model_path, recognizer_bin_path, input_source)
 
     print("Creating tracker %s/%s..." % (args.tracker_name, args.param), flush=True)
     tracker_load_start = time.perf_counter()
@@ -1085,9 +1207,12 @@ def main():
     tracker_load_time = time.perf_counter() - tracker_load_start
     print("Tracker ready in %.3fs." % tracker_load_time, flush=True)
 
-    print("Opening camera source: %s" % args.camera, flush=True)
-    cap = open_capture(args.camera, args.gstreamer, args.width, args.height, args.fps)
+    print("Opening camera source: %s" % input_source["source_label"], flush=True)
+    cap = open_capture(input_source["capture_arg"], input_source["use_gstreamer"], args.width, args.height, args.fps)
     print("Camera opened.", flush=True)
+    source_fps = float(cap.get(cv2.CAP_PROP_FPS))
+    if not math.isfinite(source_fps) or source_fps <= 0.0:
+        source_fps = float(args.fps)
 
     csv_file = None
     writer_csv = None
@@ -1097,7 +1222,7 @@ def main():
         print("predictions_csv=%s" % (output_dir / "camera_predictions.csv"), flush=True)
         writer_csv = csv.writer(csv_file)
         writer_csv.writerow([
-            "frame_index", "timestamp_s", "tracker_x", "tracker_y", "tracker_w", "tracker_h",
+            "frame_index", "timestamp_s", "source_frame_index", "source_timestamp_s", "source_fps", "source_is_video", "tracker_x", "tracker_y", "tracker_w", "tracker_h",
             "final_x", "final_y", "final_w", "final_h", "control_x", "control_y", "control_w", "control_h", "control_source", "det_x", "det_y", "det_w", "det_h",
             "tracker_score", "det_conf", "det_count", "best_detector_iou", "best_center_distance_ratio",
             "best_area_ratio", "state", "track_time_s", "detect_time_s", "init_time_s", "fps",
@@ -1141,6 +1266,12 @@ def main():
         "camera": args.camera,
         "tracker": args.tracker_name,
         "param": args.param,
+        "source_label": input_source["source_label"],
+        "source_is_video": int(input_source["source_is_video"]),
+        "source_fps": float(source_fps),
+        "input_rotate": args.input_rotate,
+        "input_resize": args.input_resize if args.input_resize is not None else "none",
+        "reset_video_after_prewarm": int(bool(args.reset_video_after_prewarm and input_source["source_is_video"])),
         "detector_backend": detector_backend,
         "detector_model": str(detector_model_path),
         "detector_bin": str(detector_bin_path),
@@ -1246,6 +1377,9 @@ def main():
         prewarm_result = prewarm_eco_tracker(tracker, cap, detector, args, metrics)
         if not prewarm_result["completed"]:
             return 0
+        if input_source["source_is_video"] and args.reset_video_after_prewarm:
+            cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
+            print("reset_video_after_prewarm=1", flush=True)
         run_start = time.perf_counter()
         last_time = run_start
         metrics["start_time"] = run_start
@@ -1267,10 +1401,11 @@ def main():
             if args.max_frames > 0 and frame_index >= args.max_frames:
                 break
 
-            ok, frame_bgr = cap.read()
+            ok, frame_bgr, source_info = read_processed_frame(cap, args)
             if not ok or frame_bgr is None:
                 print("Camera frame read failed.", file=sys.stderr)
                 break
+            source_info = enrich_source_info(source_info, input_source["source_is_video"], source_fps)
 
             frame_height, frame_width = frame_bgr.shape[:2]
             frame_diag = max(1.0, math.hypot(float(frame_width), float(frame_height)))
@@ -1867,6 +2002,7 @@ def main():
                     det_values = selected_det["box_xywh"]
                 writer_csv.writerow([
                     frame_index, now - run_start,
+                    source_info["source_frame_index"], source_info["source_timestamp_s"], source_info["source_fps"], source_info["source_is_video"],
                     tracker_values[0], tracker_values[1], tracker_values[2], tracker_values[3],
                     final_values[0], final_values[1], final_values[2], final_values[3],
                     control_values[0], control_values[1], control_values[2], control_values[3], control_value_source,
