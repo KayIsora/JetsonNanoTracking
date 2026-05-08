@@ -1,0 +1,357 @@
+output_dir=/home/jetson/Desktop/JetsonNanoTracking/jetson/camera_runs/video_replay_wheel_log_only_rot90ccw_360x640
+rows_total=1055
+phase_plan=0,3,farther;3,6,nearer;6,8,normal;8,11,far;11,13,normal;13,15,left;15,17,right_to_normal;17,18,right;18,20,left_to_normal;20,22,turn_back;22,25,far;25,27,normal;27,28,right;28,29,normal;29,30,left;30,32,right_turn_normal;32,35,near_close
+source_label=/home/jetson/Desktop/JetsonNanoTracking/jetson/video_inputs/VID_20260508_202824.mp4
+source_is_video=1
+source_fps=29.983611
+input_rotate=90ccw
+input_resize=360,640
+
+phase=farther start_s=0.000000 end_s=3.000000
+rows=89
+source_time_range_s=0.033352..2.968288
+state_counts=DETECTOR_CONFIRMED=9, SEARCHING=4, TRACKING=74, WAITING_FACE=2
+identity_state_counts=PROBATION=30, VERIFIED=53, WAITING_FACE=6
+wheel_control_reason_counts=identity_not_verified=30, ok=53, unsafe_state=6
+wheel_control_allowed=53 blocked=36
+wheel_center_error_norm_stats count=89 min=-0.133333 avg=-0.029037 p50=-0.016667 p90=0.000000 max=0.030556
+wheel_distance_error_norm_stats count=89 min=-0.286950 avg=-0.132947 p50=-0.129688 p90=0.000000 max=0.000000
+wheel_linear_cmd_stats count=89 min=-0.129127 avg=-0.059826 p50=-0.058359 p90=0.000000 max=0.000000
+wheel_angular_cmd_stats count=89 min=-0.086667 avg=-0.012814 p50=0.000000 p90=0.000000 max=0.000000
+wheel_left_cmd_stats count=89 min=-0.129127 avg=-0.047012 p50=-0.058359 p90=0.000000 max=0.000000
+wheel_right_cmd_stats count=89 min=-0.209795 avg=-0.072641 p50=-0.058359 p90=0.000000 max=0.000000
+control_h_ratio_stats count=89 min=0.829688 avg=0.912629 p50=0.943750 p90=0.986277 max=0.995313
+tracker_score_stats count=82 min=0.602908 avg=0.786464 p50=0.796889 p90=0.863196 max=0.881610
+wheel_linear_cmd_delta_stats count=88 min=-0.127230 avg=-0.000663 p50=0.000000 p90=0.000000 max=0.124725
+wheel_angular_cmd_delta_stats count=88 min=-0.055069 avg=0.000000 p50=0.000000 p90=0.000131 max=0.085071
+wheel_left_cmd_delta_stats count=88 min=-0.124655 avg=-0.000663 p50=0.000000 p90=0.002906 max=0.061695
+wheel_right_cmd_delta_stats count=88 min=-0.182300 avg=-0.000663 p50=0.000000 p90=0.000000 max=0.209795
+
+phase=nearer start_s=3.000000 end_s=6.000000
+rows=90
+source_time_range_s=3.001640..5.969928
+state_counts=DETECTOR_CONFIRMED=9, TRACKING=81
+identity_state_counts=PROBATION=30, VERIFIED=60
+wheel_control_reason_counts=identity_not_verified=30, ok=60
+wheel_control_allowed=60 blocked=30
+wheel_center_error_norm_stats count=90 min=-0.152778 avg=-0.019255 p50=0.000000 p90=0.069444 max=0.069444
+wheel_distance_error_norm_stats count=90 min=-0.287047 avg=-0.148886 p50=-0.140625 p90=0.000000 max=0.000000
+wheel_linear_cmd_stats count=90 min=-0.129171 avg=-0.066999 p50=-0.063281 p90=0.000000 max=0.000000
+wheel_angular_cmd_stats count=90 min=-0.099306 avg=-0.013188 p50=0.000000 p90=0.045139 max=0.045139
+wheel_left_cmd_stats count=90 min=-0.124919 avg=-0.053811 p50=-0.058965 p90=0.000000 max=0.000000
+wheel_right_cmd_stats count=90 min=-0.221649 avg=-0.080186 p50=-0.057656 p90=0.000000 max=0.000000
+control_h_ratio_stats count=90 min=0.828125 avg=0.942474 p50=0.978424 p90=0.986736 max=0.987209
+tracker_score_stats count=90 min=0.630357 avg=0.755637 p50=0.785628 p90=0.851203 max=0.867072
+wheel_linear_cmd_delta_stats count=89 min=-0.128633 avg=-0.000795 p50=0.000000 p90=0.000000 max=0.125785
+wheel_angular_cmd_delta_stats count=89 min=-0.048347 avg=-0.000644 p50=0.000000 p90=0.001949 max=0.054296
+wheel_left_cmd_delta_stats count=89 min=-0.080286 avg=-0.000151 p50=0.000000 p90=0.003918 max=0.071489
+wheel_right_cmd_delta_stats count=89 min=-0.176979 avg=-0.001440 p50=0.000000 p90=0.001633 max=0.180082
+
+phase=normal start_s=6.000000 end_s=8.000000
+rows=60
+source_time_range_s=6.003280..7.971021
+state_counts=DETECTOR_CONFIRMED=6, TRACKING=54
+identity_state_counts=VERIFIED=60
+wheel_control_reason_counts=ok=60
+wheel_control_allowed=60 blocked=0
+wheel_center_error_norm_stats count=60 min=-0.197222 avg=-0.053975 p50=-0.076134 p90=0.014326 max=0.097222
+wheel_distance_error_norm_stats count=60 min=-0.287435 avg=-0.251344 p50=-0.280594 p90=-0.129688 max=-0.129688
+wheel_linear_cmd_stats count=60 min=-0.129346 avg=-0.113105 p50=-0.126267 p90=-0.058359 max=-0.058359
+wheel_angular_cmd_stats count=60 min=-0.128194 avg=-0.035351 p50=-0.049487 p90=0.000000 max=0.063194
+wheel_left_cmd_stats count=60 min=-0.159523 avg=-0.077754 p50=-0.074071 p90=-0.005998 max=0.007257
+wheel_right_cmd_stats count=60 min=-0.249132 avg=-0.148456 p50=-0.128730 p90=-0.110688 max=-0.033134
+control_h_ratio_stats count=60 min=0.829688 avg=0.951344 p50=0.980594 p90=0.987114 max=0.987435
+tracker_score_stats count=60 min=0.713217 avg=0.858179 p50=0.884589 p90=0.922542 max=0.959439
+wheel_linear_cmd_delta_stats count=59 min=-0.020180 avg=0.001201 p50=-0.000492 p90=0.000246 max=0.069821
+wheel_angular_cmd_delta_stats count=59 min=-0.071325 avg=0.000076 p50=0.000000 p90=0.010986 max=0.063194
+wheel_left_cmd_delta_stats count=59 min=-0.030541 avg=0.001125 p50=-0.001186 p90=0.013668 max=0.079617
+wheel_right_cmd_delta_stats count=59 min=-0.063033 avg=0.001278 p50=0.000000 p90=0.013125 max=0.095848
+
+phase=far start_s=8.000000 end_s=11.000000
+rows=90
+source_time_range_s=8.004373..10.972661
+state_counts=DETECTOR_CONFIRMED=9, TRACKING=81
+identity_state_counts=PROBATION=47, STALE=36, VERIFIED=7
+wheel_control_reason_counts=identity_not_verified=83, ok=7
+wheel_control_allowed=7 blocked=83
+wheel_center_error_norm_stats count=90 min=-0.080556 avg=-0.005710 p50=0.000000 p90=0.000000 max=0.000000
+wheel_distance_error_norm_stats count=90 min=-0.129688 avg=-0.008420 p50=0.000000 p90=0.000000 max=0.000000
+wheel_linear_cmd_stats count=90 min=-0.058359 avg=-0.003789 p50=0.000000 p90=0.000000 max=0.000000
+wheel_angular_cmd_stats count=90 min=-0.052361 avg=-0.003711 p50=0.000000 p90=0.000000 max=0.000000
+wheel_left_cmd_stats count=90 min=-0.005998 avg=-0.000078 p50=0.000000 p90=0.000000 max=0.000000
+wheel_right_cmd_stats count=90 min=-0.110720 avg=-0.007500 p50=0.000000 p90=0.000000 max=0.000000
+control_h_ratio_stats count=90 min=0.701562 avg=0.754375 p50=0.740625 p90=0.804688 max=0.829688
+tracker_score_stats count=90 min=0.713859 avg=0.797092 p50=0.800351 p90=0.842072 max=0.898776
+wheel_linear_cmd_delta_stats count=89 min=0.000000 avg=0.000656 p50=0.000000 p90=0.000000 max=0.047109
+wheel_angular_cmd_delta_stats count=89 min=0.000000 avg=0.000588 p50=0.000000 p90=0.000000 max=0.046944
+wheel_left_cmd_delta_stats count=89 min=0.000000 avg=0.000067 p50=0.000000 p90=0.000000 max=0.005833
+wheel_right_cmd_delta_stats count=89 min=0.000000 avg=0.001244 p50=0.000000 p90=0.000000 max=0.094054
+
+phase=normal start_s=11.000000 end_s=13.000000
+rows=60
+source_time_range_s=11.006013..12.973754
+state_counts=DETECTOR_CONFIRMED=6, TRACKING=54
+identity_state_counts=PROBATION=2, STALE=58
+wheel_control_reason_counts=identity_not_verified=60
+wheel_control_allowed=0 blocked=60
+wheel_center_error_norm_stats count=60 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_distance_error_norm_stats count=60 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_linear_cmd_stats count=60 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_angular_cmd_stats count=60 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_left_cmd_stats count=60 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_right_cmd_stats count=60 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+control_h_ratio_stats count=60 min=0.700000 avg=0.775926 p50=0.737500 p90=0.941632 max=0.983915
+tracker_score_stats count=60 min=0.767636 avg=0.878041 p50=0.885306 p90=0.982795 max=1.005399
+wheel_linear_cmd_delta_stats count=59 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_angular_cmd_delta_stats count=59 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_left_cmd_delta_stats count=59 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_right_cmd_delta_stats count=59 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+
+phase=left start_s=13.000000 end_s=15.000000
+rows=60
+source_time_range_s=13.007106..14.974847
+state_counts=DETECTOR_CONFIRMED=6, TRACKING=54
+identity_state_counts=PROBATION=2, STALE=58
+wheel_control_reason_counts=identity_not_verified=60
+wheel_control_allowed=0 blocked=60
+wheel_center_error_norm_stats count=60 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_distance_error_norm_stats count=60 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_linear_cmd_stats count=60 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_angular_cmd_stats count=60 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_left_cmd_stats count=60 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_right_cmd_stats count=60 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+control_h_ratio_stats count=60 min=0.931250 avg=0.976831 p50=0.982696 p90=0.986375 max=0.987015
+tracker_score_stats count=60 min=0.832449 avg=0.866238 p50=0.868551 p90=0.893149 max=0.905731
+wheel_linear_cmd_delta_stats count=59 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_angular_cmd_delta_stats count=59 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_left_cmd_delta_stats count=59 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_right_cmd_delta_stats count=59 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+
+phase=right_to_normal start_s=15.000000 end_s=17.000000
+rows=60
+source_time_range_s=15.008199..16.975941
+state_counts=DETECTOR_CONFIRMED=5, SUSPECTED_LOST=1, TRACKING=54
+identity_state_counts=PROBATION=20, STALE=36, VERIFIED=4
+wheel_control_reason_counts=identity_not_verified=55, ok=4, unsafe_state=1
+wheel_control_allowed=4 blocked=56
+wheel_center_error_norm_stats count=60 min=-0.566667 avg=-0.037778 p50=0.000000 p90=0.000000 max=0.000000
+wheel_distance_error_norm_stats count=60 min=-0.256250 avg=-0.017083 p50=0.000000 p90=0.000000 max=0.000000
+wheel_linear_cmd_stats count=60 min=-0.115313 avg=-0.007688 p50=0.000000 p90=0.000000 max=0.000000
+wheel_angular_cmd_stats count=60 min=-0.368333 avg=-0.024556 p50=0.000000 p90=0.000000 max=0.000000
+wheel_left_cmd_stats count=60 min=0.000000 avg=0.016868 p50=0.000000 p90=0.000000 max=0.253021
+wheel_right_cmd_stats count=60 min=-0.483646 avg=-0.032243 p50=0.000000 p90=0.000000 max=0.000000
+control_h_ratio_stats count=60 min=0.937500 avg=0.961268 p50=0.956250 p90=0.986666 max=0.987403
+tracker_score_stats count=60 min=0.517643 avg=0.664786 p50=0.653415 p90=0.807410 max=0.828852
+wheel_linear_cmd_delta_stats count=59 min=-0.115313 avg=0.000000 p50=0.000000 p90=0.000000 max=0.115313
+wheel_angular_cmd_delta_stats count=59 min=-0.368333 avg=0.000000 p50=0.000000 p90=0.000000 max=0.368333
+wheel_left_cmd_delta_stats count=59 min=-0.253021 avg=0.000000 p50=0.000000 p90=0.000000 max=0.253021
+wheel_right_cmd_delta_stats count=59 min=-0.483646 avg=0.000000 p50=0.000000 p90=0.000000 max=0.483646
+
+phase=right start_s=17.000000 end_s=18.000000
+rows=30
+source_time_range_s=17.009292..17.976487
+state_counts=DETECTOR_CONFIRMED=3, TRACKING=27
+identity_state_counts=PROBATION=27, STALE=3
+wheel_control_reason_counts=identity_not_verified=30
+wheel_control_allowed=0 blocked=30
+wheel_center_error_norm_stats count=30 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_distance_error_norm_stats count=30 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_linear_cmd_stats count=30 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_angular_cmd_stats count=30 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_left_cmd_stats count=30 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_right_cmd_stats count=30 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+control_h_ratio_stats count=30 min=0.925000 avg=0.970627 p50=0.978714 p90=0.985713 max=0.986594
+tracker_score_stats count=30 min=0.780117 avg=0.825703 p50=0.822995 p90=0.853989 max=0.862092
+wheel_linear_cmd_delta_stats count=29 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_angular_cmd_delta_stats count=29 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_left_cmd_delta_stats count=29 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_right_cmd_delta_stats count=29 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+
+phase=left_to_normal start_s=18.000000 end_s=20.000000
+rows=60
+source_time_range_s=18.009839..19.977581
+state_counts=DETECTOR_CONFIRMED=5, SUSPECTED_LOST=1, TRACKING=54
+identity_state_counts=PROBATION=1, STALE=59
+wheel_control_reason_counts=identity_not_verified=59, unsafe_state=1
+wheel_control_allowed=0 blocked=60
+wheel_center_error_norm_stats count=60 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_distance_error_norm_stats count=60 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_linear_cmd_stats count=60 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_angular_cmd_stats count=60 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_left_cmd_stats count=60 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_right_cmd_stats count=60 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+control_h_ratio_stats count=60 min=0.900000 avg=0.962780 p50=0.954688 p90=0.985692 max=0.987015
+tracker_score_stats count=60 min=0.533632 avg=0.682275 p50=0.629801 p90=0.894337 max=0.933850
+wheel_linear_cmd_delta_stats count=59 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_angular_cmd_delta_stats count=59 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_left_cmd_delta_stats count=59 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_right_cmd_delta_stats count=59 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+
+phase=turn_back start_s=20.000000 end_s=22.000000
+rows=60
+source_time_range_s=20.010932..21.978674
+state_counts=DETECTOR_CONFIRMED=6, TRACKING=54
+identity_state_counts=PROBATION=1, STALE=59
+wheel_control_reason_counts=identity_not_verified=60
+wheel_control_allowed=0 blocked=60
+wheel_center_error_norm_stats count=60 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_distance_error_norm_stats count=60 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_linear_cmd_stats count=60 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_angular_cmd_stats count=60 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_left_cmd_stats count=60 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_right_cmd_stats count=60 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+control_h_ratio_stats count=60 min=0.890625 avg=0.944105 p50=0.939844 p90=0.985568 max=0.986626
+tracker_score_stats count=60 min=0.835467 avg=0.889853 p50=0.890913 p90=0.923817 max=0.938108
+wheel_linear_cmd_delta_stats count=59 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_angular_cmd_delta_stats count=59 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_left_cmd_delta_stats count=59 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_right_cmd_delta_stats count=59 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+
+phase=far start_s=22.000000 end_s=25.000000
+rows=90
+source_time_range_s=22.012025..24.980314
+state_counts=DETECTOR_CONFIRMED=9, TRACKING=81
+identity_state_counts=STALE=90
+wheel_control_reason_counts=identity_not_verified=90
+wheel_control_allowed=0 blocked=90
+wheel_center_error_norm_stats count=90 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_distance_error_norm_stats count=90 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_linear_cmd_stats count=90 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_angular_cmd_stats count=90 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_left_cmd_stats count=90 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_right_cmd_stats count=90 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+control_h_ratio_stats count=90 min=0.600000 avg=0.821956 p50=0.826562 p90=0.982705 max=0.985591
+tracker_score_stats count=90 min=0.783899 avg=0.817350 p50=0.818496 p90=0.837726 max=0.877286
+wheel_linear_cmd_delta_stats count=89 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_angular_cmd_delta_stats count=89 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_left_cmd_delta_stats count=89 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_right_cmd_delta_stats count=89 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+
+phase=normal start_s=25.000000 end_s=27.000000
+rows=60
+source_time_range_s=25.013665..26.981407
+state_counts=DETECTOR_CONFIRMED=6, TRACKING=54
+identity_state_counts=STALE=60
+wheel_control_reason_counts=identity_not_verified=60
+wheel_control_allowed=0 blocked=60
+wheel_center_error_norm_stats count=60 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_distance_error_norm_stats count=60 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_linear_cmd_stats count=60 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_angular_cmd_stats count=60 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_left_cmd_stats count=60 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_right_cmd_stats count=60 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+control_h_ratio_stats count=60 min=0.595313 avg=0.695026 p50=0.695312 p90=0.804688 max=0.804688
+tracker_score_stats count=60 min=0.776811 avg=0.843208 p50=0.850537 p90=0.875637 max=0.889719
+wheel_linear_cmd_delta_stats count=59 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_angular_cmd_delta_stats count=59 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_left_cmd_delta_stats count=59 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_right_cmd_delta_stats count=59 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+
+phase=right start_s=27.000000 end_s=28.000000
+rows=30
+source_time_range_s=27.014758..27.981953
+state_counts=DETECTOR_CONFIRMED=3, TRACKING=27
+identity_state_counts=STALE=30
+wheel_control_reason_counts=identity_not_verified=30
+wheel_control_allowed=0 blocked=30
+wheel_center_error_norm_stats count=30 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_distance_error_norm_stats count=30 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_linear_cmd_stats count=30 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_angular_cmd_stats count=30 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_left_cmd_stats count=30 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_right_cmd_stats count=30 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+control_h_ratio_stats count=30 min=0.800000 avg=0.811198 p50=0.812500 p90=0.821875 max=0.821875
+tracker_score_stats count=30 min=0.641761 avg=0.735214 p50=0.720457 p90=0.835725 max=0.845588
+wheel_linear_cmd_delta_stats count=29 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_angular_cmd_delta_stats count=29 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_left_cmd_delta_stats count=29 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_right_cmd_delta_stats count=29 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+
+phase=normal start_s=28.000000 end_s=29.000000
+rows=30
+source_time_range_s=28.015305..28.982500
+state_counts=BACKGROUND_LOCK=2, DETECTOR_CONFIRMED=1, TRACKING=27
+identity_state_counts=PROBATION=19, STALE=11
+wheel_control_reason_counts=identity_not_verified=28, unsafe_state=2
+wheel_control_allowed=0 blocked=30
+wheel_center_error_norm_stats count=30 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_distance_error_norm_stats count=30 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_linear_cmd_stats count=30 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_angular_cmd_stats count=30 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_left_cmd_stats count=30 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_right_cmd_stats count=30 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+control_h_ratio_stats count=30 min=0.807813 avg=0.814375 p50=0.817187 p90=0.818750 max=0.818750
+tracker_score_stats count=30 min=0.631443 avg=0.671261 p50=0.664035 p90=0.705685 max=0.712220
+wheel_linear_cmd_delta_stats count=29 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_angular_cmd_delta_stats count=29 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_left_cmd_delta_stats count=29 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_right_cmd_delta_stats count=29 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+
+phase=left start_s=29.000000 end_s=30.000000
+rows=30
+source_time_range_s=29.015852..29.983047
+state_counts=DETECTOR_CONFIRMED=3, TRACKING=27
+identity_state_counts=PROBATION=30
+wheel_control_reason_counts=identity_not_verified=30
+wheel_control_allowed=0 blocked=30
+wheel_center_error_norm_stats count=30 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_distance_error_norm_stats count=30 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_linear_cmd_stats count=30 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_angular_cmd_stats count=30 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_left_cmd_stats count=30 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_right_cmd_stats count=30 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+control_h_ratio_stats count=30 min=0.804688 avg=0.818750 p50=0.818750 p90=0.832812 max=0.832812
+tracker_score_stats count=30 min=0.725013 avg=0.826638 p50=0.821148 p90=0.889495 max=0.897991
+wheel_linear_cmd_delta_stats count=29 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_angular_cmd_delta_stats count=29 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_left_cmd_delta_stats count=29 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+wheel_right_cmd_delta_stats count=29 min=0.000000 avg=0.000000 p50=0.000000 p90=0.000000 max=0.000000
+
+phase=right_turn_normal start_s=30.000000 end_s=32.000000
+rows=60
+source_time_range_s=30.016398..31.984140
+state_counts=DETECTOR_CONFIRMED=6, TRACKING=54
+identity_state_counts=PROBATION=59, VERIFIED=1
+wheel_control_reason_counts=identity_not_verified=59, ok=1
+wheel_control_allowed=1 blocked=59
+wheel_center_error_norm_stats count=60 min=-0.572222 avg=-0.009537 p50=0.000000 p90=0.000000 max=0.000000
+wheel_distance_error_norm_stats count=60 min=-0.118750 avg=-0.001979 p50=0.000000 p90=0.000000 max=0.000000
+wheel_linear_cmd_stats count=60 min=-0.053438 avg=-0.000891 p50=0.000000 p90=0.000000 max=0.000000
+wheel_angular_cmd_stats count=60 min=-0.371944 avg=-0.006199 p50=0.000000 p90=0.000000 max=0.000000
+wheel_left_cmd_stats count=60 min=0.000000 avg=0.005308 p50=0.000000 p90=0.000000 max=0.318507
+wheel_right_cmd_stats count=60 min=-0.425382 avg=-0.007090 p50=0.000000 p90=0.000000 max=0.000000
+control_h_ratio_stats count=60 min=0.759375 avg=0.826652 p50=0.818750 p90=0.937984 max=0.982910
+tracker_score_stats count=60 min=0.730944 avg=0.812530 p50=0.802061 p90=0.880230 max=0.896325
+wheel_linear_cmd_delta_stats count=59 min=-0.053438 avg=0.000000 p50=0.000000 p90=0.000000 max=0.053438
+wheel_angular_cmd_delta_stats count=59 min=-0.371944 avg=0.000000 p50=0.000000 p90=0.000000 max=0.371944
+wheel_left_cmd_delta_stats count=59 min=-0.318507 avg=0.000000 p50=0.000000 p90=0.000000 max=0.318507
+wheel_right_cmd_delta_stats count=59 min=-0.425382 avg=0.000000 p50=0.000000 p90=0.000000 max=0.425382
+
+phase=near_close start_s=32.000000 end_s=35.000000
+rows=90
+source_time_range_s=32.017491..34.985780
+state_counts=DETECTOR_CONFIRMED=9, IDENTITY_REJECTED=1, SEARCHING=4, SEARCHING_TARGET=2, TRACKING=74
+identity_state_counts=PROBATION=78, REJECTED=7, VERIFIED=5
+wheel_control_reason_counts=identity_not_verified=78, no_control_box=2, ok=5, unsafe_state=5
+wheel_control_allowed=5 blocked=85
+wheel_center_error_norm_stats count=90 min=-0.080220 avg=-0.000954 p50=0.000000 p90=0.000000 max=0.083333
+wheel_distance_error_norm_stats count=90 min=-0.285040 avg=-0.013522 p50=0.000000 p90=0.000000 max=0.000000
+wheel_linear_cmd_stats count=90 min=-0.128268 avg=-0.006085 p50=0.000000 p90=0.000000 max=0.000000
+wheel_angular_cmd_stats count=90 min=-0.052143 avg=0.000022 p50=0.000000 p90=0.000000 max=0.054167
+wheel_left_cmd_stats count=90 min=-0.128268 avg=-0.006107 p50=0.000000 p90=0.000000 max=0.000000
+wheel_right_cmd_stats count=90 min=-0.180137 avg=-0.006062 p50=0.000000 p90=0.000000 max=0.002839
+control_h_ratio_stats count=88 min=0.796875 avg=0.913700 p50=0.970996 p90=0.985252 max=0.986952
+tracker_score_stats count=84 min=0.591074 avg=0.784930 p50=0.827657 p90=0.868084 max=0.882282
+wheel_linear_cmd_delta_stats count=89 min=-0.128268 avg=0.000000 p50=0.000000 p90=0.000000 max=0.128268
+wheel_angular_cmd_delta_stats count=89 min=-0.054167 avg=0.000000 p50=0.000000 p90=0.000000 max=0.054167
+wheel_left_cmd_delta_stats count=89 min=-0.128268 avg=0.000000 p50=0.000000 p90=0.000000 max=0.128268
+wheel_right_cmd_delta_stats count=89 min=-0.180137 avg=0.000000 p50=0.000000 p90=0.000000 max=0.180137
+
+suggested_wheel_target_height_ratio=0.807813
+suggested_center_offset_norm=0.000000
+
+Checklist:
+- Compare wheel_linear_cmd sign against intended forward/backward motion in each phase.
+- Compare wheel_angular_cmd sign against intended left/right turning direction in each phase.
+- Check left_cmd/right_cmd symmetry during normal phases before changing gains.
+- Use source_timestamp_s-aligned phases to judge semantics; do not infer sign correctness automatically.
