@@ -12,7 +12,13 @@ import time
 import traceback
 from pathlib import Path
 
-import cv2
+try:
+    import cv2
+except ImportError as exc:
+    cv2 = None
+    CV2_IMPORT_ERROR = exc
+else:
+    CV2_IMPORT_ERROR = None
 
 
 PROFILE_STAGE_KEYS = [
@@ -34,6 +40,14 @@ PROFILE_STAGE_KEYS = [
     "initialize_total_profiled_time_s",
     "profile_unaccounted_time_s",
 ]
+
+
+def require_cv2():
+    if cv2 is None:
+        raise RuntimeError(
+            "Failed to import cv2. Activate the Jetson tracking environment first, e.g. "
+            "`source jetson/activate_verified936_env.sh`. Original error: %s" % CV2_IMPORT_ERROR
+        )
 
 
 CSV_FIELDS = [
@@ -372,6 +386,7 @@ def write_metrics(path, args, stage_times, rows, all_init_times, all_track_times
 
 
 def main():
+    require_cv2()
     args = parse_args()
     bbox = parse_bbox(args.bbox)
     output_dir = args.output_dir.expanduser().resolve()
