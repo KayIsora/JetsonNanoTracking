@@ -49,6 +49,7 @@ CSV_FIELDS = [
     "bbox_w",
     "bbox_h",
     "success",
+    "measured_stable",
 ] + PROFILE_STAGE_KEYS
 
 
@@ -67,6 +68,7 @@ def parse_args():
     parser.add_argument("--output-dir", type=Path, default=Path("jetson/benchmarks/eco_init"), help="Directory for benchmark metrics and CSV output.")
     parser.add_argument("--no-initialize-features", action="store_true", help="Skip explicit tracker.initialize_features() to compare lazy init behavior.")
     parser.add_argument("--profile-eco-init", action="store_true", help="Enable per-stage profiling inside ECO.initialize().")
+    parser.add_argument("--discard-warmup-runs", type=int, default=0, help="Exclude runs with run_index <= N from stable warm reinit metrics.")
     return parser.parse_args()
 
 
@@ -258,6 +260,32 @@ def measure_track_frames(cap, tracker, prev_output, count):
     return times, output, bbox
 
 
+def finite_row_float(row, key):
+    try:
+        value = float(row.get(key, float("nan")))
+    except (TypeError, ValueError):
+        return float("nan")
+    return value if math.isfinite(value) else float("nan")
+
+
+def stable_rows(rows, discard_warmup_runs):
+    return [
+        row for row in rows
+        if row.get("phase") == "reinitialize"
+        and int(row.get("run_index", -1)) > int(discard_warmup_runs)
+        and int(row.get("success", 0)) == 1
+    ]
+
+
+def row_values(rows, key):
+    values = []
+    for row in rows:
+        value = finite_row_float(row, key)
+        if math.isfinite(value):
+            values.append(value)
+    return values
+
+
 def profile_stage_values(rows, stage_key):
     values = []
     for row in rows:
@@ -280,6 +308,7 @@ def write_metrics(path, args, stage_times, rows, all_init_times, all_track_times
         f.write("bbox=%s\n" % args.bbox)
         f.write("init_repeats=%d\n" % args.init_repeats)
         f.write("track_frames=%d\n" % args.track_frames)
+        f.write("discard_warmup_runs=%d\n" % args.discard_warmup_runs)
         for key in [
             "setup_pytracking_time_s",
             "import_tracker_time_s",
@@ -309,6 +338,24 @@ def write_metrics(path, args, stage_times, rows, all_init_times, all_track_times
         f.write("track_avg_s=%.6f\n" % avg(all_track_times))
         f.write("track_p50_s=%.6f\n" % percentile(all_track_times, 50))
         f.write("track_p90_s=%.6f\n" % percentile(all_track_times, 90))
+        stable = stable_rows(rows, args.discard_warmup_runs)
+        stable_reinit_times = row_values(stable, "init_time_s")
+        stable_track_avgs = row_values(stable, "track_avg_s")
+        stable_initializing_frames = [int(row.get("initializing_frames", 0)) for row in stable]
+        f.write("stable_reinit_count=%d\n" % len(stable_reinit_times))
+        f.write("stable_reinit_avg_s=%.6f\n" % avg(stable_reinit_times))
+        f.write("stable_reinit_p50_s=%.6f\n" % percentile(stable_reinit_times, 50))
+        f.write("stable_reinit_p90_s=%.6f\n" % percentile(stable_reinit_times, 90))
+        f.write("stable_reinit_p95_s=%.6f\n" % percentile(stable_reinit_times, 95))
+        f.write("stable_reinit_p99_s=%.6f\n" % percentile(stable_reinit_times, 99))
+        f.write("stable_reinit_max_s=%.6f\n" % (max(stable_reinit_times) if stable_reinit_times else float("nan")))
+        f.write("stable_track_avg_s=%.6f\n" % avg(stable_track_avgs))
+        f.write("stable_track_p50_s=%.6f\n" % percentile(stable_track_avgs, 50))
+        f.write("stable_track_p90_s=%.6f\n" % percentile(stable_track_avgs, 90))
+        f.write("stable_track_p95_s=%.6f\n" % percentile(stable_track_avgs, 95))
+        f.write("stable_track_max_s=%.6f\n" % (max(stable_track_avgs) if stable_track_avgs else float("nan")))
+        f.write("stable_initializing_frames_avg=%.6f\n" % avg(stable_initializing_frames))
+        f.write("stable_initializing_frames_max=%d\n" % (max(stable_initializing_frames) if stable_initializing_frames else 0))
         f.write("initializing_frames_total=%d\n" % sum(int(row["initializing_frames"]) for row in rows))
         f.write("initializing_frames_max=%d\n" % (max(int(row["initializing_frames"]) for row in rows) if rows else 0))
         f.write("rss_start_mb=%.3f\n" % rss_start)
@@ -389,6 +436,7 @@ def main():
             else:
                 row_bbox = clipped_bbox
 
+            measured_stable = 1 if phase == "reinitialize" and run_index > int(args.discard_warmup_runs) and success == 1 else 0
             row = {
                 "run_index": run_index,
                 "phase": phase,
@@ -402,6 +450,7 @@ def main():
                 "bbox_w": row_bbox[2],
                 "bbox_h": row_bbox[3],
                 "success": success,
+                "measured_stable": measured_stable,
             }
             for stage_key in PROFILE_STAGE_KEYS:
                 row[stage_key] = init_profile.get(stage_key, float("nan"))
@@ -425,5 +474,22 @@ def main():
     print("metrics_summary=%s" % metrics_path, flush=True)
 
 
+def write_crash_log(error_text):
+    try:
+        fallback_dir = Path("jetson/benchmarks/eco_init_crash_logs")
+        fallback_dir.mkdir(parents=True, exist_ok=True)
+        crash_path = fallback_dir / ("benchmark_eco_init_crash_%d.log" % int(time.time()))
+        with crash_path.open("w", encoding="utf-8") as f:
+            f.write(error_text)
+        print("crash_log=%s" % crash_path, file=sys.stderr, flush=True)
+    except Exception:
+        print(error_text, file=sys.stderr, flush=True)
+
+
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception:
+        error_text = traceback.format_exc()
+        write_crash_log(error_text)
+        raise
