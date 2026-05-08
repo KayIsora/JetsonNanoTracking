@@ -746,23 +746,25 @@ def run_prewarm_initialize(tracker, cap, args, init_box, run_index, total_runs, 
         cv2.imshow(args.window_name, display)
         key = cv2.waitKey(1) & 0xFF
         if key in (ord("q"), ord("Q"), 27):
-            return None, None, False
+            return None, None, None, False
     if worker.error is not None:
         raise worker.error
 
     prev_output = dict(worker.output or {})
+    current_box = [float(v) for v in prev_output.get("target_bbox", init_box)]
     for track_index in range(max(0, int(args.eco_prewarm_track_frames))):
         ok, track_frame_bgr = cap.read()
         if not ok or track_frame_bgr is None:
             raise RuntimeError("Camera frame read failed during ECO prewarm tracking.")
         frame_rgb = cv2.cvtColor(track_frame_bgr, cv2.COLOR_BGR2RGB)
         prev_output = dict(tracker.track(frame_rgb, {"previous_output": prev_output}) or {})
-        display = draw_prewarm_frame(track_frame_bgr, "WARMING_ECO_TRACK", init_box, time.perf_counter() - started, run_index, total_runs)
+        current_box = [float(v) for v in prev_output.get("target_bbox", current_box)]
+        display = draw_prewarm_frame(track_frame_bgr, "WARMING_ECO_TRACK", current_box, time.perf_counter() - started, run_index, total_runs)
         cv2.imshow(args.window_name, display)
         key = cv2.waitKey(1) & 0xFF
         if key in (ord("q"), ord("Q"), 27):
-            return None, None, False
-    return worker.elapsed, init_box, True
+            return None, None, None, False
+    return worker.elapsed, current_box, prev_output, True
 
 
 def select_prewarm_box(cap, detector, args, metrics):
@@ -803,7 +805,7 @@ def prewarm_eco_tracker(tracker, cap, detector, args, metrics):
     reinit_runs = max(0, int(args.eco_prewarm_reinit_runs))
     total_runs = 1 + reinit_runs
     if not args.eco_prewarm:
-        return True
+        return {"completed": True, "standby_warmed": False, "standby_box": None, "standby_prev_output": {}}
 
     cv2.namedWindow(args.window_name, cv2.WINDOW_NORMAL)
     started = time.perf_counter()
@@ -811,19 +813,19 @@ def prewarm_eco_tracker(tracker, cap, detector, args, metrics):
     print("eco_prewarm_start reinit_runs=%d track_frames=%d timeout_frames=%d" % (reinit_runs, int(args.eco_prewarm_track_frames), int(args.eco_prewarm_timeout_frames)), flush=True)
     prewarm_box, should_continue = select_prewarm_box(cap, detector, args, metrics)
     if not should_continue:
-        return False
+        return {"completed": False, "standby_warmed": False, "standby_box": None, "standby_prev_output": {}}
 
-    first_elapsed, _, should_continue = run_prewarm_initialize(tracker, cap, args, prewarm_box, 0, total_runs, started, metrics)
+    first_elapsed, standby_box, standby_prev_output, should_continue = run_prewarm_initialize(tracker, cap, args, prewarm_box, 0, total_runs, started, metrics)
     if not should_continue:
-        return False
+        return {"completed": False, "standby_warmed": False, "standby_box": None, "standby_prev_output": {}}
     metrics["eco_prewarm_first_init_time_s"] = first_elapsed
     print("eco_prewarm_first_init_time_s=%.3f" % first_elapsed, flush=True)
 
     reinit_times = []
     for reinit_index in range(reinit_runs):
-        elapsed, _, should_continue = run_prewarm_initialize(tracker, cap, args, prewarm_box, reinit_index + 1, total_runs, started, metrics)
+        elapsed, standby_box, standby_prev_output, should_continue = run_prewarm_initialize(tracker, cap, args, standby_box, reinit_index + 1, total_runs, started, metrics)
         if not should_continue:
-            return False
+            return {"completed": False, "standby_warmed": False, "standby_box": None, "standby_prev_output": {}}
         reinit_times.append(elapsed)
         print("eco_prewarm_reinit_index=%d init_time_s=%.3f" % (reinit_index, elapsed), flush=True)
 
@@ -832,6 +834,7 @@ def prewarm_eco_tracker(tracker, cap, detector, args, metrics):
     metrics["eco_prewarm_reinit_avg_s"] = sum(reinit_times) / float(len(reinit_times)) if reinit_times else 0.0
     metrics["eco_prewarm_total_time_s"] = time.perf_counter() - started
     metrics["eco_ready_warmed"] = 1
+    metrics["eco_standby_warmed"] = 1 if standby_prev_output else 0
 
     ok, frame_bgr = cap.read()
     if ok and frame_bgr is not None:
@@ -841,9 +844,14 @@ def prewarm_eco_tracker(tracker, cap, detector, args, metrics):
         cv2.imshow(args.window_name, display)
         key = cv2.waitKey(1) & 0xFF
         if key in (ord("q"), ord("Q"), 27):
-            return False
-    print("READY_WARMED eco_prewarm_total_time_s=%.3f reinit_avg_s=%.3f" % (metrics["eco_prewarm_total_time_s"], metrics["eco_prewarm_reinit_avg_s"]), flush=True)
-    return True
+            return {"completed": False, "standby_warmed": False, "standby_box": None, "standby_prev_output": {}}
+    print("READY_WARMED eco_prewarm_total_time_s=%.3f reinit_avg_s=%.3f standby_warmed=%d" % (metrics["eco_prewarm_total_time_s"], metrics["eco_prewarm_reinit_avg_s"], metrics["eco_standby_warmed"]), flush=True)
+    return {
+        "completed": True,
+        "standby_warmed": bool(standby_prev_output),
+        "standby_box": standby_box[:] if standby_box is not None else None,
+        "standby_prev_output": dict(standby_prev_output or {}),
+    }
 
 
 def write_run_info(output_dir, args, detector_backend, detector_model_path, detector_bin_path, recognizer_backend=None, recognizer_model_path=None, recognizer_bin_path=None):
@@ -888,6 +896,7 @@ def write_metrics_summary(output_dir, metrics):
             "recognizer_backend", "recognizer_model", "recognizer_bin", "recognizer_load_time_s",
             "recognize_interval", "recognize_fast_interval", "identity_match_threshold", "identity_reject_threshold",
             "control_box_smoothing", "control_center_threshold", "eco_prewarm_enabled", "eco_ready_warmed",
+            "eco_standby_warmed", "eco_first_live_handoff_mode", "eco_first_live_acquisition_time_s",
             "eco_prewarm_first_init_time_s", "eco_prewarm_reinit_count", "eco_prewarm_reinit_avg_s",
             "eco_prewarm_total_time_s",
         ]:
@@ -1025,7 +1034,7 @@ def main():
             "soft_reinitializations", "hard_reinitializations", "background_lock_events",
             "identity_state", "identity_score", "identity_face_found", "identity_candidate_index",
             "identity_target_ready", "recognition_time_s", "identity_reinit_blocks",
-            "eco_ready_warmed",
+            "eco_ready_warmed", "eco_standby_warmed", "eco_first_live_handoff_mode",
         ])
 
     cv2.namedWindow(args.window_name, cv2.WINDOW_NORMAL)
@@ -1038,6 +1047,11 @@ def main():
     last_detector_box = None
     control_box = None
     control_box_source = "none"
+    standby_warmed = False
+    standby_prev_output = {}
+    standby_box = None
+    standby_handoff_pending = False
+    first_live_acquisition_recorded = False
     frame_index = 0
     last_time = time.perf_counter()
     run_start = time.perf_counter()
@@ -1087,6 +1101,9 @@ def main():
         "control_center_threshold": float(args.control_center_threshold),
         "eco_prewarm_enabled": int(bool(args.eco_prewarm)),
         "eco_ready_warmed": 0,
+        "eco_standby_warmed": 0,
+        "eco_first_live_handoff_mode": "none",
+        "eco_first_live_acquisition_time_s": 0.0,
         "eco_prewarm_first_init_time_s": 0.0,
         "eco_prewarm_reinit_count": 0,
         "eco_prewarm_reinit_avg_s": 0.0,
@@ -1145,7 +1162,8 @@ def main():
     }
 
     try:
-        if not prewarm_eco_tracker(tracker, cap, detector, args, metrics):
+        prewarm_result = prewarm_eco_tracker(tracker, cap, detector, args, metrics)
+        if not prewarm_result["completed"]:
             return 0
         run_start = time.perf_counter()
         last_time = run_start
@@ -1159,6 +1177,10 @@ def main():
         previous_box = None
         control_box = None
         control_box_source = "none"
+        standby_warmed = bool(prewarm_result["standby_warmed"])
+        standby_prev_output = dict(prewarm_result["standby_prev_output"])
+        standby_box = prewarm_result["standby_box"][:] if prewarm_result["standby_box"] is not None else None
+        standby_handoff_pending = standby_warmed
 
         while True:
             if args.max_frames > 0 and frame_index >= args.max_frames:
@@ -1225,6 +1247,13 @@ def main():
                 init_time_for_row = last_init_time
                 metrics["initializations_completed"] += 1
                 metrics["init_times"].append(last_init_time)
+                if standby_handoff_pending:
+                    metrics["eco_first_live_acquisition_time_s"] = last_init_time
+                    standby_handoff_pending = False
+                    first_live_acquisition_recorded = True
+                elif not first_live_acquisition_recorded:
+                    metrics["eco_first_live_acquisition_time_s"] = last_init_time
+                    first_live_acquisition_recorded = True
                 print("initialized_bbox=%.3f,%.3f,%.3f,%.3f init_time_s=%.3f" % tuple(current_box + [last_init_time]), flush=True)
                 init_worker = None
 
@@ -1332,13 +1361,52 @@ def main():
                                 color = (0, 128, 255)
                                 final_box = selected_det["box_xywh"][:]
                     if can_initialize:
-                        init_worker = TrackerInitializer(tracker, frame_bgr, selected_det["box_xywh"])
-                        init_worker.start()
-                        initializing = True
-                        state = "DETECTED_INITIALIZING"
-                        color = (0, 165, 255)
                         final_box = selected_det["box_xywh"][:]
-                        print("auto_initializing_bbox=%.3f,%.3f,%.3f,%.3f det_conf=%.3f identity=%s id_score=%.3f" % tuple(final_box + [selected_det["conf"], identity.state, identity.last_similarity]), flush=True)
+                        standby_match_iou = float("nan")
+                        standby_match_center_ratio = float("nan")
+                        standby_match_area_ratio = float("nan")
+                        if standby_warmed and standby_box is not None:
+                            _, standby_match_iou, standby_match_center_ratio, standby_match_area_ratio = detector_match_metrics(standby_box, selected_det, frame_diag)
+                        standby_matches_selected = standby_warmed and standby_prev_output and standby_box is not None and detector_confirms_track(
+                            standby_match_iou,
+                            standby_match_center_ratio,
+                            standby_match_area_ratio,
+                            args,
+                        )
+                        if standby_matches_selected:
+                            prev_output = dict(standby_prev_output)
+                            current_box = standby_box[:]
+                            previous_box = standby_box[:]
+                            tracking_active = True
+                            initializing = False
+                            standby_warmed = False
+                            standby_prev_output = {}
+                            standby_box = None
+                            metrics["eco_standby_warmed"] = 0
+                            metrics["eco_first_live_handoff_mode"] = "adopt_standby"
+                            metrics["eco_first_live_acquisition_time_s"] = 0.0
+                            first_live_acquisition_recorded = True
+                            standby_handoff_pending = False
+                            state = "DETECTOR_CONFIRMED"
+                            color = (0, 255, 0)
+                            print("standby_live_adopt_bbox=%.3f,%.3f,%.3f,%.3f det_conf=%.3f identity=%s id_score=%.3f match_iou=%.3f" % tuple(final_box + [selected_det["conf"], identity.state, identity.last_similarity, standby_match_iou]), flush=True)
+                        else:
+                            init_worker = TrackerInitializer(tracker, frame_bgr, selected_det["box_xywh"])
+                            init_worker.start()
+                            tracking_active = False
+                            initializing = True
+                            prev_output = {}
+                            current_box = None
+                            previous_box = None
+                            standby_handoff_pending = bool(standby_warmed and standby_prev_output)
+                            standby_warmed = False
+                            standby_prev_output = {}
+                            standby_box = None
+                            metrics["eco_standby_warmed"] = 0
+                            metrics["eco_first_live_handoff_mode"] = "initialize"
+                            state = "DETECTED_INITIALIZING"
+                            color = (0, 165, 255)
+                            print("auto_initializing_bbox=%.3f,%.3f,%.3f,%.3f det_conf=%.3f identity=%s id_score=%.3f" % tuple(final_box + [selected_det["conf"], identity.state, identity.last_similarity]), flush=True)
                 elif selected_det is not None and ambiguous_detection:
                     state = "AMBIGUOUS_DETECTION"
                     color = (0, 128, 255)
@@ -1707,7 +1775,7 @@ def main():
                     int(ambiguous_detection), metrics["soft_reinitializations"], metrics["hard_reinitializations"], metrics["background_lock_events"],
                     identity.state, identity.last_similarity, int(identity.last_face_found), identity.last_candidate_index,
                     int(identity.target_ready), recognition_elapsed, identity.reinit_blocks,
-                    metrics["eco_ready_warmed"],
+                    metrics["eco_ready_warmed"], int(standby_warmed), metrics["eco_first_live_handoff_mode"],
                 ])
                 csv_file.flush()
 
