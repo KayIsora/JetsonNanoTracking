@@ -81,7 +81,27 @@ def parse_args():
     parser.add_argument("--control-center-threshold", type=float, default=0.20, help="Maximum center distance, as a frame diagonal ratio, for tracker updates to move the control bbox.")
     parser.add_argument("--ambiguous-margin", type=float, default=0.15, help="If top two detection ranks are closer than this margin, do not reinitialize blindly.")
     parser.add_argument("--metrics-interval", type=int, default=30, help="Write camera_metrics.txt every N frames. 0 means only on exit.")
+    parser.set_defaults(eco_prewarm=False)
+    parser.add_argument("--eco-prewarm", dest="eco_prewarm", action="store_true", help="Warm ECO with real camera frames before normal detection/tracking starts.")
+    parser.add_argument("--no-eco-prewarm", dest="eco_prewarm", action="store_false", help="Skip the ECO prewarm gate.")
+    parser.add_argument("--eco-prewarm-bbox", "--prewarm-bbox", dest="eco_prewarm_bbox", default="180,80,260,390", help="Fallback x,y,w,h bbox used if no detector bbox is found during ECO prewarm.")
+    parser.add_argument("--eco-prewarm-reinit-runs", "--prewarm-repeats", dest="eco_prewarm_reinit_runs", type=int, default=1, help="Number of extra ECO reinitialize calls to run before READY_WARMED.")
+    parser.add_argument("--eco-prewarm-track-frames", type=int, default=30, help="Number of tracker.track frames to run after each ECO prewarm initialize.")
+    parser.add_argument("--eco-prewarm-timeout-frames", type=int, default=30, help="Frames to wait for a detector-selected prewarm bbox before using the fallback bbox.")
     return parser.parse_args()
+
+
+def parse_xywh(value, name):
+    parts = str(value).split(",")
+    if len(parts) != 4:
+        raise ValueError("%s must be x,y,w,h" % name)
+    try:
+        box = [float(part.strip()) for part in parts]
+    except ValueError:
+        raise ValueError("%s must contain numeric x,y,w,h values" % name)
+    if box[2] <= 0 or box[3] <= 0:
+        raise ValueError("%s width and height must be positive" % name)
+    return box
 
 
 def resolve_project_root(script_path):
@@ -693,6 +713,139 @@ def draw_header(image, frame_index, fps_value, state, score, det_count, det_conf
     cv2.putText(image, "Auto detect person -> init ECO. R: re-detect. S: screenshot. Q/Esc: quit", (12, 54), cv2.FONT_HERSHEY_SIMPLEX, 0.52, (245, 245, 245), 2, cv2.LINE_AA)
 
 
+def centered_fallback_box(frame_shape, fallback_box):
+    height, width = frame_shape[:2]
+    _, _, box_w, box_h = [float(v) for v in fallback_box]
+    box_w = min(max(1.0, box_w), float(width))
+    box_h = min(max(1.0, box_h), float(height))
+    x = (float(width) - box_w) / 2.0
+    y = (float(height) - box_h) / 2.0
+    return clip_xywh([x, y, box_w, box_h], frame_shape)
+
+
+def draw_prewarm_frame(frame_bgr, state, init_box, elapsed, repeat_index, total_runs):
+    display = frame_bgr.copy()
+    if init_box is not None:
+        draw_box(display, init_box, (0, 165, 255), 2, "PREWARM")
+    draw_label(display, "%s %d/%d %.1fs" % (state, repeat_index + 1, total_runs, elapsed), (12, 82), (0, 165, 255))
+    draw_header(display, 0, 0.0, state, None, 0, float("nan"), float("nan"))
+    return display
+
+
+def run_prewarm_initialize(tracker, cap, args, init_box, run_index, total_runs, started, metrics):
+    ok, frame_bgr = cap.read()
+    if not ok or frame_bgr is None:
+        raise RuntimeError("Camera frame read failed during ECO prewarm.")
+    metrics["frame_width"] = frame_bgr.shape[1]
+    metrics["frame_height"] = frame_bgr.shape[0]
+    init_box = clip_xywh(init_box, frame_bgr.shape)
+    worker = TrackerInitializer(tracker, frame_bgr, init_box)
+    worker.start()
+    while worker.is_alive():
+        display = draw_prewarm_frame(frame_bgr, "WARMING_ECO", init_box, time.perf_counter() - started, run_index, total_runs)
+        cv2.imshow(args.window_name, display)
+        key = cv2.waitKey(1) & 0xFF
+        if key in (ord("q"), ord("Q"), 27):
+            return None, None, False
+    if worker.error is not None:
+        raise worker.error
+
+    prev_output = dict(worker.output or {})
+    for track_index in range(max(0, int(args.eco_prewarm_track_frames))):
+        ok, track_frame_bgr = cap.read()
+        if not ok or track_frame_bgr is None:
+            raise RuntimeError("Camera frame read failed during ECO prewarm tracking.")
+        frame_rgb = cv2.cvtColor(track_frame_bgr, cv2.COLOR_BGR2RGB)
+        prev_output = dict(tracker.track(frame_rgb, {"previous_output": prev_output}) or {})
+        display = draw_prewarm_frame(track_frame_bgr, "WARMING_ECO_TRACK", init_box, time.perf_counter() - started, run_index, total_runs)
+        cv2.imshow(args.window_name, display)
+        key = cv2.waitKey(1) & 0xFF
+        if key in (ord("q"), ord("Q"), 27):
+            return None, None, False
+    return worker.elapsed, init_box, True
+
+
+def select_prewarm_box(cap, detector, args, metrics):
+    fallback_box = parse_xywh(args.eco_prewarm_bbox, "--eco-prewarm-bbox")
+    timeout_frames = max(0, int(args.eco_prewarm_timeout_frames))
+    last_frame = None
+    for frame_offset in range(timeout_frames):
+        ok, frame_bgr = cap.read()
+        if not ok or frame_bgr is None:
+            raise RuntimeError("Camera frame read failed while selecting ECO prewarm bbox.")
+        last_frame = frame_bgr
+        metrics["frame_width"] = frame_bgr.shape[1]
+        metrics["frame_height"] = frame_bgr.shape[0]
+        detections = detector.detect(frame_bgr, args.detector_conf, args.nms_threshold)
+        selected_det, ambiguous_detection, _ = select_detection(detections, None, frame_bgr.shape, args.ambiguous_margin)
+        display = frame_bgr.copy()
+        if selected_det is not None:
+            draw_box(display, selected_det["box_xywh"], (255, 0, 0), 2, "PREWARM_DET")
+        draw_label(display, "WARMING_ECO_SELECT %d/%d" % (frame_offset + 1, max(1, timeout_frames)), (12, 82), (0, 165, 255))
+        draw_header(display, 0, 0.0, "WARMING_ECO_SELECT", None, len(detections), selected_det["conf"] if selected_det is not None else float("nan"), float("nan"))
+        cv2.imshow(args.window_name, display)
+        key = cv2.waitKey(1) & 0xFF
+        if key in (ord("q"), ord("Q"), 27):
+            return None, False
+        if selected_det is not None and not ambiguous_detection:
+            print("eco_prewarm_detector_bbox=%.3f,%.3f,%.3f,%.3f det_conf=%.3f" % tuple(selected_det["box_xywh"] + [selected_det["conf"]]), flush=True)
+            return clip_xywh(selected_det["box_xywh"], frame_bgr.shape), True
+    if last_frame is None:
+        ok, last_frame = cap.read()
+        if not ok or last_frame is None:
+            raise RuntimeError("Camera frame read failed while building ECO prewarm fallback bbox.")
+    fallback = centered_fallback_box(last_frame.shape, fallback_box)
+    print("eco_prewarm_fallback_bbox=%.3f,%.3f,%.3f,%.3f" % tuple(fallback), flush=True)
+    return fallback, True
+
+
+def prewarm_eco_tracker(tracker, cap, detector, args, metrics):
+    reinit_runs = max(0, int(args.eco_prewarm_reinit_runs))
+    total_runs = 1 + reinit_runs
+    if not args.eco_prewarm:
+        return True
+
+    cv2.namedWindow(args.window_name, cv2.WINDOW_NORMAL)
+    started = time.perf_counter()
+    metrics["eco_prewarm_enabled"] = 1
+    print("eco_prewarm_start reinit_runs=%d track_frames=%d timeout_frames=%d" % (reinit_runs, int(args.eco_prewarm_track_frames), int(args.eco_prewarm_timeout_frames)), flush=True)
+    prewarm_box, should_continue = select_prewarm_box(cap, detector, args, metrics)
+    if not should_continue:
+        return False
+
+    first_elapsed, _, should_continue = run_prewarm_initialize(tracker, cap, args, prewarm_box, 0, total_runs, started, metrics)
+    if not should_continue:
+        return False
+    metrics["eco_prewarm_first_init_time_s"] = first_elapsed
+    print("eco_prewarm_first_init_time_s=%.3f" % first_elapsed, flush=True)
+
+    reinit_times = []
+    for reinit_index in range(reinit_runs):
+        elapsed, _, should_continue = run_prewarm_initialize(tracker, cap, args, prewarm_box, reinit_index + 1, total_runs, started, metrics)
+        if not should_continue:
+            return False
+        reinit_times.append(elapsed)
+        print("eco_prewarm_reinit_index=%d init_time_s=%.3f" % (reinit_index, elapsed), flush=True)
+
+    metrics["eco_prewarm_reinit_count"] = len(reinit_times)
+    metrics["eco_prewarm_reinit_times"] = reinit_times
+    metrics["eco_prewarm_reinit_avg_s"] = sum(reinit_times) / float(len(reinit_times)) if reinit_times else 0.0
+    metrics["eco_prewarm_total_time_s"] = time.perf_counter() - started
+    metrics["eco_ready_warmed"] = 1
+
+    ok, frame_bgr = cap.read()
+    if ok and frame_bgr is not None:
+        display = frame_bgr.copy()
+        draw_label(display, "READY_WARMED", (12, 82), (0, 255, 0))
+        draw_header(display, 0, 0.0, "READY_WARMED", None, 0, float("nan"), float("nan"))
+        cv2.imshow(args.window_name, display)
+        key = cv2.waitKey(1) & 0xFF
+        if key in (ord("q"), ord("Q"), 27):
+            return False
+    print("READY_WARMED eco_prewarm_total_time_s=%.3f reinit_avg_s=%.3f" % (metrics["eco_prewarm_total_time_s"], metrics["eco_prewarm_reinit_avg_s"]), flush=True)
+    return True
+
+
 def write_run_info(output_dir, args, detector_backend, detector_model_path, detector_bin_path, recognizer_backend=None, recognizer_model_path=None, recognizer_bin_path=None):
     if output_dir is None:
         return
@@ -734,13 +887,16 @@ def write_metrics_summary(output_dir, metrics):
             "reinit_cooldown_frames", "shrink_confirm_frames", "tracker_load_time_s", "detector_load_time_s",
             "recognizer_backend", "recognizer_model", "recognizer_bin", "recognizer_load_time_s",
             "recognize_interval", "recognize_fast_interval", "identity_match_threshold", "identity_reject_threshold",
-            "control_box_smoothing", "control_center_threshold",
+            "control_box_smoothing", "control_center_threshold", "eco_prewarm_enabled", "eco_ready_warmed",
+            "eco_prewarm_first_init_time_s", "eco_prewarm_reinit_count", "eco_prewarm_reinit_avg_s",
+            "eco_prewarm_total_time_s",
         ]:
             value = metrics[key]
             if isinstance(value, float):
                 f.write("%s=%.6f\n" % (key, value))
             else:
                 f.write("%s=%s\n" % (key, value))
+        f.write("eco_prewarm_reinit_times_s=%s\n" % ",".join("%.6f" % value for value in metrics["eco_prewarm_reinit_times"]))
         f.write("duration_s=%.6f\n" % duration_s)
         f.write("frames_total=%d\n" % metrics["frames_total"])
         f.write("overall_loop_fps=%.6f\n" % (float(metrics["frames_total"]) / duration_s))
@@ -869,6 +1025,7 @@ def main():
             "soft_reinitializations", "hard_reinitializations", "background_lock_events",
             "identity_state", "identity_score", "identity_face_found", "identity_candidate_index",
             "identity_target_ready", "recognition_time_s", "identity_reinit_blocks",
+            "eco_ready_warmed",
         ])
 
     cv2.namedWindow(args.window_name, cv2.WINDOW_NORMAL)
@@ -928,6 +1085,13 @@ def main():
         "identity_reject_threshold": float(args.identity_reject_threshold),
         "control_box_smoothing": float(args.control_box_smoothing),
         "control_center_threshold": float(args.control_center_threshold),
+        "eco_prewarm_enabled": int(bool(args.eco_prewarm)),
+        "eco_ready_warmed": 0,
+        "eco_prewarm_first_init_time_s": 0.0,
+        "eco_prewarm_reinit_count": 0,
+        "eco_prewarm_reinit_avg_s": 0.0,
+        "eco_prewarm_reinit_times": [],
+        "eco_prewarm_total_time_s": 0.0,
         "start_time": run_start,
         "end_time": run_start,
         "frames_total": 0,
@@ -981,6 +1145,21 @@ def main():
     }
 
     try:
+        if not prewarm_eco_tracker(tracker, cap, detector, args, metrics):
+            return 0
+        run_start = time.perf_counter()
+        last_time = run_start
+        metrics["start_time"] = run_start
+        metrics["end_time"] = run_start
+        tracking_active = False
+        initializing = False
+        init_worker = None
+        prev_output = {}
+        current_box = None
+        previous_box = None
+        control_box = None
+        control_box_source = "none"
+
         while True:
             if args.max_frames > 0 and frame_index >= args.max_frames:
                 break
@@ -1528,6 +1707,7 @@ def main():
                     int(ambiguous_detection), metrics["soft_reinitializations"], metrics["hard_reinitializations"], metrics["background_lock_events"],
                     identity.state, identity.last_similarity, int(identity.last_face_found), identity.last_candidate_index,
                     int(identity.target_ready), recognition_elapsed, identity.reinit_blocks,
+                    metrics["eco_ready_warmed"],
                 ])
                 csv_file.flush()
 
