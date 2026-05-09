@@ -1,0 +1,1 @@
+face_recognize_stdin ready model_dir=/home/jetson/Desktop/JetsonNanoTracking/person_detection_update/pedestrian_detection/models face_conf=0.8 use_gpu=0
