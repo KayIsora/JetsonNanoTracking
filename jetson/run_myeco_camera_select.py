@@ -39,6 +39,12 @@ def parse_args():
     parser.add_argument("--startup-center-threshold", type=float, default=0.45, help="Maximum detector center distance from frame center as a frame diagonal ratio for startup target selection.")
     parser.add_argument("--low-score-threshold", type=float, default=0.50, help="Tracker score threshold for LOW_CONFIDENCE state.")
     parser.add_argument("--very-low-score-threshold", type=float, default=0.25, help="Tracker score threshold for SUSPECTED_LOST/LOST state.")
+    parser.add_argument("--adaptive-search", action="store_true", help="Expand ECO's search region after consecutive low-confidence frames without changing target size.")
+    parser.add_argument("--adaptive-search-low-frames", type=int, default=3, help="Consecutive low-score frames before using --adaptive-search-multiplier.")
+    parser.add_argument("--adaptive-search-multiplier", type=float, default=1.60, help="Search region multiplier while recovering from low confidence.")
+    parser.add_argument("--adaptive-search-suspect-multiplier", type=float, default=2.20, help="Search region multiplier while in suspected-lost recovery.")
+    parser.add_argument("--freeze-update-on-low-confidence", action="store_true", help="Do not update ECO model when the current response score is below the update threshold.")
+    parser.add_argument("--freeze-update-score-threshold", type=float, default=-1.0, help="Score threshold for freezing ECO model updates. Negative means use --low-score-threshold.")
     parser.add_argument("--lost-frames", type=int, default=20, help="Consecutive suspicious frames before LOST state.")
     parser.add_argument("--suspect-frames", type=int, default=10, help="Consecutive suspicious frames before SUSPECTED_LOST state.")
     parser.add_argument("--bbox-margin", type=float, default=0.15, help="Allowed bbox margin outside frame as a ratio of bbox size.")
@@ -284,6 +290,13 @@ def write_metrics_summary(output_dir, metrics):
         f.write("startup_detector_hits=%d\n" % metrics["startup_detector_hits"])
         f.write("startup_detector_initializations=%d\n" % metrics["startup_detector_initializations"])
         f.write("startup_detector_selected_conf=%.6f\n" % metrics["startup_detector_selected_conf"])
+        f.write("adaptive_search_enabled=%d\n" % metrics["adaptive_search_enabled"])
+        f.write("adaptive_search_low_frames=%d\n" % metrics["adaptive_search_low_frames"])
+        f.write("adaptive_search_multiplier=%.6f\n" % metrics["adaptive_search_multiplier"])
+        f.write("adaptive_search_suspect_multiplier=%.6f\n" % metrics["adaptive_search_suspect_multiplier"])
+        f.write("freeze_update_on_low_confidence=%d\n" % metrics["freeze_update_on_low_confidence"])
+        f.write("search_expanded_frames=%d\n" % metrics["search_expanded_frames"])
+        f.write("search_multiplier_max=%.6f\n" % metrics["search_multiplier_max"])
         f.write("tracker_load_time_s=%.6f\n" % metrics["tracker_load_time_s"])
         f.write("duration_s=%.6f\n" % duration_s)
         f.write("frames_total=%d\n" % metrics["frames_total"])
@@ -365,6 +378,7 @@ def main():
             "is_large_area_change", "consecutive_suspicious", "manual_reinitializations",
             "init_trigger", "startup_det_x", "startup_det_y", "startup_det_w", "startup_det_h",
             "startup_det_conf", "startup_detector_calls", "startup_detector_hits",
+            "search_scale_multiplier", "low_score_streak", "freeze_update_min_score",
         ])
 
     cv2.namedWindow(args.window_name, cv2.WINDOW_NORMAL)
@@ -378,6 +392,7 @@ def main():
     last_time = time.perf_counter()
     run_start = time.perf_counter()
     consecutive_suspicious = 0
+    low_score_streak = 0
     was_lost = False
     last_init_time = 0.0
     startup_detector_calls = 0
@@ -402,6 +417,13 @@ def main():
         "startup_detector_hits": 0,
         "startup_detector_initializations": 0,
         "startup_detector_selected_conf": float("nan"),
+        "adaptive_search_enabled": int(bool(args.adaptive_search)),
+        "adaptive_search_low_frames": int(args.adaptive_search_low_frames),
+        "adaptive_search_multiplier": float(args.adaptive_search_multiplier),
+        "adaptive_search_suspect_multiplier": float(args.adaptive_search_suspect_multiplier),
+        "freeze_update_on_low_confidence": int(bool(args.freeze_update_on_low_confidence)),
+        "search_expanded_frames": 0,
+        "search_multiplier_max": 1.0,
         "tracker_load_time_s": tracker_load_time,
         "start_time": run_start,
         "end_time": run_start,
@@ -454,6 +476,8 @@ def main():
             area_ratio = 1.0
             init_time_for_row = 0.0
             init_trigger = "none"
+            search_scale_multiplier = 1.0
+            freeze_update_min_score = float("nan")
             startup_selected_det = None
             startup_selected_conf = float("nan")
             init_box_preview = get_center_init_box(frame_bgr.shape, args.init_width_ratio, args.init_height_ratio)
@@ -468,6 +492,7 @@ def main():
                 tracking_active = True
                 initializing = False
                 consecutive_suspicious = 0
+                low_score_streak = 0
                 was_lost = False
                 last_init_time = init_worker.elapsed
                 init_time_for_row = last_init_time
@@ -478,8 +503,23 @@ def main():
 
             if tracking_active:
                 frame_rgb = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2RGB)
+                track_info = {"previous_output": prev_output}
+                if args.adaptive_search:
+                    if consecutive_suspicious >= int(args.suspect_frames):
+                        search_scale_multiplier = max(1.0, float(args.adaptive_search_suspect_multiplier))
+                    elif low_score_streak >= max(1, int(args.adaptive_search_low_frames)):
+                        search_scale_multiplier = max(1.0, float(args.adaptive_search_multiplier))
+                    if search_scale_multiplier > 1.0:
+                        track_info["search_scale_multiplier"] = search_scale_multiplier
+                        metrics["search_expanded_frames"] += 1
+                        metrics["search_multiplier_max"] = max(metrics["search_multiplier_max"], search_scale_multiplier)
+                if args.freeze_update_on_low_confidence:
+                    freeze_update_min_score = float(args.freeze_update_score_threshold)
+                    if freeze_update_min_score < 0:
+                        freeze_update_min_score = float(args.low_score_threshold)
+                    track_info["min_update_score"] = freeze_update_min_score
                 start = time.perf_counter()
-                out = tracker.track(frame_rgb, {"previous_output": prev_output}) or {}
+                out = tracker.track(frame_rgb, track_info) or {}
                 track_elapsed = time.perf_counter() - start
                 prev_output = dict(out)
                 previous_for_metrics = previous_box
@@ -489,6 +529,10 @@ def main():
                 is_low_score = math.isfinite(score) and score < float(args.low_score_threshold)
                 is_very_low_score = math.isfinite(score) and score < float(args.very_low_score_threshold)
                 is_out_of_frame = bbox_out_of_frame(current_box, frame_bgr.shape, args.bbox_margin)
+                if is_low_score:
+                    low_score_streak += 1
+                else:
+                    low_score_streak = 0
 
                 if previous_for_metrics is not None:
                     prev_center = bbox_center(previous_for_metrics)
@@ -599,6 +643,7 @@ def main():
                         if startup_detector_hits >= max(1, int(args.startup_detect_min_hits)):
                             init_box = startup_selected_det["box_xywh"][:]
                             consecutive_suspicious = 0
+                            low_score_streak = 0
                             previous_box = None
                             startup_detector_used = True
                             metrics["startup_detector_initializations"] += 1
@@ -689,6 +734,7 @@ def main():
                     int(is_large_area_change), consecutive_suspicious, metrics["manual_reinitializations"],
                     init_trigger, startup_det_values[0], startup_det_values[1], startup_det_values[2], startup_det_values[3],
                     startup_selected_conf, metrics["startup_detector_calls"], metrics["startup_detector_hits"],
+                    search_scale_multiplier, low_score_streak, freeze_update_min_score,
                 ])
                 csv_file.flush()
 
@@ -704,6 +750,7 @@ def main():
                 init_box = select_initial_bbox(frame_bgr, args.init_width_ratio, args.init_height_ratio)
                 tracking_active = False
                 consecutive_suspicious = 0
+                low_score_streak = 0
                 previous_box = None
                 metrics["manual_reinitializations"] += 1
                 startup_detector_used = True

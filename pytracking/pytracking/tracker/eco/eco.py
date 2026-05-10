@@ -242,6 +242,8 @@ class ECO(BaseTracker):
 
 
     def track(self, image, info: dict = None) -> dict:
+        if info is None:
+            info = {}
         self.debug_info = {}
 
         self.frame_num += 1
@@ -255,12 +257,17 @@ class ECO(BaseTracker):
         # Get sample
         sample_pos = self.pos.round()
         active_scale_factors = self.get_active_scale_factors()
-        sample_scales = self.target_scale * active_scale_factors
+        search_scale_multiplier = float(info.get('search_scale_multiplier', 1.0))
+        if not math.isfinite(search_scale_multiplier) or search_scale_multiplier < 1.0:
+            search_scale_multiplier = 1.0
+        sample_scales = self.target_scale * active_scale_factors * search_scale_multiplier
         test_xf = self.extract_fourier_sample(im, self.pos, sample_scales, self.img_sample_sz)
 
         # Compute scores
         sf = self.apply_filter(test_xf)
         translation_vec, scale_ind, s = self.localize_target(sf)
+        if search_scale_multiplier != 1.0:
+            translation_vec = translation_vec * search_scale_multiplier
         scale_change_factor = active_scale_factors[scale_ind]
 
         # Update position and scale
@@ -269,6 +276,7 @@ class ECO(BaseTracker):
         score_map = s[scale_ind, ...]
         max_score = torch.max(score_map).item()
         self.debug_info['max_score'] = max_score
+        self.debug_info['search_scale_multiplier'] = search_scale_multiplier
 
         if self.visdom is not None:
             self.visdom.register(score_map, 'heatmap', 2, 'Score Map')
@@ -283,22 +291,29 @@ class ECO(BaseTracker):
 
         # ------- UPDATE ------- #
 
-        # Get train sample
-        train_xf = TensorList([xf[scale_ind:scale_ind+1, ...] for xf in test_xf])
+        update_model = bool(info.get('update_model', True))
+        min_update_score = info.get('min_update_score', None)
+        if min_update_score is not None and max_score < float(min_update_score):
+            update_model = False
+        self.debug_info['update_model'] = update_model
 
-        # Shift the sample
-        shift_samp = 2*math.pi * (self.pos - sample_pos) / (sample_scales[scale_ind] * self.img_support_sz)
-        train_xf = fourier.shift_fs(train_xf, shift=shift_samp)
+        if update_model:
+            # Get train sample
+            train_xf = TensorList([xf[scale_ind:scale_ind+1, ...] for xf in test_xf])
 
-        # Update memory
-        self.update_memory(train_xf)
+            # Shift the sample
+            shift_samp = 2*math.pi * (self.pos - sample_pos) / (sample_scales[scale_ind] * self.img_support_sz)
+            train_xf = fourier.shift_fs(train_xf, shift=shift_samp)
 
-        # Train filter
-        if self.should_update_filter(translation_vec, scale_change_factor, max_score):
-            cg_iters = self.get_train_cg_iters(translation_vec, scale_change_factor, max_score)
-            self.filter_optimizer.run(cg_iters, train_xf)
-            self.symmetrize_filter()
-            self.last_train_frame = self.frame_num
+            # Update memory
+            self.update_memory(train_xf)
+
+            # Train filter
+            if self.should_update_filter(translation_vec, scale_change_factor, max_score):
+                cg_iters = self.get_train_cg_iters(translation_vec, scale_change_factor, max_score)
+                self.filter_optimizer.run(cg_iters, train_xf)
+                self.symmetrize_filter()
+                self.last_train_frame = self.frame_num
         self.last_max_score = max_score
 
         # Return new state
