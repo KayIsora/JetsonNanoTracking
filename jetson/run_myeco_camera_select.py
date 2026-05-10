@@ -96,6 +96,17 @@ def open_capture(camera_arg, use_gstreamer, width, height, fps):
     return cap
 
 
+def is_video_file_source(camera_arg, use_gstreamer):
+    if use_gstreamer:
+        return False
+    try:
+        int(camera_arg)
+        return False
+    except ValueError:
+        pass
+    return Path(camera_arg).expanduser().is_file()
+
+
 def resolve_runtime_path(project_root, path_value):
     path = Path(path_value).expanduser()
     if not path.is_absolute():
@@ -184,7 +195,7 @@ def draw_header(image, frame_index, fps_value, state, score):
     score_text = "nan" if score is None else "%.3f" % score
     text = "frame=%d fps=%.2f state=%s score=%s" % (frame_index, fps_value, state, score_text)
     cv2.putText(image, text, (12, 28), cv2.FONT_HERSHEY_SIMPLEX, 0.65, (245, 245, 245), 2, cv2.LINE_AA)
-    cv2.putText(image, "Stand in yellow box, press I to initialize   Q/Esc: quit", (12, 54), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (245, 245, 245), 2, cv2.LINE_AA)
+    cv2.putText(image, "Startup detector selects initial target; press I for manual init   Q/Esc: quit", (12, 54), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (245, 245, 245), 2, cv2.LINE_AA)
 
 
 def select_initial_bbox(frame, width_ratio, height_ratio):
@@ -235,6 +246,13 @@ class TrackerInitializer(threading.Thread):
             self.error = exc
         finally:
             self.elapsed = time.perf_counter() - start
+
+
+def initialize_tracker_sync(tracker, frame_bgr, init_box):
+    start = time.perf_counter()
+    frame_rgb = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2RGB)
+    out = tracker.initialize(frame_rgb, {"init_bbox": list(map(float, init_box))}) or {}
+    return out, time.perf_counter() - start
 
 
 def write_metrics_summary(output_dir, metrics):
@@ -328,6 +346,9 @@ def main():
         print("Startup detector ready backend=%s." % args.startup_detector_backend, flush=True)
 
     print("Opening camera source: %s" % args.camera, flush=True)
+    video_file_source = is_video_file_source(args.camera, args.gstreamer)
+    if video_file_source:
+        print("Video file source detected; initialization will run synchronously to avoid skipping source frames.", flush=True)
     cap = open_capture(args.camera, args.gstreamer, args.width, args.height, args.fps)
     print("Camera opened.", flush=True)
 
@@ -535,7 +556,8 @@ def main():
                 previous_box = current_box[:]
             elif initializing:
                 mode = "INITIALIZING"
-                draw_box(display, init_box_preview, (0, 165, 255))
+                initializing_box = init_worker.init_box if init_worker is not None else init_box_preview
+                draw_box(display, initializing_box, (0, 165, 255))
                 draw_status_label(display, "INITIALIZING", (0, 165, 255))
             else:
                 if (
@@ -576,31 +598,59 @@ def main():
                         )
                         if startup_detector_hits >= max(1, int(args.startup_detect_min_hits)):
                             init_box = startup_selected_det["box_xywh"][:]
-                            initializing = True
-                            tracking_active = False
                             consecutive_suspicious = 0
                             previous_box = None
-                            init_worker = TrackerInitializer(tracker, frame_bgr, init_box)
-                            init_worker.start()
                             startup_detector_used = True
-                            init_trigger = "startup_detector"
                             metrics["startup_detector_initializations"] += 1
                             metrics["startup_detector_selected_conf"] = startup_selected_conf
-                            print(
-                                "startup_detector_initializing_bbox=%.3f,%.3f,%.3f,%.3f det_conf=%.3f" % tuple(init_box + [startup_selected_conf]),
-                                flush=True,
-                            )
+                            if video_file_source:
+                                init_trigger = "startup_detector_sync"
+                                out, last_init_time = initialize_tracker_sync(tracker, frame_bgr, init_box)
+                                prev_output = dict(out)
+                                current_box = [float(v) for v in out.get("target_bbox", init_box)]
+                                previous_box = current_box[:]
+                                tracking_active = True
+                                initializing = False
+                                init_worker = None
+                                was_lost = False
+                                init_time_for_row = last_init_time
+                                metrics["initializations_completed"] += 1
+                                metrics["init_times"].append(last_init_time)
+                                print(
+                                    "startup_detector_initialized_bbox=%.3f,%.3f,%.3f,%.3f det_conf=%.3f init_time_s=%.3f" % tuple(current_box + [startup_selected_conf, last_init_time]),
+                                    flush=True,
+                                )
+                            else:
+                                initializing = True
+                                tracking_active = False
+                                init_worker = TrackerInitializer(tracker, frame_bgr, init_box)
+                                init_worker.start()
+                                was_lost = False
+                                init_trigger = "startup_detector_async"
+                                print(
+                                    "startup_detector_initializing_bbox=%.3f,%.3f,%.3f,%.3f det_conf=%.3f" % tuple(init_box + [startup_selected_conf]),
+                                    flush=True,
+                                )
                     if startup_detector_calls >= max(0, int(args.startup_detect_frames)) and not startup_detector_used:
                         cv2.putText(display, "Startup detector timeout. Press I for manual init.", (12, 108), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (0, 165, 255), 2, cv2.LINE_AA)
-                if initializing and init_worker is not None:
+                if tracking_active and current_box is not None:
+                    mode = "DETECTED_INITIALIZED"
+                    draw_box(display, current_box, (0, 255, 0))
+                    draw_status_label(display, "DETECTED_INITIALIZED", (0, 255, 0))
+                elif initializing and init_worker is not None:
                     mode = "DETECTED_INITIALIZING"
                     draw_box(display, init_worker.init_box, (0, 165, 255))
                     draw_status_label(display, "DETECTED_INITIALIZING", (0, 165, 255))
                 else:
-                    draw_box(display, init_box_preview, (0, 255, 255))
-                    if startup_detector is not None and not startup_detector_used:
+                    startup_detector_waiting = (
+                        startup_detector is not None
+                        and not startup_detector_used
+                        and startup_detector_calls < max(0, int(args.startup_detect_frames))
+                    )
+                    if startup_detector_waiting:
                         draw_status_label(display, "READY: startup detector selecting centered person", (0, 255, 255))
                     else:
+                        draw_box(display, init_box_preview, (0, 255, 255))
                         draw_status_label(display, "READY: stand in box and press I", (0, 255, 255))
 
             now = time.perf_counter()
@@ -652,15 +702,29 @@ def main():
                 break
             if key in (ord("i"), ord("I")) and init_worker is None:
                 init_box = select_initial_bbox(frame_bgr, args.init_width_ratio, args.init_height_ratio)
-                initializing = True
                 tracking_active = False
                 consecutive_suspicious = 0
                 previous_box = None
-                init_worker = TrackerInitializer(tracker, frame_bgr, init_box)
-                init_worker.start()
                 metrics["manual_reinitializations"] += 1
                 startup_detector_used = True
-                print("initializing_bbox=%.3f,%.3f,%.3f,%.3f" % tuple(init_worker.init_box), flush=True)
+                if video_file_source:
+                    out, last_init_time = initialize_tracker_sync(tracker, frame_bgr, init_box)
+                    prev_output = dict(out)
+                    current_box = [float(v) for v in out.get("target_bbox", init_box)]
+                    previous_box = current_box[:]
+                    tracking_active = True
+                    initializing = False
+                    init_worker = None
+                    was_lost = False
+                    metrics["initializations_completed"] += 1
+                    metrics["init_times"].append(last_init_time)
+                    print("manual_initialized_bbox=%.3f,%.3f,%.3f,%.3f init_time_s=%.3f" % tuple(current_box + [last_init_time]), flush=True)
+                else:
+                    initializing = True
+                    init_worker = TrackerInitializer(tracker, frame_bgr, init_box)
+                    init_worker.start()
+                    was_lost = False
+                    print("initializing_bbox=%.3f,%.3f,%.3f,%.3f" % tuple(init_worker.init_box), flush=True)
 
             frame_index += 1
     finally:
