@@ -38,13 +38,16 @@ def parse_args():
     parser.add_argument("--startup-detect-min-hits", type=int, default=2, help="Require this many centered detector hits before auto-initializing ECO.")
     parser.add_argument("--startup-center-threshold", type=float, default=0.45, help="Maximum detector center distance from frame center as a frame diagonal ratio for startup target selection.")
     parser.add_argument("--low-score-threshold", type=float, default=0.50, help="Tracker score threshold for LOW_CONFIDENCE state.")
+    parser.add_argument("--recover-score-threshold", type=float, default=0.55, help="Tracker score threshold required to leave low-confidence recovery.")
     parser.add_argument("--very-low-score-threshold", type=float, default=0.25, help="Tracker score threshold for SUSPECTED_LOST/LOST state.")
-    parser.add_argument("--adaptive-search", action="store_true", help="Expand ECO's search region after consecutive low-confidence frames without changing target size.")
+    parser.add_argument("--adaptive-search", dest="adaptive_search", action="store_true", default=True, help="Expand ECO's search region after consecutive low-confidence frames without changing target size.")
+    parser.add_argument("--no-adaptive-search", dest="adaptive_search", action="store_false", help="Disable low-confidence ECO search-region expansion.")
     parser.add_argument("--adaptive-search-low-frames", type=int, default=3, help="Consecutive low-score frames before using --adaptive-search-multiplier.")
     parser.add_argument("--adaptive-search-multiplier", type=float, default=1.60, help="Search region multiplier while recovering from low confidence.")
-    parser.add_argument("--adaptive-search-suspect-multiplier", type=float, default=2.20, help="Search region multiplier while in suspected-lost recovery.")
-    parser.add_argument("--freeze-update-on-low-confidence", action="store_true", help="Do not update ECO model when the current response score is below the update threshold.")
-    parser.add_argument("--freeze-update-score-threshold", type=float, default=-1.0, help="Score threshold for freezing ECO model updates. Negative means use --low-score-threshold.")
+    parser.add_argument("--adaptive-search-suspect-multiplier", type=float, default=2.00, help="Search region multiplier while in suspected-lost recovery.")
+    parser.add_argument("--freeze-update-on-low-confidence", dest="freeze_update_on_low_confidence", action="store_true", default=True, help="Do not update ECO model when the current response score is below the update threshold.")
+    parser.add_argument("--no-freeze-update-on-low-confidence", dest="freeze_update_on_low_confidence", action="store_false", help="Disable low-confidence ECO model-update freezing.")
+    parser.add_argument("--freeze-update-score-threshold", type=float, default=-1.0, help="Score threshold for freezing ECO model updates. Negative means use --recover-score-threshold.")
     parser.add_argument("--lost-frames", type=int, default=20, help="Consecutive suspicious frames before LOST state.")
     parser.add_argument("--suspect-frames", type=int, default=10, help="Consecutive suspicious frames before SUSPECTED_LOST state.")
     parser.add_argument("--bbox-margin", type=float, default=0.15, help="Allowed bbox margin outside frame as a ratio of bbox size.")
@@ -278,6 +281,7 @@ def write_metrics_summary(output_dir, metrics):
         f.write("frame_width=%d\n" % metrics["frame_width"])
         f.write("frame_height=%d\n" % metrics["frame_height"])
         f.write("low_score_threshold=%.6f\n" % metrics["low_score_threshold"])
+        f.write("recover_score_threshold=%.6f\n" % metrics["recover_score_threshold"])
         f.write("very_low_score_threshold=%.6f\n" % metrics["very_low_score_threshold"])
         f.write("suspect_frames_threshold=%d\n" % metrics["suspect_frames_threshold"])
         f.write("lost_frames_threshold=%d\n" % metrics["lost_frames_threshold"])
@@ -332,6 +336,7 @@ def write_metrics_summary(output_dir, metrics):
         f.write("large_area_change_frames=%d\n" % metrics["large_area_change_frames"])
         f.write("lost_events=%d\n" % metrics["lost_events"])
         f.write("max_consecutive_suspicious=%d\n" % metrics["max_consecutive_suspicious"])
+        f.write("max_low_score_streak=%d\n" % metrics["max_low_score_streak"])
         f.flush()
     print("metrics_summary=%s" % summary_path, flush=True)
 
@@ -378,7 +383,8 @@ def main():
             "is_large_area_change", "consecutive_suspicious", "manual_reinitializations",
             "init_trigger", "startup_det_x", "startup_det_y", "startup_det_w", "startup_det_h",
             "startup_det_conf", "startup_detector_calls", "startup_detector_hits",
-            "search_scale_multiplier", "low_score_streak", "freeze_update_min_score",
+            "search_scale_multiplier", "low_score_streak", "freeze_update_min_score", "update_model",
+            "suspicion_reason",
         ])
 
     cv2.namedWindow(args.window_name, cv2.WINDOW_NORMAL)
@@ -405,6 +411,7 @@ def main():
         "frame_width": 0,
         "frame_height": 0,
         "low_score_threshold": float(args.low_score_threshold),
+        "recover_score_threshold": float(args.recover_score_threshold),
         "very_low_score_threshold": float(args.very_low_score_threshold),
         "suspect_frames_threshold": int(args.suspect_frames),
         "lost_frames_threshold": int(args.lost_frames),
@@ -446,6 +453,7 @@ def main():
         "large_area_change_frames": 0,
         "lost_events": 0,
         "max_consecutive_suspicious": 0,
+        "max_low_score_streak": 0,
     }
 
     try:
@@ -478,6 +486,8 @@ def main():
             init_trigger = "none"
             search_scale_multiplier = 1.0
             freeze_update_min_score = float("nan")
+            update_model = ""
+            suspicion_reason = "none"
             startup_selected_det = None
             startup_selected_conf = float("nan")
             init_box_preview = get_center_init_box(frame_bgr.shape, args.init_width_ratio, args.init_height_ratio)
@@ -505,7 +515,7 @@ def main():
                 frame_rgb = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2RGB)
                 track_info = {"previous_output": prev_output}
                 if args.adaptive_search:
-                    if consecutive_suspicious >= int(args.suspect_frames):
+                    if consecutive_suspicious >= int(args.suspect_frames) or low_score_streak >= int(args.suspect_frames):
                         search_scale_multiplier = max(1.0, float(args.adaptive_search_suspect_multiplier))
                     elif low_score_streak >= max(1, int(args.adaptive_search_low_frames)):
                         search_scale_multiplier = max(1.0, float(args.adaptive_search_multiplier))
@@ -516,10 +526,13 @@ def main():
                 if args.freeze_update_on_low_confidence:
                     freeze_update_min_score = float(args.freeze_update_score_threshold)
                     if freeze_update_min_score < 0:
-                        freeze_update_min_score = float(args.low_score_threshold)
+                        freeze_update_min_score = float(args.recover_score_threshold)
                     track_info["min_update_score"] = freeze_update_min_score
                 start = time.perf_counter()
                 out = tracker.track(frame_rgb, track_info) or {}
+                track_debug_info = getattr(tracker, "debug_info", {}) or {}
+                if "update_model" in track_debug_info:
+                    update_model = int(bool(track_debug_info["update_model"]))
                 track_elapsed = time.perf_counter() - start
                 prev_output = dict(out)
                 previous_for_metrics = previous_box
@@ -527,11 +540,12 @@ def main():
                 raw_score = getattr(tracker, "last_max_score", float("nan"))
                 score = finite_or_nan(raw_score)
                 is_low_score = math.isfinite(score) and score < float(args.low_score_threshold)
+                is_recovered_score = math.isfinite(score) and score >= float(args.recover_score_threshold)
                 is_very_low_score = math.isfinite(score) and score < float(args.very_low_score_threshold)
                 is_out_of_frame = bbox_out_of_frame(current_box, frame_bgr.shape, args.bbox_margin)
-                if is_low_score:
+                if is_low_score or (low_score_streak > 0 and not is_recovered_score):
                     low_score_streak += 1
-                else:
+                elif is_recovered_score:
                     low_score_streak = 0
 
                 if previous_for_metrics is not None:
@@ -545,22 +559,37 @@ def main():
 
                 is_large_jump = center_delta_ratio > float(args.jump_threshold)
                 is_large_area_change = area_ratio > float(args.area_change_threshold)
-                suspicious = is_out_of_frame or is_very_low_score or (is_low_score and (is_large_jump or is_large_area_change))
-                weak_confidence = is_low_score or is_large_jump or is_large_area_change
+                low_score_suspicious = low_score_streak >= int(args.suspect_frames)
+                suspicious = is_out_of_frame or is_very_low_score or low_score_suspicious or (is_low_score and (is_large_jump or is_large_area_change))
+                weak_confidence = low_score_streak > 0 or is_low_score or is_large_jump or is_large_area_change
+                suspicion_reasons = []
+                if is_out_of_frame:
+                    suspicion_reasons.append("out_of_frame")
+                if is_very_low_score:
+                    suspicion_reasons.append("very_low_score")
+                if low_score_suspicious:
+                    suspicion_reasons.append("low_score_streak")
+                if is_large_jump:
+                    suspicion_reasons.append("jump")
+                if is_large_area_change:
+                    suspicion_reasons.append("area")
+                if suspicion_reasons:
+                    suspicion_reason = "+".join(suspicion_reasons)
 
                 if suspicious:
                     consecutive_suspicious += 1
-                else:
+                elif is_recovered_score:
                     consecutive_suspicious = 0
                 metrics["max_consecutive_suspicious"] = max(metrics["max_consecutive_suspicious"], consecutive_suspicious)
+                metrics["max_low_score_streak"] = max(metrics["max_low_score_streak"], low_score_streak)
 
-                if is_out_of_frame or consecutive_suspicious >= int(args.lost_frames):
+                if is_out_of_frame or consecutive_suspicious >= int(args.lost_frames) or low_score_streak >= int(args.lost_frames):
                     mode = "LOST"
                     color = (0, 0, 255)
                     if not was_lost:
                         metrics["lost_events"] += 1
                     was_lost = True
-                elif consecutive_suspicious >= int(args.suspect_frames):
+                elif consecutive_suspicious >= int(args.suspect_frames) or low_score_streak >= int(args.suspect_frames):
                     mode = "SUSPECTED_LOST"
                     color = (0, 128, 255)
                     was_lost = False
@@ -734,7 +763,8 @@ def main():
                     int(is_large_area_change), consecutive_suspicious, metrics["manual_reinitializations"],
                     init_trigger, startup_det_values[0], startup_det_values[1], startup_det_values[2], startup_det_values[3],
                     startup_selected_conf, metrics["startup_detector_calls"], metrics["startup_detector_hits"],
-                    search_scale_multiplier, low_score_streak, freeze_update_min_score,
+                    search_scale_multiplier, low_score_streak, freeze_update_min_score, update_model,
+                    suspicion_reason,
                 ])
                 csv_file.flush()
 
