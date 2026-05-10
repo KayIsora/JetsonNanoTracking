@@ -12,6 +12,8 @@ from pathlib import Path
 
 import cv2
 
+from run_myeco_detector_camera import CppNcnnStdinDetector, HOGPersonDetector, PERSON_MODEL_DIR
+
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Run MyECO on a live camera and press I to select/reselect the initial bbox.")
@@ -28,6 +30,13 @@ def parse_args():
     parser.add_argument("--window-name", default="MyECO Camera Tracking", help="OpenCV display window name.")
     parser.add_argument("--init-width-ratio", type=float, default=0.28, help="Center init bbox width as a ratio of frame width.")
     parser.add_argument("--init-height-ratio", type=float, default=0.70, help="Center init bbox height as a ratio of frame height.")
+    parser.add_argument("--startup-detector-backend", choices=["off", "cpp_ncnn", "hog"], default="off", help="Use a person detector only during startup to initialize ECO from the centered target, then disable detection.")
+    parser.add_argument("--startup-detector-bin", type=Path, default=Path("person_detection_update") / "pedestrian_detection" / "build" / "detect_person_stdin", help="C++ NCNN detector executable used only for startup initialization.")
+    parser.add_argument("--startup-detector-model-dir", type=Path, default=PERSON_MODEL_DIR, help="Directory containing the NCNN person detector model used only for startup initialization.")
+    parser.add_argument("--startup-detector-conf", type=float, default=0.70, help="Person detector confidence threshold for startup initialization.")
+    parser.add_argument("--startup-detect-frames", type=int, default=30, help="Maximum READY frames to run startup detector before falling back to manual/center init.")
+    parser.add_argument("--startup-detect-min-hits", type=int, default=2, help="Require this many centered detector hits before auto-initializing ECO.")
+    parser.add_argument("--startup-center-threshold", type=float, default=0.45, help="Maximum detector center distance from frame center as a frame diagonal ratio for startup target selection.")
     parser.add_argument("--low-score-threshold", type=float, default=0.50, help="Tracker score threshold for LOW_CONFIDENCE state.")
     parser.add_argument("--very-low-score-threshold", type=float, default=0.25, help="Tracker score threshold for SUSPECTED_LOST/LOST state.")
     parser.add_argument("--lost-frames", type=int, default=20, help="Consecutive suspicious frames before LOST state.")
@@ -87,6 +96,26 @@ def open_capture(camera_arg, use_gstreamer, width, height, fps):
     return cap
 
 
+def resolve_runtime_path(project_root, path_value):
+    path = Path(path_value).expanduser()
+    if not path.is_absolute():
+        path = project_root / path
+    return path
+
+
+def load_startup_detector(project_root, args, output_dir):
+    if args.startup_detector_backend == "off":
+        return None
+    if args.startup_detector_backend == "cpp_ncnn":
+        detector_bin = resolve_runtime_path(project_root, args.startup_detector_bin)
+        model_dir = resolve_runtime_path(project_root, args.startup_detector_model_dir)
+        stderr_path = output_dir / "cpp_startup_detector_stderr.log" if output_dir is not None else None
+        return CppNcnnStdinDetector(detector_bin, model_dir, stderr_path)
+    if args.startup_detector_backend == "hog":
+        return HOGPersonDetector(8, 1.05)
+    raise RuntimeError("Unsupported startup detector backend: %s" % args.startup_detector_backend)
+
+
 def draw_box(image, box, color):
     x, y, w, h = [int(round(float(v))) for v in box]
     cv2.rectangle(image, (x, y), (x + w, y + h), color, 2)
@@ -104,6 +133,12 @@ def get_center_init_box(frame_shape, width_ratio, height_ratio):
 def bbox_center(box):
     x, y, w, h = [float(v) for v in box]
     return x + w / 2.0, y + h / 2.0
+
+
+def center_distance_to_frame(box, frame_shape):
+    frame_h, frame_w = frame_shape[:2]
+    cx, cy = bbox_center(box)
+    return math.hypot(cx - float(frame_w) / 2.0, cy - float(frame_h) / 2.0)
 
 
 def bbox_area(box):
@@ -156,6 +191,30 @@ def select_initial_bbox(frame, width_ratio, height_ratio):
     return get_center_init_box(frame.shape, width_ratio, height_ratio)
 
 
+def select_startup_detection(detections, frame_shape, center_threshold):
+    if not detections:
+        return None, float("nan"), float("nan")
+    frame_h, frame_w = frame_shape[:2]
+    frame_diag = max(1.0, math.hypot(float(frame_w), float(frame_h)))
+    frame_area = max(1.0, float(frame_w * frame_h))
+    best_det = None
+    best_rank = -1e9
+    best_center_ratio = float("nan")
+    for det in detections:
+        box = det["box_xywh"]
+        center_ratio = center_distance_to_frame(box, frame_shape) / frame_diag
+        if center_ratio > float(center_threshold):
+            continue
+        area_score = min(1.0, bbox_area(box) / (frame_area * 0.60))
+        center_score = max(0.0, 1.0 - center_ratio / max(float(center_threshold), 1e-9))
+        rank = 1.4 * center_score + 0.7 * float(det.get("conf", 0.0)) + 0.2 * area_score
+        if rank > best_rank:
+            best_det = det
+            best_rank = rank
+            best_center_ratio = center_ratio
+    return best_det, float(best_rank), best_center_ratio
+
+
 class TrackerInitializer(threading.Thread):
     def __init__(self, tracker, frame_bgr, init_box):
         threading.Thread.__init__(self)
@@ -200,6 +259,13 @@ def write_metrics_summary(output_dir, metrics):
         f.write("lost_frames_threshold=%d\n" % metrics["lost_frames_threshold"])
         f.write("jump_threshold=%.6f\n" % metrics["jump_threshold"])
         f.write("area_change_threshold=%.6f\n" % metrics["area_change_threshold"])
+        f.write("startup_detector_backend=%s\n" % metrics["startup_detector_backend"])
+        f.write("startup_detector_conf=%.6f\n" % metrics["startup_detector_conf"])
+        f.write("startup_detect_frames=%d\n" % metrics["startup_detect_frames"])
+        f.write("startup_detector_calls=%d\n" % metrics["startup_detector_calls"])
+        f.write("startup_detector_hits=%d\n" % metrics["startup_detector_hits"])
+        f.write("startup_detector_initializations=%d\n" % metrics["startup_detector_initializations"])
+        f.write("startup_detector_selected_conf=%.6f\n" % metrics["startup_detector_selected_conf"])
         f.write("tracker_load_time_s=%.6f\n" % metrics["tracker_load_time_s"])
         f.write("duration_s=%.6f\n" % duration_s)
         f.write("frames_total=%d\n" % metrics["frames_total"])
@@ -257,6 +323,10 @@ def main():
     tracker_load_time = time.perf_counter() - tracker_load_start
     print("Tracker ready in %.3fs." % tracker_load_time, flush=True)
 
+    startup_detector = load_startup_detector(project_root, args, output_dir)
+    if startup_detector is not None:
+        print("Startup detector ready backend=%s." % args.startup_detector_backend, flush=True)
+
     print("Opening camera source: %s" % args.camera, flush=True)
     cap = open_capture(args.camera, args.gstreamer, args.width, args.height, args.fps)
     print("Camera opened.", flush=True)
@@ -272,6 +342,8 @@ def main():
             "score", "state", "track_time_s", "init_time_s", "fps", "is_low_score", "is_very_low_score",
             "is_out_of_frame", "center_delta_px", "center_delta_ratio", "area_ratio", "is_large_jump",
             "is_large_area_change", "consecutive_suspicious", "manual_reinitializations",
+            "init_trigger", "startup_det_x", "startup_det_y", "startup_det_w", "startup_det_h",
+            "startup_det_conf", "startup_detector_calls", "startup_detector_hits",
         ])
 
     cv2.namedWindow(args.window_name, cv2.WINDOW_NORMAL)
@@ -287,6 +359,9 @@ def main():
     consecutive_suspicious = 0
     was_lost = False
     last_init_time = 0.0
+    startup_detector_calls = 0
+    startup_detector_hits = 0
+    startup_detector_used = False
     metrics = {
         "camera": args.camera,
         "tracker": args.tracker_name,
@@ -299,6 +374,13 @@ def main():
         "lost_frames_threshold": int(args.lost_frames),
         "jump_threshold": float(args.jump_threshold),
         "area_change_threshold": float(args.area_change_threshold),
+        "startup_detector_backend": args.startup_detector_backend,
+        "startup_detector_conf": float(args.startup_detector_conf),
+        "startup_detect_frames": int(args.startup_detect_frames),
+        "startup_detector_calls": 0,
+        "startup_detector_hits": 0,
+        "startup_detector_initializations": 0,
+        "startup_detector_selected_conf": float("nan"),
         "tracker_load_time_s": tracker_load_time,
         "start_time": run_start,
         "end_time": run_start,
@@ -350,6 +432,9 @@ def main():
             center_delta_ratio = 0.0
             area_ratio = 1.0
             init_time_for_row = 0.0
+            init_trigger = "none"
+            startup_selected_det = None
+            startup_selected_conf = float("nan")
             init_box_preview = get_center_init_box(frame_bgr.shape, args.init_width_ratio, args.init_height_ratio)
 
             if init_worker is not None and not init_worker.is_alive():
@@ -453,8 +538,70 @@ def main():
                 draw_box(display, init_box_preview, (0, 165, 255))
                 draw_status_label(display, "INITIALIZING", (0, 165, 255))
             else:
-                draw_box(display, init_box_preview, (0, 255, 255))
-                draw_status_label(display, "READY: stand in box and press I", (0, 255, 255))
+                if (
+                    startup_detector is not None
+                    and not startup_detector_used
+                    and startup_detector_calls < max(0, int(args.startup_detect_frames))
+                    and init_worker is None
+                ):
+                    startup_detector_calls += 1
+                    metrics["startup_detector_calls"] = startup_detector_calls
+                    detections = startup_detector.detect(frame_bgr, args.startup_detector_conf, 0.45)
+                    startup_selected_det, _, startup_center_ratio = select_startup_detection(
+                        detections,
+                        frame_bgr.shape,
+                        args.startup_center_threshold,
+                    )
+                    for det in detections:
+                        draw_box(display, det["box_xywh"], (255, 180, 0))
+                    if startup_selected_det is not None:
+                        startup_detector_hits += 1
+                        metrics["startup_detector_hits"] = startup_detector_hits
+                        startup_selected_conf = float(startup_selected_det.get("conf", float("nan")))
+                        draw_box(display, startup_selected_det["box_xywh"], (255, 0, 0))
+                        cv2.putText(
+                            display,
+                            "STARTUP DET %.2f center=%.3f hits=%d/%d" % (
+                                startup_selected_conf,
+                                startup_center_ratio,
+                                startup_detector_hits,
+                                max(1, int(args.startup_detect_min_hits)),
+                            ),
+                            (12, 108),
+                            cv2.FONT_HERSHEY_SIMPLEX,
+                            0.55,
+                            (255, 0, 0),
+                            2,
+                            cv2.LINE_AA,
+                        )
+                        if startup_detector_hits >= max(1, int(args.startup_detect_min_hits)):
+                            init_box = startup_selected_det["box_xywh"][:]
+                            initializing = True
+                            tracking_active = False
+                            consecutive_suspicious = 0
+                            previous_box = None
+                            init_worker = TrackerInitializer(tracker, frame_bgr, init_box)
+                            init_worker.start()
+                            startup_detector_used = True
+                            init_trigger = "startup_detector"
+                            metrics["startup_detector_initializations"] += 1
+                            metrics["startup_detector_selected_conf"] = startup_selected_conf
+                            print(
+                                "startup_detector_initializing_bbox=%.3f,%.3f,%.3f,%.3f det_conf=%.3f" % tuple(init_box + [startup_selected_conf]),
+                                flush=True,
+                            )
+                    if startup_detector_calls >= max(0, int(args.startup_detect_frames)) and not startup_detector_used:
+                        cv2.putText(display, "Startup detector timeout. Press I for manual init.", (12, 108), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (0, 165, 255), 2, cv2.LINE_AA)
+                if initializing and init_worker is not None:
+                    mode = "DETECTED_INITIALIZING"
+                    draw_box(display, init_worker.init_box, (0, 165, 255))
+                    draw_status_label(display, "DETECTED_INITIALIZING", (0, 165, 255))
+                else:
+                    draw_box(display, init_box_preview, (0, 255, 255))
+                    if startup_detector is not None and not startup_detector_used:
+                        draw_status_label(display, "READY: startup detector selecting centered person", (0, 255, 255))
+                    else:
+                        draw_status_label(display, "READY: stand in box and press I", (0, 255, 255))
 
             now = time.perf_counter()
             fps_value = 1.0 / max(now - last_time, 1e-9)
@@ -481,11 +628,17 @@ def main():
                     row_box = current_box
                     center_x, center_y = bbox_center(current_box)
                     area = bbox_area(current_box)
+                if startup_selected_det is None:
+                    startup_det_values = [float("nan")] * 4
+                else:
+                    startup_det_values = startup_selected_det["box_xywh"]
                 writer_csv.writerow([
                     frame_index, now - run_start, row_box[0], row_box[1], row_box[2], row_box[3], center_x, center_y, area,
                     score, mode, track_elapsed, init_time_for_row, fps_value, int(is_low_score), int(is_very_low_score),
                     int(is_out_of_frame), center_delta, center_delta_ratio, area_ratio, int(is_large_jump),
                     int(is_large_area_change), consecutive_suspicious, metrics["manual_reinitializations"],
+                    init_trigger, startup_det_values[0], startup_det_values[1], startup_det_values[2], startup_det_values[3],
+                    startup_selected_conf, metrics["startup_detector_calls"], metrics["startup_detector_hits"],
                 ])
                 csv_file.flush()
 
@@ -506,12 +659,15 @@ def main():
                 init_worker = TrackerInitializer(tracker, frame_bgr, init_box)
                 init_worker.start()
                 metrics["manual_reinitializations"] += 1
+                startup_detector_used = True
                 print("initializing_bbox=%.3f,%.3f,%.3f,%.3f" % tuple(init_worker.init_box), flush=True)
 
             frame_index += 1
     finally:
         metrics["end_time"] = time.perf_counter()
         cap.release()
+        if startup_detector is not None:
+            startup_detector.close()
         if video_writer is not None:
             video_writer.release()
         if csv_file is not None:
